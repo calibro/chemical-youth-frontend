@@ -37,7 +37,6 @@ const Projects = ({ type }) => {
       </div>
       <div className='w-100 h-100 d-flex flex-column'>
         {projects.map((project, index) => {
-          console.log(project);
           return <Project project={project} key={index} />;
         })}
       </div>
