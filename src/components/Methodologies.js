@@ -30,8 +30,6 @@ const Methodologies = ({ type }) => {
       <div className='w-100 d-flex p-3' />
       <div className='w-100 h-100 d-flex flex-column'>
         {methodologies.map((methodology, index) => {
-          console.log(methodology);
-
           return (
             <div className='p-3' key={index}>
               {methodology.name}
