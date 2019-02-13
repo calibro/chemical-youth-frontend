@@ -3,6 +3,11 @@ import sanityClient from '../lib/sanity';
 import Header from './Header';
 import Projects from './Projects';
 import Chemicals from './Chemicals';
+import Topics from './Topics';
+import Researchers from './Researchers';
+import Locations from './Locations';
+import Methodologies from './Methodologies';
+import Times from './Times';
 
 const query = `*[_type == "chemical"]`;
 
@@ -16,7 +21,7 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.props);
+    const pathname = this.props.location.pathname.replace('/', '');
     return (
       <div className='w-100 h-100 d-flex flex-column'>
         <Header activePage={this.state.page} />
@@ -32,7 +37,12 @@ class Home extends Component {
               overflow: 'scroll'
             }}
           >
-            <Chemicals />
+            {pathname === 'chemical' && <Chemicals />}
+            {pathname === 'topic' && <Topics />}
+            {pathname === 'location' && <Locations />}
+            {pathname === 'researcher' && <Researchers />}
+            {pathname === 'time' && <Times />}
+            {pathname === 'method' && <Methodologies />}
           </div>
           <div
             className='w-50 h-100'

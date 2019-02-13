@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
@@ -9,12 +10,24 @@ const Header = () => {
         backgroundColor: 'blue'
       }}
     >
-      <div>CHEMICAL</div>
-      <div>TOPIC</div>
-      <div>LOCATION</div>
-      <div>RESEARCHER</div>
-      <div>TIME</div>
-      <div>METHOD</div>
+      <div>
+        <Link to={'/chemical'}> CHEMICAL </Link>
+      </div>
+      <div>
+        <Link to={'/topic'}> TOPIC </Link>
+      </div>
+      <div>
+        <Link to={'/location'}> LOCATION </Link>
+      </div>
+      <div>
+        <Link to={'/researcher'}> RESEARCHER </Link>
+      </div>
+      <div>
+        <Link to={'/time'}> TIME </Link>
+      </div>
+      <div>
+        <Link to={'/method'}> METHOD </Link>
+      </div>
     </div>
   );
 };
