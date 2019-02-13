@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import sanityClient from '../../lib/sanity';
+import sanityClient from '../lib/sanity';
 
 const query = `*[_type == "chemical"]`;
 
