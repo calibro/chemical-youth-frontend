@@ -1,8 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Landing from './components/Landing';
+import Home from './components/Home';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+class App extends React.Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <div className='w-100 h-100'>
+          <Switch>
+            <Route exact path='/' component={Landing} />
+            <Route exact path='/chemical' component={Home} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
+  }
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
