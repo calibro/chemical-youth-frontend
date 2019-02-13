@@ -1,7 +1,12 @@
 import React, { Component, useState, useEffect } from 'react';
 import sanityClient from '../lib/sanity';
+import Project from './Project';
 
-const query = `*[_type == "project"]`;
+const query = `*[_type == "project"]{
+  _id, title, body, 
+  "countries": place[]->country[]->,
+  "researchers": researchers[]->
+}`;
 
 const Projects = ({ type }) => {
   const [projects, setProjects] = useState([]);
@@ -32,11 +37,8 @@ const Projects = ({ type }) => {
       </div>
       <div className='w-100 h-100 d-flex flex-column'>
         {projects.map((project, index) => {
-          return (
-            <div className='p-3' key={index}>
-              {project.title}
-            </div>
-          );
+          console.log(project);
+          return <Project project={project} key={index} />;
         })}
       </div>
     </div>
