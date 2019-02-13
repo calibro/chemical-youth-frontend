@@ -14,7 +14,7 @@ class App extends React.Component {
         <div className='w-100 h-100'>
           <Switch>
             <Route exact path='/' component={Landing} />
-            <Route exact path='/chemical' component={Home} />
+            <Route exact path={'/*'} component={Home} />
           </Switch>
         </div>
       </BrowserRouter>
