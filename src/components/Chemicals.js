@@ -18,7 +18,7 @@ const query = `*[_type=="chemical"]{
 const svgWidth = window.innerWidth / 2;
 const svgHeight = window.innerHeight - 80;
 
-const radiusScale = scaleLinear().range([0, 70]);
+const radiusScale = scaleLinear().range([0, 50]);
 
 // const Chemicals = ({ type }) => {
 //   const [chemicals, setChemicals] = useState([]);
@@ -191,16 +191,26 @@ export default class Chemicals extends Component {
           .iterations(1)
       )
       .on('tick', a => {
-        console.log('here');
+        simulationNodes.forEach(function(d) {
+          d.x =
+            d.x < radiusScale(d.relatedProjects)
+              ? radiusScale(d.relatedProjects)
+              : d.x > svgWidth - radiusScale(d.relatedProjects)
+              ? svgWidth - radiusScale(d.relatedProjects)
+              : d.x;
+
+          d.y =
+            d.y < radiusScale(d.relatedProjects)
+              ? radiusScale(d.relatedProjects)
+              : d.y > svgHeight - radiusScale(d.relatedProjects)
+              ? svgHeight - radiusScale(d.relatedProjects)
+              : d.y;
+        });
         this.setState({ nodes: simulationNodes });
-        //setNodes(nodes);
       });
-    //setSimulation(simulation);
   };
 
   render() {
-    console.log('render');
-
     const { nodes } = this.state;
     return (
       <div className='w-100 h-100 d-flex flex-column'>
