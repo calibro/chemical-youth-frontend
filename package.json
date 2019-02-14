@@ -5,6 +5,7 @@
   "dependencies": {
     "@sanity/client": "^0.140.8",
     "bootstrap": "^4.3.0",
+    "d3-array": "^2.0.3",
     "d3-force": "^2.0.0",
     "d3-scale": "^2.2.2",
     "react": "^16.8.1",

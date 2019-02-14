@@ -8,6 +8,7 @@ import {
   forceLink
 } from 'd3-force';
 import { scaleLinear } from 'd3-scale';
+import { extent } from 'd3-array';
 
 const query = `*[_type=="chemical"]{
   name,
@@ -17,9 +18,7 @@ const query = `*[_type=="chemical"]{
 const svgWidth = window.innerWidth / 2;
 const svgHeight = window.innerHeight - 80;
 
-const radiusScale = scaleLinear()
-  .domain([0, 10])
-  .range([0, 100]);
+const radiusScale = scaleLinear().range([0, 70]);
 
 // const Chemicals = ({ type }) => {
 //   const [chemicals, setChemicals] = useState([]);
@@ -156,6 +155,9 @@ export default class Chemicals extends Component {
   }
 
   setUpForceLayout = res => {
+    const [min, max] = extent(res, d => d.relatedProjects);
+    radiusScale.domain([0, max]);
+
     const simulationNodes = res
       .filter(r => r.relatedProjects > 0)
       .sort((a, b) => {
