@@ -241,7 +241,7 @@ export default class Chemicals extends Component {
                         dx={node.x}
                         dy={node.y}
                         style={{
-                          fontSize: '10px',
+                          fontSize: '9px',
                           textTransform: 'uppercase',
                           dominantBaseline: 'central'
                         }}
