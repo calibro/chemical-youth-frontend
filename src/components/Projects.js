@@ -31,8 +31,8 @@ const Projects = ({ type }) => {
   }
 
   return (
-    <div className='w-100 h-100 d-flex flex-column'>
-      <div className='w-100 d-flex p-3'>
+    <div className='w-100 h-100 d-flex flex-column p-4'>
+      <div className='w-100 d-flex py-3'>
         {projects.length} / 63 PROJECTS SHOWN
       </div>
       <div className='w-100 h-100 d-flex flex-column'>

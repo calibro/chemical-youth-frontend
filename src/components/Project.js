@@ -3,17 +3,20 @@ import React from 'react';
 const Project = ({ project }) => {
   return (
     <div
-      className='w-100 p-3'
+      className='w-100 py-3'
       style={{
         borderTop: '1px solid #b7b7b7'
       }}
     >
-      <div> {project.title} </div>
-      <div>
+      <div className='h4'> {project.title} </div>
+      <div className='h6'>
         {project.researchers &&
           project.researchers.map((researcher, index) => {
             return (
-              <span key={index} className='px-1'>
+              <span
+                key={index}
+                className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}
+              >
                 {researcher.name}
               </span>
             );
@@ -31,7 +34,7 @@ const Project = ({ project }) => {
             return (
               <span
                 key={index}
-                className='p-1'
+                className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}
                 style={{
                   fontSize: '10px'
                 }}
