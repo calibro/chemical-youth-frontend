@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { AppContext } from '../appContext';
+import { withRouter } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({ history }) => {
   const context = useContext(AppContext);
 
   function changeSection(section) {
+    history.push(`/${section}`);
     context.setSection(section);
   }
 
@@ -18,25 +19,70 @@ const Header = () => {
       }}
     >
       <div onClick={() => changeSection('chemical')}>
-        <Link to={'/chemical'}> CHEMICAL </Link>
+        <div
+          className='text-light'
+          style={{
+            textDecoration:
+              context.section === 'chemical' ? 'underline' : 'none'
+          }}
+        >
+          CHEMICAL
+        </div>
       </div>
       <div onClick={() => changeSection('topic')}>
-        <Link to={'/topic'}> TOPIC </Link>
+        <div
+          className='text-light'
+          style={{
+            textDecoration: context.section === 'topic' ? 'underline' : 'none'
+          }}
+        >
+          TOPIC
+        </div>
       </div>
       <div onClick={() => changeSection('location')}>
-        <Link to={'/location'}> LOCATION </Link>
+        <div
+          className='text-light'
+          style={{
+            textDecoration:
+              context.section === 'location' ? 'underline' : 'none'
+          }}
+        >
+          LOCATION
+        </div>
       </div>
       <div onClick={() => changeSection('researcher')}>
-        <Link to={'/researcher'}> RESEARCHER </Link>
+        <div
+          className='text-light'
+          style={{
+            textDecoration:
+              context.section === 'researcher' ? 'underline' : 'none'
+          }}
+        >
+          RESEARCHER
+        </div>
       </div>
       <div onClick={() => changeSection('time')}>
-        <Link to={'/time'}> TIME </Link>
+        <div
+          className='text-light'
+          style={{
+            textDecoration: context.section === 'time' ? 'underline' : 'none'
+          }}
+        >
+          TIME
+        </div>
       </div>
       <div onClick={() => changeSection('method')}>
-        <Link to={'/method'}> METHOD </Link>
+        <div
+          className='text-light'
+          style={{
+            textDecoration: context.section === 'method' ? 'underline' : 'none'
+          }}
+        >
+          METHOD
+        </div>
       </div>
     </div>
   );
 };
 
-export default Header;
+export default withRouter(Header);
