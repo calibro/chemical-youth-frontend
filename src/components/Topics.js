@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import sanityClient from '../lib/sanity';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
+import { AppContext } from '../appContext';
 
 const query = `*[_type=="topic"]{
   name,
@@ -14,8 +15,8 @@ const wordScale = scaleLinear()
 
 const Topics = ({ type }) => {
   const [topics, setTopics] = useState([]);
+  const context = useContext(AppContext);
 
-  // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     sanityClient
       .fetch(query)
@@ -53,11 +54,14 @@ const Topics = ({ type }) => {
                 style={{
                   height: '45px'
                 }}
+                onClick={() => context.setSelectedTopic(topic.name)}
               >
                 <div
                   style={{
                     fontSize: wordScale(topic.relatedProjects),
-                    bottom: '3px'
+                    bottom: '3px',
+                    fontWeight:
+                      context.selectedTopic === topic.name ? 'bold' : 'normal'
                   }}
                 >
                   {topic.name} <sup>{topic.relatedProjects}</sup>

@@ -13,9 +13,6 @@ const Locations = ({ type }) => {
   const [locations, setLocations] = useState([]);
   const context = useContext(AppContext);
 
-  console.log(context);
-
-  // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     sanityClient
       .fetch(query)

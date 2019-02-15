@@ -14,15 +14,23 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      page: 'chemical',
+      page: 'topic',
       selectedLocation: '',
-      setSelectedLocation: this.setSelectedLocation
+      setSelectedLocation: this.setSelectedLocation,
+      selectedTopic: '',
+      setSelectedTopic: this.setSelectedTopic
     };
   }
 
   setSelectedLocation = location => {
     this.setState({
       selectedLocation: location === this.state.selectedLocation ? '' : location
+    });
+  };
+
+  setSelectedTopic = topic => {
+    this.setState({
+      selectedTopic: topic === this.state.selectedTopic ? '' : topic
     });
   };
 
