@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import sanityClient from '../lib/sanity';
 import { scaleLinear } from 'd3-scale';
+import { extent } from 'd3-array';
 
 const query = `*[_type=="topic"]{
   name,
   "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
 
-const scale = scaleLinear()
+const wordScale = scaleLinear()
   .domain([0, 5])
-  .range([10, 24]);
+  .range([10, 36]);
 
 const Topics = ({ type }) => {
   const [topics, setTopics] = useState([]);
@@ -30,7 +31,8 @@ const Topics = ({ type }) => {
   }, [type]);
 
   function handleStatusChange(res) {
-    console.log(res);
+    const [min, max] = extent(res, d => d.relatedProjects);
+    wordScale.domain([0, max]);
 
     setTopics(res);
   }
@@ -54,7 +56,7 @@ const Topics = ({ type }) => {
               >
                 <div
                   style={{
-                    fontSize: scale(topic.relatedProjects),
+                    fontSize: wordScale(topic.relatedProjects),
                     bottom: '3px'
                   }}
                 >
