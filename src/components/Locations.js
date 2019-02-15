@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import sanityClient from '../lib/sanity';
 import Location from './Location';
+import { AppContext } from '../appContext';
 
 const query = `*[_type == "location"]{
   _id, city, coordinates,
@@ -10,7 +11,9 @@ const query = `*[_type == "location"]{
 
 const Locations = ({ type }) => {
   const [locations, setLocations] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const context = useContext(AppContext);
+
+  console.log(context);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -44,8 +47,8 @@ const Locations = ({ type }) => {
                 zoom={10}
                 country={location.country.name}
                 city={location.city}
-                callbackClick={setSelectedLocation}
-                selected={selectedLocation}
+                callbackClick={context.setSelectedLocation}
+                selected={context.selectedLocation}
               />
             );
           }
