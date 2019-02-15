@@ -34,7 +34,7 @@ const Projects = ({ type }) => {
   }
 
   function getSelectedFilter() {
-    switch (context.page) {
+    switch (context.section) {
       case 'location':
         return context.selectedLocation;
         break;
@@ -48,8 +48,7 @@ const Projects = ({ type }) => {
 
   function filter(project) {
     const selectedFilter = getSelectedFilter();
-    console.log(selectedFilter);
-    if (context.page === 'location') {
+    if (context.section === 'location') {
       if (selectedFilter) {
         if (project.place && project.place.length > 0) {
           return project.place && project.place.length > 0
@@ -65,9 +64,8 @@ const Projects = ({ type }) => {
       } else {
         return true;
       }
-    } else if (context.page === 'topic') {
+    } else if (context.section === 'topic') {
       if (selectedFilter) {
-        console.log(project);
         if (project.topics && project.topics.length > 0) {
           return project.topics && project.topics.length > 0
             ? project.topics.find(p => {

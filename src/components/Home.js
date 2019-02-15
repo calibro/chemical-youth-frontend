@@ -14,7 +14,8 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      page: 'topic',
+      section: 'topic',
+      setSection: this.setSection,
       selectedLocation: '',
       setSelectedLocation: this.setSelectedLocation,
       selectedTopic: '',
@@ -34,12 +35,18 @@ class Home extends Component {
     });
   };
 
+  setSection = section => {
+    this.setState({
+      section: section
+    });
+  };
+
   render() {
     const pathname = this.props.location.pathname.replace('/', '');
     return (
       <AppContext.Provider value={this.state}>
         <div className='w-100 h-100 d-flex flex-column'>
-          <Header activePage={this.state.page} />
+          <Header />
           <div
             className='w-100 d-flex'
             style={{

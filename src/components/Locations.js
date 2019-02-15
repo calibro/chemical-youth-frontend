@@ -27,9 +27,9 @@ const Locations = ({ type }) => {
       });
   }, [type]);
 
-  function handleStatusChange(res) {
+  const handleStatusChange = res => {
     setLocations(res);
-  }
+  };
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>
