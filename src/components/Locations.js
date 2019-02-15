@@ -10,6 +10,7 @@ const query = `*[_type == "location"]{
 
 const Locations = ({ type }) => {
   const [locations, setLocations] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -35,7 +36,6 @@ const Locations = ({ type }) => {
       <div className='w-100 d-flex p-3' />
       <div className='w-100 h-100 d-flex flex-wrap'>
         {locations.map((location, index) => {
-          console.log(location);
           if (location.coordinates.lat) {
             return (
               <Location
@@ -44,6 +44,8 @@ const Locations = ({ type }) => {
                 zoom={10}
                 country={location.country.name}
                 city={location.city}
+                callbackClick={setSelectedLocation}
+                selected={selectedLocation}
               />
             );
           }
