@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import sanityClient from '../lib/sanity';
+import Location from './Location';
 
 const query = `*[_type == "location"]{
-  _id, city,
-  country->
+  _id, city, coordinates,
+  country->,
+  "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
 
 const Locations = ({ type }) => {
@@ -31,15 +33,20 @@ const Locations = ({ type }) => {
   return (
     <div className='w-100 h-100 d-flex flex-column'>
       <div className='w-100 d-flex p-3' />
-      <div className='w-100 h-100 d-flex flex-column'>
+      <div className='w-100 h-100 d-flex flex-wrap'>
         {locations.map((location, index) => {
-          return (
-            <div className='p-3' key={index}>
-              {`${location.country ? location.country.name : 'no Country'} ${
-                location.city
-              }`}
-            </div>
-          );
+          console.log(location);
+          if (location.coordinates.lat) {
+            return (
+              <Location
+                key={index}
+                coordinates={location.coordinates}
+                zoom={10}
+                country={location.country.name}
+                city={location.city}
+              />
+            );
+          }
         })}
       </div>
     </div>

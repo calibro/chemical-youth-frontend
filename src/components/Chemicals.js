@@ -186,7 +186,7 @@ export default class Chemicals extends Component {
       .force(
         'collision',
         forceCollide()
-          .radius(n => n.radius + 10)
+          .radius(n => n.radius + 12)
           .strength(2)
           .iterations(1)
       )
