@@ -6,6 +6,8 @@ import Home from './components/Home';
 import ProjectPage from './components/ProjectPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import * as serviceWorker from './serviceWorker';
 
 class App extends React.Component {

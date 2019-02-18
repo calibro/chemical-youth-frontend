@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
-import List from './List';
 import sanityClient from '../lib/sanity';
 import { withRouter } from 'react-router-dom';
 import { AppContext } from '../appContext';
+import Slider from 'react-slick';
+import Header from './Header';
+import List from './List';
 
 const ProjectPage = ({ location }) => {
   const [project, setProject] = useState([]);
@@ -18,7 +19,12 @@ const ProjectPage = ({ location }) => {
       "methods": method[]->,
       "places": place[]->,
       "countries": place[]->country[]->,
-      "researchers": researchers[]->
+      "researchers": researchers[]->,
+      "internalResources": internalResources,
+      "internalResourcesCategories": internalResources[].category->,
+      "internalResourcesFiles": internalResources[].document.asset->,
+      "externalResources": externalResources[]->,
+      "images": images[].asset->url,
     }`;
 
     sanityClient
@@ -39,6 +45,15 @@ const ProjectPage = ({ location }) => {
     setProject(res[0]);
   };
 
+  const settings = {
+    dots: false,
+    infinite: true,
+    centerMode: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   return (
     <div className='w-100 h-100 d-flex flex-column'>
       <Header />
@@ -46,7 +61,7 @@ const ProjectPage = ({ location }) => {
         <div className='w-70 p-3'>
           <div className='w-100 py-3'>
             <div className='h4'> {project.title} </div>
-            <div className='h6'>
+            <div className='py-4' style={{ fontSize: '10px' }}>
               {project.researchers &&
                 project.researchers.map((researcher, index) => {
                   return (
@@ -65,6 +80,36 @@ const ProjectPage = ({ location }) => {
             <div className='py-4'>
               <p>{project.body && project.body[0].children[0].text}</p>
             </div>
+          </div>
+          <div className='w-100 mb-5'>
+            <div className='h6'> RESOURCES </div>
+            {project.internalResources &&
+              project.internalResources.map((el, index) => {
+                console.log(el);
+                return (
+                  <div>
+                    <a
+                      href={project.internalResourcesFiles[index].url}
+                      download
+                    >
+                      {`${project.internalResourcesCategories[index].name} - `}{' '}
+                      {el.name[0].children
+                        .filter(child => child._type === 'span')
+                        .map(span => span.text)
+                        .join('')}
+                    </a>
+                  </div>
+                );
+              })}
+          </div>
+          <div className='w-100 mb-5'>
+            <div className='h6'> IMAGES </div>
+            <Slider {...settings}>
+              {project.images &&
+                project.images.map((image, index) => {
+                  return <img src={image} key={index} height={'400px'} />;
+                })}
+            </Slider>
           </div>
         </div>
         <div className='w-30 p-5'>
