@@ -5,13 +5,14 @@ import { AppContext } from '../appContext';
 
 const query = `*[_type == "project"]{
   _id, title, body, slug,
+  "chemicals": chemicals[]->,
   "topics": topics[]->,
   "place": place[]->,
   "countries": place[]->country[]->,
   "researchers": researchers[]->
 }`;
 
-const Projects = ({ type }) => {
+const Projects = ({}) => {
   const [projects, setProjects] = useState([]);
   const context = useContext(AppContext);
   // Similar to componentDidMount and componentDidUpdate:
@@ -27,15 +28,17 @@ const Projects = ({ type }) => {
       .catch(err => {
         console.error(err);
       });
-  }, [type]);
+  }, [context]);
 
   function handleStatusChange(res) {
-    console.log(res);
     setProjects(res);
   }
 
   function getSelectedFilter() {
     switch (context.section) {
+      case 'chemical':
+        return context.selectedChemical;
+        break;
       case 'location':
         return context.selectedLocation;
         break;
@@ -49,6 +52,8 @@ const Projects = ({ type }) => {
 
   function filter(project) {
     const selectedFilter = getSelectedFilter();
+    //console.log('selectedFilter', selectedFilter);
+    //console.log(context.section);
     if (context.section === 'location') {
       if (selectedFilter) {
         if (project.place && project.place.length > 0) {
@@ -70,6 +75,22 @@ const Projects = ({ type }) => {
         if (project.topics && project.topics.length > 0) {
           return project.topics && project.topics.length > 0
             ? project.topics.find(p => {
+                return p.name === selectedFilter;
+              })
+              ? true
+              : false
+            : false;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
+    } else if (context.section === 'chemical') {
+      if (selectedFilter) {
+        if (project.chemicals && project.chemicals.length > 0) {
+          return project.chemicals && project.chemicals.length > 0
+            ? project.chemicals.find(p => {
                 return p.name === selectedFilter;
               })
               ? true

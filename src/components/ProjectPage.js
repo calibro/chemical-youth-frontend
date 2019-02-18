@@ -123,20 +123,24 @@ const ProjectPage = ({ location }) => {
         <div className='w-30 p-5'>
           <div className='d-flex flex-column my-4'>
             <h4>LOCATIONS</h4>
-            <List elements={project.places} objectKey={'city'} />
+            <List
+              type={'location'}
+              elements={project.places}
+              objectKey={'city'}
+            />
           </div>
           <div className='d-flex flex-column my-4'>
             <h4>CHEMICALS</h4>
-            <List elements={project.chemicals} />
+            <List type={'chemical'} elements={project.chemicals} />
           </div>
           <div className='d-flex flex-column my-4'>
             <h4>METHODS</h4>
-            <List elements={project.methods} />
+            <List type={'method'} elements={project.methods} />
           </div>
           <div className='d-flex flex-column my-4'>
             <h4>TOPICS</h4>
             <div className='d-flex flex-wrap'>
-              <List elements={project.topics} />
+              <List type={'topic'} elements={project.topics} />
             </div>
           </div>
         </div>

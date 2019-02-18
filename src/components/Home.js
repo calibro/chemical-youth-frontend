@@ -14,8 +14,10 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      section: 'topic',
+      section: '',
       setSection: this.setSection,
+      selectedChemical: '',
+      setSelectedChemical: this.setSelectedChemical,
       selectedLocation: '',
       setSelectedLocation: this.setSelectedLocation,
       selectedTopic: '',
@@ -35,14 +37,32 @@ class Home extends Component {
     });
   };
 
+  setSelectedChemical = chemical => {
+    this.setState({
+      selectedChemical: chemical === this.state.selectedChemical ? '' : chemical
+    });
+  };
+
   setSection = section => {
     this.setState({
       section: section
     });
   };
 
+  componentDidMount() {
+    const pathname = this.props.location.pathname.split('/');
+    this.setSection(pathname[1]);
+  }
+
+  // componentDidUpdate() {
+  //   console.log('componentDidUpdate');
+  //   const pathname = this.props.location.pathname.split('/');
+  //   this.setSection(pathname[1]);
+  //   console.log(this.context);
+  // }
+
   render() {
-    const pathname = this.props.location.pathname.replace('/', '');
+    const pathname = this.props.location.pathname.split('/')[1];
     return (
       <AppContext.Provider value={this.state}>
         <div className='w-100 h-100 d-flex flex-column'>
@@ -80,5 +100,7 @@ class Home extends Component {
     );
   }
 }
+
+Home.contextType = AppContext;
 
 export default Home;
