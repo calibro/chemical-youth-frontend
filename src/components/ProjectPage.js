@@ -45,19 +45,32 @@ const ProjectPage = ({ location }) => {
     setProject(res[0]);
   };
 
+  const SampleNextArrow = props => {
+    const { className, style, onClick } = props;
+    return <div className={className} style={{ ...style }} onClick={onClick} />;
+  };
+
+  const SamplePrevArrow = props => {
+    const { className, style, onClick } = props;
+    return <div className={className} style={{ ...style }} onClick={onClick} />;
+  };
+
   const settings = {
     dots: false,
     infinite: true,
     centerMode: true,
-    speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
+    adaptiveHeight: true,
+    variableWidth: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
   };
 
   return (
-    <div className='w-100 h-100 d-flex flex-column'>
-      <Header />
-      <div className='w-100 d-flex'>
+    <div className='w-100 d-flex flex-column'>
+      <Header expanded={false} />
+      <div className='w-100 d-flex flex-wrap'>
         <div className='w-70 p-3'>
           <div className='w-100 py-3'>
             <div className='h4'> {project.title} </div>
@@ -83,33 +96,28 @@ const ProjectPage = ({ location }) => {
           </div>
           <div className='w-100 mb-5'>
             <div className='h6'> RESOURCES </div>
-            {project.internalResources &&
-              project.internalResources.map((el, index) => {
-                console.log(el);
-                return (
-                  <div>
-                    <a
-                      href={project.internalResourcesFiles[index].url}
-                      download
-                    >
-                      {`${project.internalResourcesCategories[index].name} - `}{' '}
-                      {el.name[0].children
-                        .filter(child => child._type === 'span')
-                        .map(span => span.text)
-                        .join('')}
-                    </a>
-                  </div>
-                );
-              })}
-          </div>
-          <div className='w-100 mb-5'>
-            <div className='h6'> IMAGES </div>
-            <Slider {...settings}>
-              {project.images &&
-                project.images.map((image, index) => {
-                  return <img src={image} key={index} height={'400px'} />;
+            <div className='w-100'>
+              {project.internalResources &&
+                project.internalResources.map((el, index) => {
+                  console.log(el);
+                  return (
+                    <div>
+                      <a
+                        href={project.internalResourcesFiles[index].url}
+                        download
+                      >
+                        {`${
+                          project.internalResourcesCategories[index].name
+                        } - `}{' '}
+                        {el.name[0].children
+                          .filter(child => child._type === 'span')
+                          .map(span => span.text)
+                          .join('')}
+                      </a>
+                    </div>
+                  );
                 })}
-            </Slider>
+            </div>
           </div>
         </div>
         <div className='w-30 p-5'>
@@ -131,6 +139,25 @@ const ProjectPage = ({ location }) => {
               <List elements={project.topics} />
             </div>
           </div>
+        </div>
+      </div>
+      <div className='w-100 mb-5'>
+        <div className='h6 p-3'> IMAGES </div>
+        <div className='' style={{ height: '600px', marginBottom: '100px' }}>
+          <Slider {...settings}>
+            {project.images &&
+              project.images.map((image, index) => {
+                return (
+                  <div className=''>
+                    <img
+                      src={image}
+                      key={index}
+                      style={{ maxHeight: '600px' }}
+                    />
+                  </div>
+                );
+              })}
+          </Slider>
         </div>
       </div>
     </div>
