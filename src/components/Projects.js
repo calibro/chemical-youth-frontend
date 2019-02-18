@@ -4,7 +4,7 @@ import Project from './Project';
 import { AppContext } from '../appContext';
 
 const query = `*[_type == "project"]{
-  _id, title, body,
+  _id, title, body, slug,
   "topics": topics[]->,
   "place": place[]->,
   "countries": place[]->country[]->,
@@ -30,6 +30,7 @@ const Projects = ({ type }) => {
   }, [type]);
 
   function handleStatusChange(res) {
+    console.log(res);
     setProjects(res);
   }
 
