@@ -36,7 +36,7 @@ const Projects = ({}) => {
 
   function filter(project) {
     const selectedFilter = context.selected.value;
-    console.log('selectedFilter', selectedFilter);
+    //console.log('selectedFilter', selectedFilter);
     //console.log(context.section);
     if (context.section === 'location') {
       if (selectedFilter) {

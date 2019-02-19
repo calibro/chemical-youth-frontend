@@ -55,6 +55,7 @@ class Home extends Component {
   };
 
   setSelected = selected => {
+    console.log(selected);
     this.setState({
       selected: selected
     });
@@ -68,13 +69,6 @@ class Home extends Component {
       this.setSelected(selected);
     }
   }
-
-  // componentDidUpdate() {
-  //   console.log('componentDidUpdate');
-  //   const pathname = this.props.location.pathname.split('/');
-  //   this.setSection(pathname[1]);
-  //   console.log(this.context);
-  // }
 
   render() {
     const pathname = this.props.location.pathname.split('/')[1];

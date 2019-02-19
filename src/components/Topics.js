@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
@@ -14,7 +15,7 @@ const wordScale = scaleLinear()
   .domain([0, 5])
   .range([10, 36]);
 
-const Topics = ({ type }) => {
+const Topics = ({ history }) => {
   const [topics, setTopics] = useState([]);
   const [value, setValue] = useState('');
   const context = useContext(AppContext);
@@ -31,7 +32,7 @@ const Topics = ({ type }) => {
       .catch(err => {
         console.error(err);
       });
-  }, [type]);
+  });
 
   function handleStatusChange(res) {
     const [min, max] = extent(res, d => d.relatedProjects);
@@ -44,6 +45,11 @@ const Topics = ({ type }) => {
     if (value.length > 0) {
       return elem.name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
     }
+  };
+
+  const selectTopic = (type, value) => {
+    context.setSelected({ type: type, value: value });
+    history.push(`/${type}/${value}`);
   };
 
   return (
@@ -71,7 +77,7 @@ const Topics = ({ type }) => {
           shouldItemRender={matchStateToTerm}
           onChange={(event, value) => setValue(value)}
           onSelect={val => {
-            context.setSelected({ type: 'topic', value: val });
+            selectTopic('topic', val);
             setValue('');
           }}
         />
@@ -89,14 +95,14 @@ const Topics = ({ type }) => {
                 style={{
                   height: '45px'
                 }}
-                onClick={() => context.setSelectedTopic(topic.name)}
+                onClick={() => selectTopic('topic', topic.name)}
               >
                 <div
                   style={{
                     fontSize: wordScale(topic.relatedProjects),
                     bottom: '3px',
                     fontWeight:
-                      context.selectedTopic === topic.name ? 'bold' : 'normal'
+                      context.selected.value === topic.name ? 'bold' : 'normal'
                   }}
                 >
                   {topic.name} <sup>{topic.relatedProjects}</sup>
@@ -109,4 +115,4 @@ const Topics = ({ type }) => {
   );
 };
 
-export default Topics;
+export default withRouter(Topics);
