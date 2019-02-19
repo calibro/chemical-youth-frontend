@@ -42,9 +42,11 @@ const Topics = ({ type, history }) => {
   }
 
   const selectTopic = (type, value) => {
-    context.setSelected({ type: type, value: value });
-    history.push(`/${type}/${value}`);
+    context.toggleSelected({ type: type, value: value });
+    //history.push(`/${type}/${value}`);
   };
+
+  const selected = context.selected.map(s => s.value);
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>
@@ -69,7 +71,7 @@ const Topics = ({ type, history }) => {
                     fontSize: wordScale(topic.relatedProjects),
                     bottom: '3px',
                     fontWeight:
-                      context.selected.value === topic.name ? 'bold' : 'normal'
+                      selected.indexOf(topic.name) > -1 ? 'bold' : 'normal'
                   }}
                 >
                   {topic.name} <sup>{topic.relatedProjects}</sup>

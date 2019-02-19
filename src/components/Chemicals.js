@@ -214,13 +214,15 @@ class Chemicals extends Component {
   };
 
   selectChemical = (type, value) => {
-    this.context.setSelected({ type: type, value: value });
-    this.props.history.push(`/${type}/${value}`);
+    this.context.toggleSelected({ type: type, value: value });
+    //this.props.history.push(`/${type}/${value}`);
   };
 
   render() {
     const { nodes, chemicals } = this.state;
-
+    const selected = this.context.selected
+      ? this.context.selected.map(s => s.value)
+      : [];
     return (
       <div className='w-100 h-100 d-flex flex-column'>
         <Search
@@ -240,9 +242,7 @@ class Chemicals extends Component {
                       cx={node.x}
                       cy={node.y}
                       fill={
-                        this.context.selected.value === node.name
-                          ? 'black'
-                          : 'white'
+                        selected.indexOf(node.name) > -1 ? 'black' : 'white'
                       }
                       stroke='black'
                       strokeWidth={2}
@@ -254,11 +254,7 @@ class Chemicals extends Component {
                       y={node.y - 5}
                       width={radiusScale(node.relatedProjects) * 2 + 10}
                       height={10}
-                      fill={
-                        this.context.selected.value === node.name
-                          ? 'none'
-                          : 'white'
-                      }
+                      fill={selected.indexOf(node.name) > -1 ? 'none' : 'white'}
                       style={{
                         pointerEvents: 'none'
                       }}
@@ -274,9 +270,7 @@ class Chemicals extends Component {
                           pointerEvents: 'none'
                         }}
                         fill={
-                          this.context.selected.value === node.name
-                            ? 'white'
-                            : 'black'
+                          selected.indexOf(node.name) > -1 ? 'white' : 'black'
                         }
                         textAnchor='middle'
                         //filter='url(#solid)'

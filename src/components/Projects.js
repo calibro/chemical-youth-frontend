@@ -60,25 +60,15 @@ const Projects = ({}) => {
         }
       } else if (context.section === 'topic') {
         if (project.topics && project.topics.length > 0) {
-          return project.topics && project.topics.length > 0
-            ? project.topics.find(p => {
-                return p.name === selectedFilters;
-              })
-              ? true
-              : false
-            : false;
+          const topics = project.topics.map(t => t.name);
+          return arrayContainsArray(topics, selectedFilters);
         } else {
           return false;
         }
       } else if (context.section === 'chemical') {
         if (project.chemicals && project.chemicals.length > 0) {
-          return project.chemicals && project.chemicals.length > 0
-            ? project.chemicals.find(p => {
-                return p.name === selectedFilters;
-              })
-              ? true
-              : false
-            : false;
+          const chemicals = project.chemicals.map(c => c.name);
+          return arrayContainsArray(chemicals, selectedFilters);
         } else {
           return false;
         }
