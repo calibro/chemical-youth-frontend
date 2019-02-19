@@ -34,8 +34,8 @@ const Locations = ({ type, history }) => {
   };
 
   const selectLocation = (type, value) => {
-    context.setSelected({ type: type, value: value });
-    history.push(`/${type}/${value}`);
+    context.toggleSelected({ type: type, value: value });
+    //history.push(`/${type}/${value}`);
   };
 
   return (
@@ -58,7 +58,7 @@ const Locations = ({ type, history }) => {
                 country={location.country.name}
                 city={location.city}
                 callbackClick={selectLocation}
-                selected={context.selected.value}
+                selected={context.selected.map(s => s.value)}
               />
             );
           }

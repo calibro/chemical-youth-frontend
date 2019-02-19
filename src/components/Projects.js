@@ -47,26 +47,18 @@ const Projects = ({}) => {
 
   function filter(project) {
     const selectedFilters = context.selected.map(v => v.value);
-    //console.log('selectedFilters', selectedFilters);
-    if (context.section === 'location') {
-      if (selectedFilters) {
+    console.log('selectedFilters', selectedFilters);
+    if (selectedFilters.length > 0) {
+      if (context.section === 'location') {
+        console.log(project);
         if (project.place && project.place.length > 0) {
-          return project.place && project.place.length > 0
-            ? project.place.find(p => {
-                console.log(p.city);
-                return p.city.toLowerCase() === selectedFilters;
-              })
-              ? true
-              : false
-            : false;
+          const places = project.place.map(m => m.city.toLowerCase());
+          console.log(places);
+          return arrayContainsArray(places, selectedFilters);
         } else {
           return false;
         }
-      } else {
-        return true;
-      }
-    } else if (context.section === 'topic') {
-      if (selectedFilters) {
+      } else if (context.section === 'topic') {
         if (project.topics && project.topics.length > 0) {
           return project.topics && project.topics.length > 0
             ? project.topics.find(p => {
@@ -78,11 +70,7 @@ const Projects = ({}) => {
         } else {
           return false;
         }
-      } else {
-        return true;
-      }
-    } else if (context.section === 'chemical') {
-      if (selectedFilters) {
+      } else if (context.section === 'chemical') {
         if (project.chemicals && project.chemicals.length > 0) {
           return project.chemicals && project.chemicals.length > 0
             ? project.chemicals.find(p => {
@@ -94,22 +82,23 @@ const Projects = ({}) => {
         } else {
           return false;
         }
-      } else {
-        return true;
-      }
-    } else if (context.section === 'method') {
-      if (selectedFilters.length > 0) {
+      } else if (context.section === 'method') {
         if (project.methodologies && project.methodologies.length > 0) {
           const methodologies = project.methodologies.map(m => m.name);
           return arrayContainsArray(methodologies, selectedFilters);
         } else {
           return false;
         }
-      } else {
-        return true;
       }
+    } else {
+      return true;
     }
   }
+
+  const toggleSelected = (type, value) => {
+    context.toggleSelected({ type: type, value: value });
+    //history.push(`/${type}/${value}`);
+  };
 
   return (
     <div className='w-100 h-100 d-flex flex-column p-4'>
@@ -122,7 +111,12 @@ const Projects = ({}) => {
             return (
               <div className='tag'>
                 <div className='p-2'>{el.value}</div>
-                <div className='p-2'>X</div>
+                <div
+                  className='p-2 cursor-pointer'
+                  onClick={() => toggleSelected(el.type, el.value)}
+                >
+                  X
+                </div>
               </div>
             );
           })}
