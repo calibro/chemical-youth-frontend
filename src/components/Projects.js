@@ -4,7 +4,8 @@ import Project from './Project';
 import { AppContext } from '../appContext';
 
 const query = `*[_type == "project"]{
-  _id, title, body,
+  _id, title, body, slug,
+  "topics": topics[]->,
   "place": place[]->,
   "countries": place[]->country[]->,
   "researchers": researchers[]->
@@ -29,24 +30,57 @@ const Projects = ({ type }) => {
   }, [type]);
 
   function handleStatusChange(res) {
+    console.log(res);
     setProjects(res);
   }
 
+  function getSelectedFilter() {
+    switch (context.section) {
+      case 'location':
+        return context.selectedLocation;
+        break;
+      case 'topic':
+        return context.selectedTopic;
+        break;
+      default:
+        return context.selectedLocation;
+    }
+  }
+
   function filter(project) {
-    if (context.selectedLocation) {
-      if (project.place && project.place.length > 0) {
-        return project.place && project.place.length > 0
-          ? project.place.find(p => {
-              return p.city === context.selectedLocation;
-            })
-            ? true
-            : false
-          : false;
+    const selectedFilter = getSelectedFilter();
+    if (context.section === 'location') {
+      if (selectedFilter) {
+        if (project.place && project.place.length > 0) {
+          return project.place && project.place.length > 0
+            ? project.place.find(p => {
+                return p.city === selectedFilter;
+              })
+              ? true
+              : false
+            : false;
+        } else {
+          return false;
+        }
       } else {
-        return false;
+        return true;
       }
-    } else {
-      return true;
+    } else if (context.section === 'topic') {
+      if (selectedFilter) {
+        if (project.topics && project.topics.length > 0) {
+          return project.topics && project.topics.length > 0
+            ? project.topics.find(p => {
+                return p.name === selectedFilter;
+              })
+              ? true
+              : false
+            : false;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
     }
   }
 

@@ -1,7 +1,10 @@
 import React from 'react';
 
 export const AppContext = React.createContext({
-  selectedLocation: '',
   page: '',
-  setSelectedLocation: () => {}
+  setSection: () => {},
+  selectedLocation: '',
+  setSelectedLocation: () => {},
+  selectedTopic: '',
+  setSelectedTopic: () => {}
 });

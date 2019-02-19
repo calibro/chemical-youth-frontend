@@ -13,9 +13,6 @@ const Locations = ({ type }) => {
   const [locations, setLocations] = useState([]);
   const context = useContext(AppContext);
 
-  console.log(context);
-
-  // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     sanityClient
       .fetch(query)
@@ -30,9 +27,9 @@ const Locations = ({ type }) => {
       });
   }, [type]);
 
-  function handleStatusChange(res) {
+  const handleStatusChange = res => {
     setLocations(res);
-  }
+  };
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>

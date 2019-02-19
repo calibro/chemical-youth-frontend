@@ -1,35 +1,95 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { AppContext } from '../appContext';
+import { withRouter } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({ history, expanded = true }) => {
+  const context = useContext(AppContext);
+
+  function changeSection(section) {
+    history.push(`/${section}`);
+    context.setSection(section);
+  }
+
   return (
     <div
       className='w-100 d-flex align-items-center justify-content-around'
       style={{
-        height: '80px',
+        height: expanded ? '80px' : '40px',
         backgroundColor: 'blue'
       }}
     >
-      <div>
-        <Link to={'/chemical'}> CHEMICAL </Link>
-      </div>
-      <div>
-        <Link to={'/topic'}> TOPIC </Link>
-      </div>
-      <div>
-        <Link to={'/location'}> LOCATION </Link>
-      </div>
-      <div>
-        <Link to={'/researcher'}> RESEARCHER </Link>
-      </div>
-      <div>
-        <Link to={'/time'}> TIME </Link>
-      </div>
-      <div>
-        <Link to={'/method'}> METHOD </Link>
-      </div>
+      {expanded && (
+        <React.Fragment>
+          <div onClick={() => changeSection('chemical')}>
+            <div
+              className='text-light'
+              style={{
+                textDecoration:
+                  context.section === 'chemical' ? 'underline' : 'none'
+              }}
+            >
+              CHEMICAL
+            </div>
+          </div>
+          <div onClick={() => changeSection('topic')}>
+            <div
+              className='text-light'
+              style={{
+                textDecoration:
+                  context.section === 'topic' ? 'underline' : 'none'
+              }}
+            >
+              TOPIC
+            </div>
+          </div>
+          <div onClick={() => changeSection('location')}>
+            <div
+              className='text-light'
+              style={{
+                textDecoration:
+                  context.section === 'location' ? 'underline' : 'none'
+              }}
+            >
+              LOCATION
+            </div>
+          </div>
+          <div onClick={() => changeSection('researcher')}>
+            <div
+              className='text-light'
+              style={{
+                textDecoration:
+                  context.section === 'researcher' ? 'underline' : 'none'
+              }}
+            >
+              RESEARCHER
+            </div>
+          </div>
+          <div onClick={() => changeSection('time')}>
+            <div
+              className='text-light'
+              style={{
+                textDecoration:
+                  context.section === 'time' ? 'underline' : 'none'
+              }}
+            >
+              TIME
+            </div>
+          </div>
+          <div onClick={() => changeSection('method')}>
+            <div
+              className='text-light'
+              style={{
+                textDecoration:
+                  context.section === 'method' ? 'underline' : 'none'
+              }}
+            >
+              METHOD
+            </div>
+          </div>
+        </React.Fragment>
+      )}
     </div>
   );
 };
 
-export default Header;
+export default withRouter(Header);
