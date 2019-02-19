@@ -7,7 +7,7 @@ const Header = ({ history, expanded = true }) => {
 
   function changeSection(section) {
     context.setSection(section);
-    context.setSelected({ type: section, value: null });
+    context.selected = [];
     history.push(`/${section}`);
   }
 

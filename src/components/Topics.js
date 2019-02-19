@@ -46,7 +46,7 @@ const Topics = ({ type, history }) => {
     //history.push(`/${type}/${value}`);
   };
 
-  const selected = context.selected.map(s => s.value);
+  const selected = context.selected ? context.selected.map(s => s.value) : [];
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>

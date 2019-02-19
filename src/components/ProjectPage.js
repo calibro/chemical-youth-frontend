@@ -56,6 +56,7 @@ const ProjectPage = ({ history, location }) => {
   };
 
   const back = () => {
+    console.log(history);
     history.goBack();
   };
 
@@ -75,7 +76,9 @@ const ProjectPage = ({ history, location }) => {
     <div className='w-100 d-flex flex-column'>
       <Header expanded={false} />
       <div className='w-100 d-flex flex-wrap'>
-        <div className='close-icon'> X </div>
+        <div className='close-icon' onClick={back}>
+          X
+        </div>
         <div className='w-70 p-3'>
           <div className='w-100 py-3'>
             <div className='h4'> {project.title} </div>
@@ -108,7 +111,6 @@ const ProjectPage = ({ history, location }) => {
             <div className='w-100'>
               {project.internalResources &&
                 project.internalResources.map((el, index) => {
-                  console.log(el);
                   return (
                     <div>
                       <a

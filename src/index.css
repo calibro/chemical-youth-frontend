@@ -67,6 +67,7 @@ body,
   align-items: center;
   font-weight: bold;
   cursor: pointer;
+  z-index: 99;
 }
 
 .cursor-pointer {

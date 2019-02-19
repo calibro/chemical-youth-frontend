@@ -47,7 +47,7 @@ const Projects = ({}) => {
 
   function filter(project) {
     const selectedFilters = context.selected.map(v => v.value);
-    console.log('selectedFilters', selectedFilters);
+    //console.log('selectedFilters', selectedFilters);
     if (selectedFilters.length > 0) {
       if (context.section === 'location') {
         console.log(project);

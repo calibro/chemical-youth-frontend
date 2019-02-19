@@ -58,7 +58,9 @@ const Locations = ({ type, history }) => {
                 country={location.country.name}
                 city={location.city}
                 callbackClick={selectLocation}
-                selected={context.selected.map(s => s.value)}
+                selected={
+                  context.selected ? context.selected.map(s => s.value) : []
+                }
               />
             );
           }
