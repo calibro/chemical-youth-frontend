@@ -19,9 +19,9 @@ const Location = ({
         },${zoom},0,0/600x600?access_token=pk.eyJ1Ijoid2F2ZWZhY3RvcnkiLCJhIjoicVpwemdfYyJ9._y58vUr3LapeG3s1U_sPqQ)`,
         width: '16.2vw',
         height: '16.2vw',
-        border: selected === city ? '2px solid black' : 'none'
+        border: selected === city.toLowerCase() ? '2px solid black' : 'none'
       }}
-      onClick={() => callbackClick(city)}
+      onClick={() => callbackClick('location', city.toLowerCase())}
     >
       <div className='p-2'>{country}</div>
       <div className='p-2'>{city}</div>

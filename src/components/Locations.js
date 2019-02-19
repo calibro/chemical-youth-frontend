@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import Location from './Location';
 import { AppContext } from '../appContext';
+import Search from './Search';
 
 const query = `*[_type == "location"]{
   _id, city, coordinates,
@@ -9,7 +11,7 @@ const query = `*[_type == "location"]{
   "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
 
-const Locations = ({ type }) => {
+const Locations = ({ type, history }) => {
   const [locations, setLocations] = useState([]);
   const context = useContext(AppContext);
 
@@ -31,8 +33,19 @@ const Locations = ({ type }) => {
     setLocations(res);
   };
 
+  const selectLocation = (type, value) => {
+    context.setSelected({ type: type, value: value });
+    history.push(`/${type}/${value}`);
+  };
+
   return (
     <div className='w-100 h-100 d-flex flex-column'>
+      <Search
+        items={locations}
+        selectionCallBack={selectLocation}
+        type={'topic'}
+        objectKey={'city'}
+      />
       <div className='w-100 d-flex p-3' />
       <div className='w-100 h-100 d-flex flex-wrap'>
         {locations.map((location, index) => {
@@ -44,8 +57,8 @@ const Locations = ({ type }) => {
                 zoom={10}
                 country={location.country.name}
                 city={location.city}
-                callbackClick={context.setSelectedLocation}
-                selected={context.selectedLocation}
+                callbackClick={selectLocation}
+                selected={context.selected.value}
               />
             );
           }
@@ -55,4 +68,4 @@ const Locations = ({ type }) => {
   );
 };
 
-export default Locations;
+export default withRouter(Locations);

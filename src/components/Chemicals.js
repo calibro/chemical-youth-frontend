@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import {
   forceSimulation,
@@ -10,6 +11,7 @@ import {
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
+import Search from './Search';
 
 const query = `*[_type=="chemical"]{
   name,
@@ -211,11 +213,21 @@ class Chemicals extends Component {
       });
   };
 
+  selectChemical = (type, value) => {
+    this.context.setSelected({ type: type, value: value });
+    this.props.history.push(`/${type}/${value}`);
+  };
+
   render() {
-    const { nodes } = this.state;
+    const { nodes, chemicals } = this.state;
 
     return (
       <div className='w-100 h-100 d-flex flex-column'>
+        <Search
+          items={chemicals}
+          selectionCallBack={this.selectChemical}
+          type={'chemical'}
+        />
         <div className='w-100 d-flex p-3' />
         <div className='w-100 h-100 d-flex flex-column'>
           <svg width={svgWidth} height={svgHeight}>
@@ -228,16 +240,14 @@ class Chemicals extends Component {
                       cx={node.x}
                       cy={node.y}
                       fill={
-                        this.context.selectedChemical === node.name
+                        this.context.selected.value === node.name
                           ? 'black'
                           : 'white'
                       }
                       stroke='black'
                       strokeWidth={2}
                       r={radiusScale(node.relatedProjects)}
-                      onClick={() =>
-                        this.context.setSelectedChemical(node.name)
-                      }
+                      onClick={() => this.selectChemical('chemical', node.name)}
                     />
                     <rect
                       x={node.x - radiusScale(node.relatedProjects) - 5}
@@ -245,7 +255,7 @@ class Chemicals extends Component {
                       width={radiusScale(node.relatedProjects) * 2 + 10}
                       height={10}
                       fill={
-                        this.context.selectedChemical === node.name
+                        this.context.selected.value === node.name
                           ? 'none'
                           : 'white'
                       }
@@ -264,7 +274,7 @@ class Chemicals extends Component {
                           pointerEvents: 'none'
                         }}
                         fill={
-                          this.context.selectedChemical === node.name
+                          this.context.selected.value === node.name
                             ? 'white'
                             : 'black'
                         }
@@ -285,6 +295,6 @@ class Chemicals extends Component {
   }
 }
 
-Chemicals.contextType = AppContext;
-
-export default Chemicals;
+const wrappedClass = withRouter(Chemicals);
+wrappedClass.WrappedComponent.contextType = AppContext;
+export default wrappedClass;

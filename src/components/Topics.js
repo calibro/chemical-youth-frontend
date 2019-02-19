@@ -16,7 +16,7 @@ const wordScale = scaleLinear()
   .domain([0, 5])
   .range([10, 36]);
 
-const Topics = ({ history }) => {
+const Topics = ({ type, history }) => {
   const [topics, setTopics] = useState([]);
   const context = useContext(AppContext);
 
@@ -32,7 +32,7 @@ const Topics = ({ history }) => {
       .catch(err => {
         console.error(err);
       });
-  });
+  }, [type]);
 
   function handleStatusChange(res) {
     const [min, max] = extent(res, d => d.relatedProjects);
