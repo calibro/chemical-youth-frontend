@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import Header from './Header';
 import List from './List';
 
-const ProjectPage = ({ location }) => {
+const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
   const slug = location.pathname.split('/')[2];
   // Similar to componentDidMount and componentDidUpdate:
@@ -55,6 +55,10 @@ const ProjectPage = ({ location }) => {
     return <div className={className} style={{ ...style }} onClick={onClick} />;
   };
 
+  const back = () => {
+    history.goBack();
+  };
+
   const settings = {
     dots: false,
     infinite: true,
@@ -71,6 +75,7 @@ const ProjectPage = ({ location }) => {
     <div className='w-100 d-flex flex-column'>
       <Header expanded={false} />
       <div className='w-100 d-flex flex-wrap'>
+        <div className='close-icon'> X </div>
         <div className='w-70 p-3'>
           <div className='w-100 py-3'>
             <div className='h4'> {project.title} </div>
@@ -91,7 +96,11 @@ const ProjectPage = ({ location }) => {
               <img src={project.mainImage} width='100%' />
             </div>
             <div className='py-4'>
-              <p>{project.body && project.body[0].children[0].text}</p>
+              <p>
+                {project.body &&
+                  project.body[0] &&
+                  project.body[0].children[0].text}
+              </p>
             </div>
           </div>
           <div className='w-100 mb-5'>
