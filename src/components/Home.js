@@ -62,10 +62,14 @@ class Home extends Component {
   };
 
   componentDidMount() {
+    console.log('here');
     const pathname = this.props.location.pathname.split('/');
     this.setSection(pathname[1]);
     if (pathname[2]) {
       const selected = { type: pathname[1], value: pathname[2] };
+      this.setSelected(selected);
+    } else {
+      const selected = { type: pathname[1], value: null };
       this.setSelected(selected);
     }
   }

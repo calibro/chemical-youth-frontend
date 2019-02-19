@@ -5,6 +5,7 @@ import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
 import Autocomplete from 'react-autocomplete';
+import Search from './Search';
 
 const query = `*[_type=="topic"]{
   _id, name,
@@ -17,7 +18,6 @@ const wordScale = scaleLinear()
 
 const Topics = ({ history }) => {
   const [topics, setTopics] = useState([]);
-  const [value, setValue] = useState('');
   const context = useContext(AppContext);
 
   useEffect(() => {
@@ -41,12 +41,6 @@ const Topics = ({ history }) => {
     setTopics(res);
   }
 
-  const matchStateToTerm = (elem, value) => {
-    if (value.length > 0) {
-      return elem.name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-    }
-  };
-
   const selectTopic = (type, value) => {
     context.setSelected({ type: type, value: value });
     history.push(`/${type}/${value}`);
@@ -54,34 +48,7 @@ const Topics = ({ history }) => {
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>
-      <div className='w-100 p-3'>
-        <Autocomplete
-          getItemValue={item => item.name}
-          items={topics}
-          inputProps={{ className: 'states-autocomplete' }}
-          wrapperStyle={{
-            position: 'relative'
-          }}
-          menuStyle={{
-            backgroundColor: 'white'
-          }}
-          renderItem={(item, isHighlighted) => (
-            <div
-              key={item._id}
-              style={{ background: isHighlighted ? 'lightgray' : 'white' }}
-            >
-              {item.name}
-            </div>
-          )}
-          value={value}
-          shouldItemRender={matchStateToTerm}
-          onChange={(event, value) => setValue(value)}
-          onSelect={val => {
-            selectTopic('topic', val);
-            setValue('');
-          }}
-        />
-      </div>
+      <Search items={topics} selectionCallBack={selectTopic} type={'topic'} />
       <div className='w-100 h-100 d-flex flex-wrap p-3 align-items-baseline'>
         {topics
           .sort((a, b) => {

@@ -94,6 +94,13 @@ const Projects = ({}) => {
       <div className='w-100 d-flex py-3'>
         {projects.filter(project => filter(project)).length}/ 63 PROJECTS SHOWN
       </div>
+      {/* <div className='w-100 d-flex py-3'>
+        {projects
+          .filter(project => filter(project))
+          .map((project, index) => {
+            return <Project project={project} key={index} />;
+          })}
+      </div> */}
       <div className='w-100 h-100 d-flex flex-column'>
         {projects
           .filter(project => filter(project))

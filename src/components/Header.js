@@ -6,8 +6,9 @@ const Header = ({ history, expanded = true }) => {
   const context = useContext(AppContext);
 
   function changeSection(section) {
-    history.push(`/${section}`);
     context.setSection(section);
+    context.setSelected({ type: section, value: null });
+    history.push(`/${section}`);
   }
 
   return (
