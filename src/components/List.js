@@ -11,16 +11,17 @@ const Project = ({ type, elements, objectKey, history }) => {
   };
 
   return (
-    <div className='d-flex flex-wrap justify-content-between'>
+    <div className='d-flex flex-wrap'>
       {elements &&
         elements.map((el, index) => {
           if (el) {
             const name = objectKey ? el[objectKey] : el.name;
             return (
               <div
+                className='pr-3'
                 key={index}
                 style={{
-                  fontSize: '10px'
+                  fontSize: '12px'
                 }}
               >
                 <div onClick={() => changeSection(type, name.toLowerCase())}>

@@ -71,7 +71,7 @@ const Topics = ({ type }) => {
           shouldItemRender={matchStateToTerm}
           onChange={(event, value) => setValue(value)}
           onSelect={val => {
-            context.setSelectedTopic(val);
+            context.setSelected({ type: 'topic', value: val });
             setValue('');
           }}
         />

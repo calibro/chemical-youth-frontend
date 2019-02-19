@@ -34,25 +34,9 @@ const Projects = ({}) => {
     setProjects(res);
   }
 
-  function getSelectedFilter() {
-    switch (context.section) {
-      case 'chemical':
-        return context.selectedChemical;
-        break;
-      case 'location':
-        return context.selectedLocation;
-        break;
-      case 'topic':
-        return context.selectedTopic;
-        break;
-      default:
-        return context.selectedLocation;
-    }
-  }
-
   function filter(project) {
-    const selectedFilter = getSelectedFilter();
-    //console.log('selectedFilter', selectedFilter);
+    const selectedFilter = context.selected.value;
+    console.log('selectedFilter', selectedFilter);
     //console.log(context.section);
     if (context.section === 'location') {
       if (selectedFilter) {

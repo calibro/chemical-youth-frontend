@@ -21,7 +21,12 @@ class Home extends Component {
       selectedLocation: '',
       setSelectedLocation: this.setSelectedLocation,
       selectedTopic: '',
-      setSelectedTopic: this.setSelectedTopic
+      setSelectedTopic: this.setSelectedTopic,
+      selected: {
+        type: null,
+        value: null
+      },
+      setSelected: this.setSelected
     };
   }
 
@@ -49,9 +54,19 @@ class Home extends Component {
     });
   };
 
+  setSelected = selected => {
+    this.setState({
+      selected: selected
+    });
+  };
+
   componentDidMount() {
     const pathname = this.props.location.pathname.split('/');
     this.setSection(pathname[1]);
+    if (pathname[2]) {
+      const selected = { type: pathname[1], value: pathname[2] };
+      this.setSelected(selected);
+    }
   }
 
   // componentDidUpdate() {
