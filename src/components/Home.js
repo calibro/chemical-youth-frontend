@@ -8,6 +8,7 @@ import Locations from './Locations';
 import Methodologies from './Methodologies';
 import Times from './Times';
 import { AppContext } from '../appContext';
+import { find, findIndex } from 'lodash';
 
 class Home extends Component {
   constructor(props) {
@@ -22,11 +23,9 @@ class Home extends Component {
       setSelectedLocation: this.setSelectedLocation,
       selectedTopic: '',
       setSelectedTopic: this.setSelectedTopic,
-      selected: {
-        type: null,
-        value: null
-      },
-      setSelected: this.setSelected
+      selected: [],
+      setSelected: this.setSelected,
+      toggleSelected: this.toggleSelected
     };
   }
 
@@ -61,17 +60,29 @@ class Home extends Component {
     });
   };
 
+  toggleSelected = selected => {
+    const selectedArray = this.state.selected;
+    if (find(selectedArray, selected)) {
+      const index = findIndex(selectedArray, selected);
+      selectedArray.splice(index, 1);
+    } else {
+      selectedArray.push(selected);
+    }
+    this.setState({
+      selected: selectedArray
+    });
+  };
+
   componentDidMount() {
-    console.log('here');
     const pathname = this.props.location.pathname.split('/');
     this.setSection(pathname[1]);
-    if (pathname[2]) {
-      const selected = { type: pathname[1], value: pathname[2] };
-      this.setSelected(selected);
-    } else {
-      const selected = { type: pathname[1], value: null };
-      this.setSelected(selected);
-    }
+    // if (pathname[2]) {
+    //   const selected = { type: pathname[1], value: pathname[2] };
+    //   this.addSelected(selected);
+    // } else {
+    //   const selected = { type: pathname[1], value: null };
+    //   this.addSelected(selected);
+    // }
   }
 
   render() {

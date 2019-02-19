@@ -68,3 +68,19 @@ body,
   font-weight: bold;
   cursor: pointer;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.tag {
+  height: 30px;
+  border-radius: 20px;
+  background-color: white;
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  margin: 5px;
+}

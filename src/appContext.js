@@ -9,9 +9,7 @@ export const AppContext = React.createContext({
   setSelectedLocation: () => {},
   selectedTopic: '',
   setSelectedTopic: () => {},
-  selected: {
-    type: null,
-    value: null
-  },
-  setSelected: () => {}
+  selected: [],
+  setSelected: () => {},
+  toggleSelected: () => {}
 });
