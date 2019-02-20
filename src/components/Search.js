@@ -46,21 +46,23 @@ class Search extends Component {
           menuStyle={{
             backgroundColor: 'white',
             position: 'absolute',
-            zIndex: 999
+            zIndex: 999,
+            top: 30,
+            left: 0
           }}
           renderItem={(item, isHighlighted) => (
             <div
               key={item._id}
               style={{ background: isHighlighted ? 'lightgray' : 'white' }}
             >
-              {item.name}
+              {objectKey ? item[objectKey] : item.name}
             </div>
           )}
           value={value}
           shouldItemRender={this.matchStateToTerm}
           onChange={(event, value) => this.setState({ value: value })}
           onSelect={val => {
-            selectionCallBack(type, val);
+            selectionCallBack(type, val.toLowerCase());
             this.setState({ value: '' });
           }}
         />
