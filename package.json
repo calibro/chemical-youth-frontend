@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@sanity/block-content-to-react": "^2.0.6",
     "@sanity/client": "^0.140.8",
+    "@sanity/image-url": "^0.140.8",
     "bootstrap": "^4.3.0",
     "d3-array": "^2.0.3",
     "d3-force": "^2.0.0",

@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import sanityClient from '../lib/sanity';
+import sanityClient, { builder } from '../lib/sanity';
+import BlockContent from '@sanity/block-content-to-react';
 import { withRouter } from 'react-router-dom';
 import { AppContext } from '../appContext';
 import Slider from 'react-slick';
 import Header from './Header';
 import List from './List';
+
+const serializers = {
+  types: {
+    code: props => (
+      <pre data-language={props.node.language}>
+        <code>{props.node.code}</code>
+      </pre>
+    )
+  }
+};
+
+const urlFor = source => {
+  console.log(builder.image(source));
+  return builder.image(source);
+};
 
 const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
@@ -56,7 +72,6 @@ const ProjectPage = ({ history, location }) => {
   };
 
   const back = () => {
-    console.log(history);
     history.goBack();
   };
 
@@ -81,8 +96,8 @@ const ProjectPage = ({ history, location }) => {
         </div>
         <div className='w-70 p-3'>
           <div className='w-100 py-3'>
-            <div className='h4'> {project.title} </div>
-            <div className='py-4' style={{ fontSize: '10px' }}>
+            <div className='h1'> {project.title} </div>
+            <div className='py-2' style={{ fontSize: '10px' }}>
               {project.researchers &&
                 project.researchers.map((researcher, index) => {
                   return (
@@ -95,9 +110,11 @@ const ProjectPage = ({ history, location }) => {
                   );
                 })}
             </div>
-            <div>
-              <img src={project.mainImage} width='100%' />
-            </div>
+            {project.mainImage && (
+              <div>
+                <img src={project.mainImage} width='100%' />
+              </div>
+            )}
             <div className='py-4'>
               <p>
                 {project.body &&
@@ -106,30 +123,30 @@ const ProjectPage = ({ history, location }) => {
               </p>
             </div>
           </div>
-          <div className='w-100 mb-5'>
-            <div className='h6'> RESOURCES </div>
-            <div className='w-100'>
-              {project.internalResources &&
-                project.internalResources.map((el, index) => {
-                  return (
-                    <div>
-                      <a
-                        href={project.internalResourcesFiles[index].url}
-                        download
-                      >
-                        {`${
-                          project.internalResourcesCategories[index].name
-                        } - `}{' '}
-                        {el.name[0].children
-                          .filter(child => child._type === 'span')
-                          .map(span => span.text)
-                          .join('')}
-                      </a>
-                    </div>
-                  );
+          {project.internalResources && (
+            <div className='w-100 mb-5'>
+              <div className='h6'> RESOURCES </div>
+              <div className='w-100'>
+                {project.internalResources.map((el, index) => {
+                  if (project.internalResourcesFiles[index]) {
+                    return (
+                      <div>
+                        <a
+                          href={project.internalResourcesFiles[index].url}
+                          download
+                        >
+                          <BlockContent
+                            blocks={el.name}
+                            serializers={serializers}
+                          />
+                        </a>
+                      </div>
+                    );
+                  }
                 })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className='w-30 p-5'>
           <div className='d-flex flex-column my-4'>
@@ -156,12 +173,12 @@ const ProjectPage = ({ history, location }) => {
           </div>
         </div>
       </div>
-      <div className='w-100 mb-5'>
-        <div className='h6 p-3'> IMAGES </div>
-        <div className='' style={{ height: '600px', marginBottom: '100px' }}>
-          <Slider {...settings}>
-            {project.images &&
-              project.images.map((image, index) => {
+      {project.images && (
+        <div className='w-100 mb-5'>
+          <div className='h6 p-3'> IMAGES </div>
+          <div className='' style={{ height: '600px', marginBottom: '100px' }}>
+            <Slider {...settings}>
+              {project.images.map((image, index) => {
                 return (
                   <div className=''>
                     <img
@@ -172,9 +189,10 @@ const ProjectPage = ({ history, location }) => {
                   </div>
                 );
               })}
-          </Slider>
+            </Slider>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

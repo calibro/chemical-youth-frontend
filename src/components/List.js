@@ -13,9 +13,8 @@ const Project = ({ type, elements, objectKey, history }) => {
 
   return (
     <div className='d-flex flex-wrap'>
-      {elements &&
+      {elements ? (
         elements.map((el, index) => {
-          console.log(type, el);
           if (el) {
             const name = objectKey ? el[objectKey] : el.name;
             return (
@@ -32,7 +31,10 @@ const Project = ({ type, elements, objectKey, history }) => {
               </div>
             );
           }
-        })}
+        })
+      ) : (
+        <div>Not found</div>
+      )}
     </div>
   );
 };
