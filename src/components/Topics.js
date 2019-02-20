@@ -1,81 +1,56 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
-import { scaleLinear } from 'd3-scale';
+import { scaleLinear, scaleLog } from 'd3-scale';
 import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
 import Autocomplete from 'react-autocomplete';
+import Search from './Search';
 
 const query = `*[_type=="topic"]{
   _id, name,
   "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
 
-const wordScale = scaleLinear()
-  .domain([0, 5])
-  .range([10, 36]);
-
-const Topics = ({ type }) => {
+const Topics = ({ type, history }) => {
   const [topics, setTopics] = useState([]);
-  const [value, setValue] = useState('');
   const context = useContext(AppContext);
 
   useEffect(() => {
-    sanityClient
-      .fetch(query)
-      .then(res => {
-        handleStatusChange(res);
-        return () => {
-          // Clean up
-        };
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    if (topics.length === 0) {
+      sanityClient
+        .fetch(query)
+        .then(res => {
+          handleStatusChange(res);
+          return () => {
+            // Clean up
+          };
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
   }, [type]);
 
   function handleStatusChange(res) {
-    const [min, max] = extent(res, d => d.relatedProjects);
-    wordScale.domain([0, max]);
-
     setTopics(res);
   }
 
-  const matchStateToTerm = (elem, value) => {
-    if (value.length > 0) {
-      return elem.name.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-    }
+  const selectTopic = (type, value) => {
+    context.toggleSelected({ type: type, value: value });
+    //history.push(`/${type}/${value}`);
   };
+
+  const selected = context.selected ? context.selected.map(s => s.value) : [];
+
+  const [min, max] = extent(topics, d => d.relatedProjects);
+  const wordScale = scaleLinear()
+    .range([10, 36])
+    .domain([0, max]);
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>
-      <div className='w-100 p-3'>
-        <Autocomplete
-          getItemValue={item => item.name}
-          items={topics}
-          inputProps={{ className: 'states-autocomplete' }}
-          wrapperStyle={{
-            position: 'relative'
-          }}
-          menuStyle={{
-            backgroundColor: 'white'
-          }}
-          renderItem={(item, isHighlighted) => (
-            <div
-              key={item._id}
-              style={{ background: isHighlighted ? 'lightgray' : 'white' }}
-            >
-              {item.name}
-            </div>
-          )}
-          value={value}
-          shouldItemRender={matchStateToTerm}
-          onChange={(event, value) => setValue(value)}
-          onSelect={val => {
-            context.setSelectedTopic(val);
-            setValue('');
-          }}
-        />
-      </div>
+      <Search items={topics} selectionCallBack={selectTopic} type={'topic'} />
       <div className='w-100 h-100 d-flex flex-wrap p-3 align-items-baseline'>
         {topics
           .sort((a, b) => {
@@ -89,14 +64,16 @@ const Topics = ({ type }) => {
                 style={{
                   height: '45px'
                 }}
-                onClick={() => context.setSelectedTopic(topic.name)}
+                onClick={() => selectTopic('topic', topic.name)}
               >
                 <div
                   style={{
-                    fontSize: wordScale(topic.relatedProjects),
+                    fontSize: wordScale
+                      ? wordScale(topic.relatedProjects)
+                      : '10px',
                     bottom: '3px',
                     fontWeight:
-                      context.selectedTopic === topic.name ? 'bold' : 'normal'
+                      selected.indexOf(topic.name) > -1 ? 'bold' : 'normal'
                   }}
                 >
                   {topic.name} <sup>{topic.relatedProjects}</sup>
@@ -109,4 +86,4 @@ const Topics = ({ type }) => {
   );
 };
 
-export default Topics;
+export default withRouter(Topics);

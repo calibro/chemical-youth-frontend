@@ -8,18 +8,24 @@ import Locations from './Locations';
 import Methodologies from './Methodologies';
 import Times from './Times';
 import { AppContext } from '../appContext';
+import { find, findIndex } from 'lodash';
 
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      section: 'topic',
+      section: '',
       setSection: this.setSection,
+      selectedChemical: '',
+      setSelectedChemical: this.setSelectedChemical,
       selectedLocation: '',
       setSelectedLocation: this.setSelectedLocation,
       selectedTopic: '',
-      setSelectedTopic: this.setSelectedTopic
+      setSelectedTopic: this.setSelectedTopic,
+      selected: [],
+      setSelected: this.setSelected,
+      toggleSelected: this.toggleSelected
     };
   }
 
@@ -35,14 +41,54 @@ class Home extends Component {
     });
   };
 
+  setSelectedChemical = chemical => {
+    this.setState({
+      selectedChemical: chemical === this.state.selectedChemical ? '' : chemical
+    });
+  };
+
   setSection = section => {
     this.setState({
       section: section
     });
   };
 
+  setSelected = selected => {
+    console.log(selected);
+    this.setState({
+      selected: selected
+    });
+  };
+
+  toggleSelected = selected => {
+    const selectedArray = this.state.selected;
+    if (selected.type && selected.value) {
+      if (find(selectedArray, selected)) {
+        const index = findIndex(selectedArray, selected);
+        selectedArray.splice(index, 1);
+      } else {
+        selectedArray.push(selected);
+      }
+      this.setState({
+        selected: selectedArray
+      });
+    }
+  };
+
+  componentDidMount() {
+    const pathname = this.props.location.pathname.split('/');
+    this.setSection(pathname[1]);
+    // if (pathname[2]) {
+    //   const selected = { type: pathname[1], value: pathname[2] };
+    //   this.addSelected(selected);
+    // } else {
+    //   const selected = { type: pathname[1], value: null };
+    //   this.addSelected(selected);
+    // }
+  }
+
   render() {
-    const pathname = this.props.location.pathname.replace('/', '');
+    const pathname = this.props.location.pathname.split('/')[1];
     return (
       <AppContext.Provider value={this.state}>
         <div className='w-100 h-100 d-flex flex-column'>
@@ -80,5 +126,7 @@ class Home extends Component {
     );
   }
 }
+
+Home.contextType = AppContext;
 
 export default Home;

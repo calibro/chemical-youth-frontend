@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import Header from './Header';
 import List from './List';
 
-const ProjectPage = ({ location }) => {
+const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
   const slug = location.pathname.split('/')[2];
   // Similar to componentDidMount and componentDidUpdate:
@@ -16,7 +16,7 @@ const ProjectPage = ({ location }) => {
       "mainImage": mainImage.asset->url,
       "topics": topics[]->,
       "chemicals": chemical[]->,
-      "methods": method[]->,
+      "methods": methodologies[]->,
       "places": place[]->,
       "countries": place[]->country[]->,
       "researchers": researchers[]->,
@@ -55,6 +55,11 @@ const ProjectPage = ({ location }) => {
     return <div className={className} style={{ ...style }} onClick={onClick} />;
   };
 
+  const back = () => {
+    console.log(history);
+    history.goBack();
+  };
+
   const settings = {
     dots: false,
     infinite: true,
@@ -71,6 +76,9 @@ const ProjectPage = ({ location }) => {
     <div className='w-100 d-flex flex-column'>
       <Header expanded={false} />
       <div className='w-100 d-flex flex-wrap'>
+        <div className='close-icon' onClick={back}>
+          X
+        </div>
         <div className='w-70 p-3'>
           <div className='w-100 py-3'>
             <div className='h4'> {project.title} </div>
@@ -91,7 +99,11 @@ const ProjectPage = ({ location }) => {
               <img src={project.mainImage} width='100%' />
             </div>
             <div className='py-4'>
-              <p>{project.body && project.body[0].children[0].text}</p>
+              <p>
+                {project.body &&
+                  project.body[0] &&
+                  project.body[0].children[0].text}
+              </p>
             </div>
           </div>
           <div className='w-100 mb-5'>
@@ -99,7 +111,6 @@ const ProjectPage = ({ location }) => {
             <div className='w-100'>
               {project.internalResources &&
                 project.internalResources.map((el, index) => {
-                  console.log(el);
                   return (
                     <div>
                       <a
@@ -123,20 +134,24 @@ const ProjectPage = ({ location }) => {
         <div className='w-30 p-5'>
           <div className='d-flex flex-column my-4'>
             <h4>LOCATIONS</h4>
-            <List elements={project.places} objectKey={'city'} />
+            <List
+              type={'location'}
+              elements={project.places}
+              objectKey={'city'}
+            />
           </div>
           <div className='d-flex flex-column my-4'>
             <h4>CHEMICALS</h4>
-            <List elements={project.chemicals} />
+            <List type={'chemical'} elements={project.chemicals} />
           </div>
           <div className='d-flex flex-column my-4'>
             <h4>METHODS</h4>
-            <List elements={project.methods} />
+            <List type={'method'} elements={project.methods} />
           </div>
           <div className='d-flex flex-column my-4'>
             <h4>TOPICS</h4>
             <div className='d-flex flex-wrap'>
-              <List elements={project.topics} />
+              <List type={'topic'} elements={project.topics} />
             </div>
           </div>
         </div>

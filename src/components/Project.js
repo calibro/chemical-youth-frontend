@@ -26,6 +26,7 @@ const Project = ({ project }) => {
         <div>
           <p>
             {project.body &&
+              project.body[0] &&
               project.body[0].children[0].text.slice(0, 200) + '...'}
           </p>
         </div>

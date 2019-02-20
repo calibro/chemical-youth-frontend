@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import {
   forceSimulation,
@@ -9,6 +10,8 @@ import {
 } from 'd3-force';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
+import { AppContext } from '../appContext';
+import Search from './Search';
 
 const query = `*[_type=="chemical"]{
   name,
@@ -132,7 +135,7 @@ const radiusScale = scaleLinear().range([0, 50]);
 // };
 //export default Chemicals;
 
-export default class Chemicals extends Component {
+class Chemicals extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -142,16 +145,18 @@ export default class Chemicals extends Component {
   }
 
   componentDidMount() {
-    sanityClient
-      .fetch(query)
-      .then(res => {
-        //setUpForceLayout(res);
-        this.setState({ chemicals: res });
-        this.setUpForceLayout(res);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    if (this.state.chemicals.length === 0) {
+      sanityClient
+        .fetch(query)
+        .then(res => {
+          //setUpForceLayout(res);
+          this.setState({ chemicals: res });
+          this.setUpForceLayout(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
   }
 
   setUpForceLayout = res => {
@@ -210,19 +215,25 @@ export default class Chemicals extends Component {
       });
   };
 
+  selectChemical = (type, value) => {
+    this.context.toggleSelected({ type: type, value: value });
+    //this.props.history.push(`/${type}/${value}`);
+  };
+
   render() {
-    const { nodes } = this.state;
+    const { nodes, chemicals } = this.state;
+    const selected = this.context.selected
+      ? this.context.selected.map(s => s.value)
+      : [];
     return (
       <div className='w-100 h-100 d-flex flex-column'>
-        <div className='w-100 d-flex p-3' />
+        <Search
+          items={chemicals}
+          selectionCallBack={this.selectChemical}
+          type={'chemical'}
+        />
         <div className='w-100 h-100 d-flex flex-column'>
           <svg width={svgWidth} height={svgHeight}>
-            <defs>
-              <filter x='0' y='0' width='1' height='1' id='solid'>
-                <feFlood floodColor='white' />
-                <feComposite in='SourceGraphic' />
-              </filter>
-            </defs>
             {nodes.map((node, index) => {
               const radius = radiusScale(node.relatedProjects);
               if (node.relatedProjects > 0) {
@@ -231,10 +242,23 @@ export default class Chemicals extends Component {
                     <circle
                       cx={node.x}
                       cy={node.y}
-                      fill='white'
+                      fill={
+                        selected.indexOf(node.name) > -1 ? 'black' : 'white'
+                      }
                       stroke='black'
                       strokeWidth={2}
                       r={radiusScale(node.relatedProjects)}
+                      onClick={() => this.selectChemical('chemical', node.name)}
+                    />
+                    <rect
+                      x={node.x - radiusScale(node.relatedProjects) - 5}
+                      y={node.y - 5}
+                      width={radiusScale(node.relatedProjects) * 2 + 10}
+                      height={10}
+                      fill={selected.indexOf(node.name) > -1 ? 'none' : 'white'}
+                      style={{
+                        pointerEvents: 'none'
+                      }}
                     />
                     {
                       <text
@@ -243,11 +267,14 @@ export default class Chemicals extends Component {
                         style={{
                           fontSize: '9px',
                           textTransform: 'uppercase',
-                          dominantBaseline: 'central'
+                          dominantBaseline: 'central',
+                          pointerEvents: 'none'
                         }}
-                        fill={'black'}
+                        fill={
+                          selected.indexOf(node.name) > -1 ? 'white' : 'black'
+                        }
                         textAnchor='middle'
-                        filter='url(#solid)'
+                        //filter='url(#solid)'
                       >
                         {node.name}
                       </text>
@@ -262,3 +289,7 @@ export default class Chemicals extends Component {
     );
   }
 }
+
+const wrappedClass = withRouter(Chemicals);
+wrappedClass.WrappedComponent.contextType = AppContext;
+export default wrappedClass;

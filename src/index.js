@@ -19,7 +19,9 @@ class App extends React.Component {
             <Route exact path='/' component={Landing} />
             <Route
               exact
-              path={'/:type(chemical|topic|location|researcher|time|method)?'}
+              path={
+                '/:type(chemical|topic|location|researcher|time|method)?/:selection'
+              }
               component={Home}
             />
             <Route exact path={'/projects/:slug'} component={ProjectPage} />

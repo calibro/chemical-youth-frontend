@@ -51,3 +51,58 @@ body,
   height: 50px;
   background-color: red;
 }
+
+.close-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 99;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.tag {
+  height: 30px;
+  border-radius: 20px;
+  background-color: white;
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  margin: 5px;
+}
+
+.underline {
+  position: relative;
+}
+
+.underline::after {
+  content: '';
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  top: 25px;
+  left: 0;
+  opacity: 1;
+  transition: 1s opacity;
+  background-color: black;
+}
+
+.underline::after:hover {
+  opacity: 1;
+  transition: 1s opacity;
+}
