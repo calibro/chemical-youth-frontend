@@ -3,6 +3,7 @@ import sanityClient from '../lib/sanity';
 import Project from './Project';
 import { AppContext } from '../appContext';
 import { difference } from 'lodash';
+import { timeLabels, quantizeTime } from '../timeUtils';
 
 const query = `*[_type == "project"]{
   _id, title, body, slug, startDate, endDate,
@@ -87,10 +88,11 @@ const Projects = ({}) => {
           return false;
         }
       } else if (context.section === 'time') {
-        const duration = project.endDate
-          ? monthDiff(new Date(project.startDate), new Date(project.endDate))
-          : 'still running';
-        console.log(duration, selectedFilters);
+        const diff = monthDiff(
+          new Date(project.startDate),
+          new Date(project.endDate)
+        );
+        const duration = quantizeTime(diff);
         return selectedFilters.indexOf(duration) > -1;
       }
     } else {
@@ -113,7 +115,9 @@ const Projects = ({}) => {
           {context.selected.map((el, index) => {
             return (
               <div className='tag' key={index}>
-                <div className='p-2'>{el.value}</div>
+                <div className='p-2'>
+                  {context.section === 'time' ? timeLabels[el.value] : el.value}
+                </div>
                 <div
                   className='p-2 cursor-pointer'
                   onClick={() => toggleSelected(el.type, el.value)}

@@ -39,7 +39,7 @@ const ProjectPage = ({ history, location }) => {
       "internalResources": internalResources,
       "internalResourcesCategories": internalResources[].category->,
       "internalResourcesFiles": internalResources[].document.asset->,
-      "externalResources": externalResources[]->,
+      "externalResources": externalResources,
       "images": images[].asset->url,
     }`;
 
@@ -121,27 +121,43 @@ const ProjectPage = ({ history, location }) => {
               )}
             </div>
           </div>
-          {project.internalResources && (
+          {(project.internalResources || project.externalResources) && (
             <div className='w-100 mb-5'>
               <div className='h6'> RESOURCES </div>
               <div className='w-100'>
-                {project.internalResources.map((el, index) => {
-                  if (project.internalResourcesFiles[index]) {
-                    return (
-                      <div>
-                        <a
-                          href={project.internalResourcesFiles[index].url}
-                          download
-                        >
-                          <BlockContent
-                            blocks={el.name}
-                            serializers={serializers}
-                          />
-                        </a>
-                      </div>
-                    );
-                  }
-                })}
+                {project.internalResources &&
+                  project.internalResources.map((el, index) => {
+                    if (project.internalResourcesFiles[index]) {
+                      return (
+                        <div key={index}>
+                          <a
+                            href={project.internalResourcesFiles[index].url}
+                            download
+                          >
+                            <BlockContent
+                              blocks={el.name}
+                              serializers={serializers}
+                            />
+                          </a>
+                        </div>
+                      );
+                    }
+                  })}
+                {project.externalResources &&
+                  project.externalResources.map((el, index) => {
+                    if (el.linkUrl) {
+                      return (
+                        <div key={index}>
+                          <a href={el.linkUrl} target='_blank' download>
+                            <BlockContent
+                              blocks={el.name}
+                              serializers={serializers}
+                            />
+                          </a>
+                        </div>
+                      );
+                    }
+                  })}
               </div>
             </div>
           )}

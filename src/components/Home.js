@@ -62,7 +62,7 @@ class Home extends Component {
 
   toggleSelected = selected => {
     const selectedArray = this.state.selected;
-    if (selected.type && selected.value) {
+    if (selected.type && selected.value !== null) {
       if (find(selectedArray, selected)) {
         const index = findIndex(selectedArray, selected);
         selectedArray.splice(index, 1);
