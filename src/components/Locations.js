@@ -32,6 +32,7 @@ const Locations = ({ type, history }) => {
   }, [type]);
 
   const handleStatusChange = res => {
+    console.log(res);
     setLocations(res);
   };
 
@@ -48,8 +49,7 @@ const Locations = ({ type, history }) => {
         type={'topic'}
         objectKey={'city'}
       />
-      <div className='w-100 d-flex p-3' />
-      <div className='w-100 h-100 d-flex flex-wrap'>
+      <div className='w-100 d-flex flex-wrap'>
         {locations.map((location, index) => {
           if (location.coordinates.lat) {
             return (
