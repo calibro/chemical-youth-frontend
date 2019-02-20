@@ -6,7 +6,7 @@ import { AppContext } from '../appContext';
 import Search from './Search';
 
 const query = `*[_type == "location"]{
-  _id, city, coordinates,
+  _id, city, coordinates, zoom,
   country->,
   "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
@@ -51,12 +51,13 @@ const Locations = ({ type, history }) => {
       />
       <div className='w-100 d-flex flex-wrap'>
         {locations.map((location, index) => {
+          console.log(location);
           if (location.coordinates.lat) {
             return (
               <Location
                 key={index}
                 coordinates={location.coordinates}
-                zoom={10}
+                zoom={location.zoom}
                 country={location.country.name}
                 city={location.city}
                 callbackClick={selectLocation}
