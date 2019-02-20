@@ -15,7 +15,7 @@ const ProjectPage = ({ history, location }) => {
       _id, title, body, slug,
       "mainImage": mainImage.asset->url,
       "topics": topics[]->,
-      "chemicals": chemical[]->,
+      "chemicals": chemicals[]->,
       "methods": methodologies[]->,
       "places": place[]->,
       "countries": place[]->country[]->,
