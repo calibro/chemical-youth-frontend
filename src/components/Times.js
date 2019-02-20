@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import sanityClient from '../lib/sanity';
-import { scaleOrdinal } from 'd3-scale';
+import { scaleOrdinal, scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { groupBy } from 'lodash';
 import { AppContext } from '../appContext';
@@ -44,7 +44,6 @@ const Times = ({ type }) => {
     const derivedTimes = res.map((time, index) => {
       const diff = monthDiff(new Date(time.startDate), new Date(time.endDate));
       time.months = quantizeTime(diff);
-      console.log(quantizeTime(diff));
       return time;
     });
     setDerivedTimes(derivedTimes);
@@ -56,17 +55,20 @@ const Times = ({ type }) => {
   };
 
   const selectTime = (type, value) => {
-    console.log(type, value);
     context.toggleSelected({ type: type, value: value });
     //history.push(`/${type}/${value}`);
   };
 
   const selected = context.selected.map(s => s.value);
 
-  const [min, max] = extent(derivedTimes, d => d.months);
-  const heightScale = scaleOrdinal()
-    .range([30, 60, 90, 120, 150, 180, 210])
-    .domain([0, 3, 6, 12, 24, 36, 48]);
+  const [min, max] = extent(times, d => d.length);
+  const heightScale = scaleLinear()
+    .range([30, 200])
+    .domain([0, max]);
+
+  const widthScale = scaleOrdinal()
+    .range([50, 60, 70, 80, 90, 100])
+    .domain([0, 3, 6, 12, 24, 36]);
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>
@@ -79,8 +81,9 @@ const Times = ({ type }) => {
               className='px-3 d-flex justify-content-between align-items-center'
               key={index}
               style={{
-                height: `${heightScale(duration)}px`,
-                borderTop: '1px solid #b7b7b7',
+                width: `${widthScale(duration)}%`,
+                height: `${heightScale(time.length)}px`,
+                border: '1px solid #b7b7b7',
                 backgroundColor:
                   selected.indexOf(duration) > -1 ? 'black' : 'white',
                 color: selected.indexOf(duration) > -1 ? 'white' : 'black'
