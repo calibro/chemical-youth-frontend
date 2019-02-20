@@ -19,7 +19,7 @@ const Project = ({ type, elements, objectKey, history }) => {
             const name = objectKey ? el[objectKey] : el.name;
             return (
               <div
-                className='pr-3'
+                className='pr-3 cursor-pointer'
                 key={index}
                 style={{
                   fontSize: '12px'

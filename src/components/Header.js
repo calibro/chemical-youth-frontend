@@ -23,7 +23,7 @@ const Header = ({ history, expanded = true }) => {
         <React.Fragment>
           <div onClick={() => changeSection('chemical')}>
             <div
-              className='text-light'
+              className='text-light cursor-pointer'
               style={{
                 textDecoration:
                   context.section === 'chemical' ? 'underline' : 'none'
@@ -34,7 +34,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('topic')}>
             <div
-              className='text-light'
+              className='text-light cursor-pointer'
               style={{
                 textDecoration:
                   context.section === 'topic' ? 'underline' : 'none'
@@ -45,7 +45,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('location')}>
             <div
-              className='text-light'
+              className='text-light cursor-pointer'
               style={{
                 textDecoration:
                   context.section === 'location' ? 'underline' : 'none'
@@ -56,7 +56,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('researcher')}>
             <div
-              className='text-light'
+              className='text-light cursor-pointer'
               style={{
                 textDecoration:
                   context.section === 'researcher' ? 'underline' : 'none'
@@ -67,7 +67,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('time')}>
             <div
-              className='text-light'
+              className='text-light cursor-pointer'
               style={{
                 textDecoration:
                   context.section === 'time' ? 'underline' : 'none'
@@ -78,7 +78,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('method')}>
             <div
-              className='text-light'
+              className='text-light cursor-pointer'
               style={{
                 textDecoration:
                   context.section === 'method' ? 'underline' : 'none'

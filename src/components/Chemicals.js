@@ -230,7 +230,6 @@ class Chemicals extends Component {
           selectionCallBack={this.selectChemical}
           type={'chemical'}
         />
-        <div className='w-100 d-flex p-3' />
         <div className='w-100 h-100 d-flex flex-column'>
           <svg width={svgWidth} height={svgHeight}>
             {nodes.map((node, index) => {
