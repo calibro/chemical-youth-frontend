@@ -116,14 +116,9 @@ const ProjectPage = ({ history, location }) => {
               </div>
             )}
             <div className='py-4'>
-              <p>
-                {project.body && project.body[0] && (
-                  <BlockContent
-                    blocks={project.body}
-                    serializers={serializers}
-                  />
-                )}
-              </p>
+              {project.body && project.body[0] && (
+                <BlockContent blocks={project.body} serializers={serializers} />
+              )}
             </div>
           </div>
           {project.internalResources && (
@@ -183,7 +178,7 @@ const ProjectPage = ({ history, location }) => {
             <Slider {...settings}>
               {project.images.map((image, index) => {
                 return (
-                  <div className=''>
+                  <div className='' key={index}>
                     <img
                       src={image}
                       key={index}

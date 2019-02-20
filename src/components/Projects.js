@@ -14,22 +14,22 @@ const query = `*[_type == "project"]{
   "methodologies": methodologies[]->,
 }`;
 
-function monthDiff(d1, d2) {
+const monthDiff = (d1, d2) => {
   var months;
   months = (d2.getFullYear() - d1.getFullYear()) * 12;
   months -= d1.getMonth() + 1;
   months += d2.getMonth();
   return months <= 0 ? 0 : months;
-}
+};
 
-function arrayContainsArray(superset, subset) {
+const arrayContainsArray = (superset, subset) => {
   if (0 === subset.length) {
     return false;
   }
-  return subset.every(function(value) {
+  return subset.some(value => {
     return superset.indexOf(value) >= 0;
   });
-}
+};
 
 const Projects = ({}) => {
   const [projects, setProjects] = useState([]);
@@ -49,11 +49,11 @@ const Projects = ({}) => {
       });
   }, [context]);
 
-  function handleStatusChange(res) {
+  const handleStatusChange = res => {
     setProjects(res);
-  }
+  };
 
-  function filter(project) {
+  const filter = project => {
     const selectedFilters = context.selected.map(v => v.value);
     //console.log('selectedFilters', selectedFilters);
     if (selectedFilters.length > 0) {
@@ -61,7 +61,6 @@ const Projects = ({}) => {
         console.log(project);
         if (project.place && project.place.length > 0) {
           const places = project.place.map(m => m.city.toLowerCase());
-          console.log(places);
           return arrayContainsArray(places, selectedFilters);
         } else {
           return false;
@@ -97,7 +96,7 @@ const Projects = ({}) => {
     } else {
       return true;
     }
-  }
+  };
 
   const toggleSelected = (type, value) => {
     context.toggleSelected({ type: type, value: value });
@@ -113,7 +112,7 @@ const Projects = ({}) => {
         <div className='w-100 d-flex py-3 flex-wrap'>
           {context.selected.map((el, index) => {
             return (
-              <div className='tag'>
+              <div className='tag' key={index}>
                 <div className='p-2'>{el.value}</div>
                 <div
                   className='p-2 cursor-pointer'
@@ -129,6 +128,11 @@ const Projects = ({}) => {
       <div className='w-100 h-100 d-flex flex-column'>
         {projects
           .filter(project => filter(project))
+          .sort((a, b) => {
+            const textA = a.title.toUpperCase();
+            const textB = b.title.toUpperCase();
+            return textA < textB ? -1 : textA > textB ? 1 : 0;
+          })
           .map((project, index) => {
             return <Project project={project} key={index} />;
           })}
