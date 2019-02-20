@@ -19,7 +19,7 @@ const query = `*[_type=="chemical"]{
 }`;
 
 const svgWidth = window.innerWidth / 2;
-const svgHeight = window.innerHeight - 80;
+const svgHeight = window.innerHeight - 140;
 
 const radiusScale = scaleLinear().range([0, 50]);
 
@@ -186,12 +186,12 @@ class Chemicals extends Component {
 
     const simulation = forceSimulation(simulationNodes)
       .force('charge', forceManyBody().strength(50))
-      .force('link', forceLink(links))
+      //.force('link', forceLink(links))
       .force('center', forceCenter(svgWidth / 2, svgHeight / 2))
       .force(
         'collision',
         forceCollide()
-          .radius(n => n.radius + 12)
+          .radius(n => n.radius + 8)
           .strength(2)
           .iterations(1)
       )
@@ -250,35 +250,40 @@ class Chemicals extends Component {
                       r={radiusScale(node.relatedProjects)}
                       onClick={() => this.selectChemical('chemical', node.name)}
                     />
-                    <rect
-                      x={node.x - radiusScale(node.relatedProjects) - 5}
-                      y={node.y - 5}
-                      width={radiusScale(node.relatedProjects) * 2 + 10}
-                      height={10}
-                      fill={selected.indexOf(node.name) > -1 ? 'none' : 'white'}
-                      style={{
-                        pointerEvents: 'none'
-                      }}
-                    />
-                    {
-                      <text
-                        dx={node.x}
-                        dy={node.y}
-                        style={{
-                          fontSize: '9px',
-                          textTransform: 'uppercase',
-                          dominantBaseline: 'central',
-                          pointerEvents: 'none'
-                        }}
-                        fill={
-                          selected.indexOf(node.name) > -1 ? 'white' : 'black'
-                        }
-                        textAnchor='middle'
-                        //filter='url(#solid)'
-                      >
-                        {node.name}
-                      </text>
-                    }
+
+                    {radiusScale(node.relatedProjects) > 10 && (
+                      <g>
+                        <rect
+                          x={node.x - radiusScale(node.relatedProjects) - 5}
+                          y={node.y - 5}
+                          width={radiusScale(node.relatedProjects) * 2 + 10}
+                          height={10}
+                          fill={
+                            selected.indexOf(node.name) > -1 ? 'none' : 'white'
+                          }
+                          style={{
+                            pointerEvents: 'none'
+                          }}
+                        />
+                        <text
+                          dx={node.x}
+                          dy={node.y}
+                          style={{
+                            fontSize: '9px',
+                            textTransform: 'uppercase',
+                            dominantBaseline: 'central',
+                            pointerEvents: 'none'
+                          }}
+                          fill={
+                            selected.indexOf(node.name) > -1 ? 'white' : 'black'
+                          }
+                          textAnchor='middle'
+                          //filter='url(#solid)'
+                        >
+                          {node.name}
+                        </text>
+                      </g>
+                    )}
                   </g>
                 );
               }

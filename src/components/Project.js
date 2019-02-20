@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const Project = ({ project }) => {
+
+const Project = ({ project, countries }) => {
   return (
     <Link to={`/projects/${project.slug ? project.slug.current : ''}`}>
       <div
@@ -31,8 +32,8 @@ const Project = ({ project }) => {
           </p>
         </div>
         <div>
-          {project.countries &&
-            project.countries.map((country, index) => {
+          {countries &&
+            countries.map((country, index) => {
               return (
                 <span
                   key={index}

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import sanityClient from '../lib/sanity';
 import Project from './Project';
 import { AppContext } from '../appContext';
-import { difference } from 'lodash';
+import { uniqBy } from 'lodash';
 import { timeLabels, quantizeTime } from '../timeUtils';
 
 const query = `*[_type == "project"]{
@@ -107,11 +107,11 @@ const Projects = ({}) => {
 
   return (
     <div className='w-100 h-100 d-flex flex-column p-4'>
-      <div className='w-100 d-flex py-3'>
+      <div className='w-100 d-flex py-2'>
         {projects.filter(project => filter(project)).length}/ 63 PROJECTS SHOWN
       </div>
       {
-        <div className='w-100 d-flex py-3 flex-wrap'>
+        <div className='w-100 d-flex py-2 flex-wrap'>
           {context.selected.map((el, index) => {
             return (
               <div className='tag' key={index}>
@@ -138,7 +138,13 @@ const Projects = ({}) => {
             return textA < textB ? -1 : textA > textB ? 1 : 0;
           })
           .map((project, index) => {
-            return <Project project={project} key={index} />;
+            return (
+              <Project
+                project={project}
+                key={index}
+                countries={uniqBy(project.countries, 'name')}
+              />
+            );
           })}
       </div>
     </div>
