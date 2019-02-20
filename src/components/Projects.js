@@ -5,7 +5,7 @@ import { AppContext } from '../appContext';
 import { difference } from 'lodash';
 
 const query = `*[_type == "project"]{
-  _id, title, body, slug,
+  _id, title, body, slug, startDate, endDate,
   "chemicals": chemicals[]->,
   "topics": topics[]->,
   "place": place[]->,
@@ -13,6 +13,14 @@ const query = `*[_type == "project"]{
   "researchers": researchers[]->,
   "methodologies": methodologies[]->,
 }`;
+
+function monthDiff(d1, d2) {
+  var months;
+  months = (d2.getFullYear() - d1.getFullYear()) * 12;
+  months -= d1.getMonth() + 1;
+  months += d2.getMonth();
+  return months <= 0 ? 0 : months;
+}
 
 function arrayContainsArray(superset, subset) {
   if (0 === subset.length) {
@@ -79,6 +87,12 @@ const Projects = ({}) => {
         } else {
           return false;
         }
+      } else if (context.section === 'time') {
+        const duration = project.endDate
+          ? monthDiff(new Date(project.startDate), new Date(project.endDate))
+          : 'still running';
+        console.log(duration, selectedFilters);
+        return selectedFilters.indexOf(duration) > -1;
       }
     } else {
       return true;
