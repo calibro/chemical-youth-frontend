@@ -9,8 +9,6 @@ const query = `*[_type == "project"]{
   endDate, startDate
 }`;
 
-const heightScale = scaleLog().range([30, 120]);
-
 function monthDiff(d1, d2) {
   var months;
   months = (d2.getFullYear() - d1.getFullYear()) * 12;
@@ -22,7 +20,7 @@ function monthDiff(d1, d2) {
 const Times = ({ type }) => {
   const [times, setTimes] = useState([]);
   const context = useContext(AppContext);
-
+  const heightScale = scaleLog().range([30, 120]);
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     if (times.length === 0) {
@@ -37,9 +35,6 @@ const Times = ({ type }) => {
         .catch(err => {
           console.error(err);
         });
-    } else {
-      const [min, max] = extent(times, d => d.relatedProjects);
-      heightScale.domain([0, max]);
     }
   }, [type]);
 
@@ -50,6 +45,12 @@ const Times = ({ type }) => {
         : 'still running';
       return time;
     });
+
+    const [min, max] = extent(
+      derivedTimes.filter(v => v.months !== 'still running'),
+      d => d.months
+    );
+    heightScale.domain([0, max]);
 
     const sortedTimes = derivedTimes.sort((a, b) => a.months - b.months);
     const groupedByTimes = Object.values(groupBy(sortedTimes, el => el.months));

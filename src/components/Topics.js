@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
-import { scaleLinear } from 'd3-scale';
+import { scaleLinear, scaleLog } from 'd3-scale';
 import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
 import Autocomplete from 'react-autocomplete';
@@ -12,13 +12,10 @@ const query = `*[_type=="topic"]{
   "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
 
-const wordScale = scaleLinear()
-  .domain([0, 5])
-  .range([10, 36]);
-
 const Topics = ({ type, history }) => {
   const [topics, setTopics] = useState([]);
   const context = useContext(AppContext);
+  const wordScale = scaleLog().range([10, 36]);
 
   useEffect(() => {
     if (topics.length === 0) {
@@ -33,14 +30,14 @@ const Topics = ({ type, history }) => {
         .catch(err => {
           console.error(err);
         });
-    } else {
-      const [min, max] = extent(topics, d => d.relatedProjects);
-      wordScale.domain([0, max]);
     }
   }, [type]);
 
   function handleStatusChange(res) {
     setTopics(res);
+    const [min, max] = extent(res, d => d.relatedProjects);
+    wordScale.domain([0, max]);
+    console.log(wordScale.domain());
   }
 
   const selectTopic = (type, value) => {
@@ -59,6 +56,10 @@ const Topics = ({ type, history }) => {
             return b.relatedProjects - a.relatedProjects;
           })
           .map((topic, index) => {
+            console.log(
+              topic.relatedProjects,
+              wordScale(topic.relatedProjects)
+            );
             return (
               <div
                 className='position-relative px-3'
