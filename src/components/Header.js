@@ -4,6 +4,11 @@ import { withRouter } from 'react-router-dom';
 
 const Header = ({ history, expanded = true }) => {
   const context = useContext(AppContext);
+  useEffect(() => {
+    console.log('effect');
+    const pathname = history.location.pathname.split('/');
+    context.setSection(pathname[1]);
+  }, [history.location.pathname]);
 
   function changeSection(section) {
     context.setSection(section);

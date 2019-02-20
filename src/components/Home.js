@@ -76,8 +76,8 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    const pathname = this.props.location.pathname.split('/');
-    this.setSection(pathname[1]);
+    // const pathname = this.props.location.pathname.split('/');
+    // this.setSection(pathname[1]);
     // if (pathname[2]) {
     //   const selected = { type: pathname[1], value: pathname[2] };
     //   this.addSelected(selected);

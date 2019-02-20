@@ -32,7 +32,6 @@ const Locations = ({ type, history }) => {
   }, [type]);
 
   const handleStatusChange = res => {
-    console.log(res);
     setLocations(res);
   };
 
@@ -51,7 +50,6 @@ const Locations = ({ type, history }) => {
       />
       <div className='w-100 d-flex flex-wrap'>
         {locations.map((location, index) => {
-          console.log(location);
           if (location.coordinates.lat) {
             return (
               <Location

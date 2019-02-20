@@ -6,9 +6,8 @@ const Project = ({ type, elements, objectKey, history }) => {
   const context = useContext(AppContext);
 
   const changeSection = (type, name) => {
-    context.setSection(type);
     context.setSelected({ type: type, value: name });
-    history.push(`/${type}/${name}`);
+    history.push(`/${type}?selected=${name}`);
   };
 
   return (
