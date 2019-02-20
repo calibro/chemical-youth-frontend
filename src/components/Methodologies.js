@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
-import { scaleLog } from 'd3-scale';
+import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
 
@@ -9,8 +9,6 @@ const query = `*[_type == "methodology"]{
   _id, name,
   "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
-
-const heightScale = scaleLog().range([30, 150]);
 
 const Methodologies = ({ type, history }) => {
   const [methodologies, setMethodologies] = useState([]);
@@ -34,14 +32,17 @@ const Methodologies = ({ type, history }) => {
 
   const handleStatusChange = res => {
     setMethodologies(res);
-    const [min, max] = extent(res, d => d.relatedProjects);
-    heightScale.domain([0, max]);
   };
 
   const selectMethod = (type, value) => {
     context.toggleSelected({ type: type, value: value });
     //history.push(`/${type}/${value}`);
   };
+
+  const [min, max] = extent(methodologies, d => d.relatedProjects);
+  const heightScale = scaleLinear()
+    .range([30, 150])
+    .domain([0, max]);
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>
