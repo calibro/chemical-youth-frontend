@@ -117,9 +117,12 @@ const ProjectPage = ({ history, location }) => {
             )}
             <div className='py-4'>
               <p>
-                {project.body &&
-                  project.body[0] &&
-                  project.body[0].children[0].text}
+                {project.body && project.body[0] && (
+                  <BlockContent
+                    blocks={project.body}
+                    serializers={serializers}
+                  />
+                )}
               </p>
             </div>
           </div>
