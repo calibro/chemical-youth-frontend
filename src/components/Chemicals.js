@@ -145,16 +145,18 @@ class Chemicals extends Component {
   }
 
   componentDidMount() {
-    sanityClient
-      .fetch(query)
-      .then(res => {
-        //setUpForceLayout(res);
-        this.setState({ chemicals: res });
-        this.setUpForceLayout(res);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    if (this.state.chemicals.length === 0) {
+      sanityClient
+        .fetch(query)
+        .then(res => {
+          //setUpForceLayout(res);
+          this.setState({ chemicals: res });
+          this.setUpForceLayout(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
   }
 
   setUpForceLayout = res => {

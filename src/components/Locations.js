@@ -16,17 +16,19 @@ const Locations = ({ type, history }) => {
   const context = useContext(AppContext);
 
   useEffect(() => {
-    sanityClient
-      .fetch(query)
-      .then(res => {
-        handleStatusChange(res);
-        return () => {
-          // Clean up
-        };
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    if (locations.length === 0) {
+      sanityClient
+        .fetch(query)
+        .then(res => {
+          handleStatusChange(res);
+          return () => {
+            // Clean up
+          };
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
   }, [type]);
 
   const handleStatusChange = res => {

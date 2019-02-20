@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import sanityClient from '../lib/sanity';
-import { scaleLog } from 'd3-scale';
+import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { groupBy } from 'lodash';
 import { AppContext } from '../appContext';
@@ -19,8 +19,9 @@ function monthDiff(d1, d2) {
 
 const Times = ({ type }) => {
   const [times, setTimes] = useState([]);
+  const [derivedTimes, setDerivedTimes] = useState([]);
   const context = useContext(AppContext);
-  const heightScale = scaleLog().range([30, 120]);
+
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     if (times.length === 0) {
@@ -45,12 +46,7 @@ const Times = ({ type }) => {
         : 'still running';
       return time;
     });
-
-    const [min, max] = extent(
-      derivedTimes.filter(v => v.months !== 'still running'),
-      d => d.months
-    );
-    heightScale.domain([0, max]);
+    setDerivedTimes(derivedTimes);
 
     const sortedTimes = derivedTimes.sort((a, b) => a.months - b.months);
     const groupedByTimes = Object.values(groupBy(sortedTimes, el => el.months));
@@ -64,6 +60,15 @@ const Times = ({ type }) => {
   };
 
   const selected = context.selected.map(s => s.value);
+
+  const [min, max] = extent(
+    derivedTimes.filter(v => v.months !== 'still running'),
+    d => d.months
+  );
+  console.log(max);
+  const heightScale = scaleLinear()
+    .range([30, 200])
+    .domain([0, max]);
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>

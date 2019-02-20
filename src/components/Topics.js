@@ -15,7 +15,6 @@ const query = `*[_type=="topic"]{
 const Topics = ({ type, history }) => {
   const [topics, setTopics] = useState([]);
   const context = useContext(AppContext);
-  const wordScale = scaleLog().range([10, 36]);
 
   useEffect(() => {
     if (topics.length === 0) {
@@ -35,9 +34,6 @@ const Topics = ({ type, history }) => {
 
   function handleStatusChange(res) {
     setTopics(res);
-    const [min, max] = extent(res, d => d.relatedProjects);
-    wordScale.domain([0, max]);
-    console.log(wordScale.domain());
   }
 
   const selectTopic = (type, value) => {
@@ -46,6 +42,11 @@ const Topics = ({ type, history }) => {
   };
 
   const selected = context.selected ? context.selected.map(s => s.value) : [];
+
+  const [min, max] = extent(topics, d => d.relatedProjects);
+  const wordScale = scaleLinear()
+    .range([10, 36])
+    .domain([0, max]);
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>
@@ -56,10 +57,6 @@ const Topics = ({ type, history }) => {
             return b.relatedProjects - a.relatedProjects;
           })
           .map((topic, index) => {
-            console.log(
-              topic.relatedProjects,
-              wordScale(topic.relatedProjects)
-            );
             return (
               <div
                 className='position-relative px-3'
@@ -71,7 +68,9 @@ const Topics = ({ type, history }) => {
               >
                 <div
                   style={{
-                    fontSize: wordScale(topic.relatedProjects),
+                    fontSize: wordScale
+                      ? wordScale(topic.relatedProjects)
+                      : '10px',
                     bottom: '3px',
                     fontWeight:
                       selected.indexOf(topic.name) > -1 ? 'bold' : 'normal'
