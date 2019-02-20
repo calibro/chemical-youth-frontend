@@ -15,6 +15,7 @@ const Project = ({ type, elements, objectKey, history }) => {
     <div className='d-flex flex-wrap'>
       {elements &&
         elements.map((el, index) => {
+          console.log(type, el);
           if (el) {
             const name = objectKey ? el[objectKey] : el.name;
             return (
