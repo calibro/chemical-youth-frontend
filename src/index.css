@@ -85,3 +85,24 @@ body,
   padding: 10px;
   margin: 5px;
 }
+
+.underline {
+  position: relative;
+}
+
+.underline::after {
+  content: '';
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  top: 25px;
+  left: 0;
+  opacity: 1;
+  transition: 1s opacity;
+  background-color: black;
+}
+
+.underline::after:hover {
+  opacity: 1;
+  transition: 1s opacity;
+}
