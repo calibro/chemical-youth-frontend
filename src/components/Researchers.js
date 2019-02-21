@@ -181,6 +181,7 @@ class Researchers extends Component {
                   <g key={index}>
                     <circle
                       data-tip={node.name}
+                      ref={node.name}
                       cx={node.x}
                       cy={node.y}
                       fill={
