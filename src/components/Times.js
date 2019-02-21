@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import { scaleOrdinal, scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { groupBy } from 'lodash';
 import { AppContext } from '../appContext';
 import { timeLabels, quantizeTime } from '../timeUtils';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type == "project"]{
   endDate, startDate
@@ -18,7 +20,7 @@ const monthDiff = (d1, d2) => {
   return months <= 0 ? 0 : months;
 };
 
-const Times = ({ type }) => {
+const Times = ({ type, history }) => {
   const [times, setTimes] = useState([]);
   const [derivedTimes, setDerivedTimes] = useState([]);
   const context = useContext(AppContext);
@@ -56,7 +58,8 @@ const Times = ({ type }) => {
 
   const selectTime = (type, value) => {
     context.toggleSelected({ type: type, value: value });
-    //history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(context.selected);
+    history.push(`/${context.section}${queryParams}`);
   };
 
   const selected = context.selected.map(s => s.value);
@@ -100,4 +103,4 @@ const Times = ({ type }) => {
   );
 };
 
-export default Times;
+export default withRouter(Times);

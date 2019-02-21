@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import sanityClient, { builder } from '../lib/sanity';
 import BlockContent from '@sanity/block-content-to-react';
 import { withRouter } from 'react-router-dom';
-import { AppContext } from '../appContext';
 import Slider from 'react-slick';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Header from './Header';

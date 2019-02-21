@@ -4,6 +4,7 @@ import sanityClient from '../lib/sanity';
 import Location from './Location';
 import { AppContext } from '../appContext';
 import Search from './Search';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type == "location"]{
   _id, city, coordinates, zoom,
@@ -37,7 +38,8 @@ const Locations = ({ type, history }) => {
 
   const selectLocation = (type, value) => {
     context.toggleSelected({ type: type, value: value });
-    //history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(context.selected);
+    history.push(`/${context.section}${queryParams}`);
   };
 
   return (

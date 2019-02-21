@@ -5,6 +5,7 @@ import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
 import Search from './Search';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type == "methodology"]{
   _id, name,
@@ -37,7 +38,8 @@ const Methodologies = ({ type, history }) => {
 
   const selectMethod = (type, value) => {
     context.toggleSelected({ type: type, value: value });
-    //history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(context.selected);
+    history.push(`/${context.section}${queryParams}`);
   };
 
   const [min, max] = extent(methodologies, d => d.relatedProjects);

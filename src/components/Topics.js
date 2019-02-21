@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
-import { scaleLinear, scaleLog } from 'd3-scale';
+import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
-import Autocomplete from 'react-autocomplete';
 import Search from './Search';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type=="topic"]{
   _id, name,
@@ -38,7 +38,8 @@ const Topics = ({ type, history }) => {
 
   const selectTopic = (type, value) => {
     context.toggleSelected({ type: type, value: value });
-    //history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(context.selected);
+    history.push(`/${context.section}${queryParams}`);
   };
 
   const selected = context.selected ? context.selected.map(s => s.value) : [];

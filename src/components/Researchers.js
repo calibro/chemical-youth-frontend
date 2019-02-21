@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import {
@@ -13,6 +13,7 @@ import { extent } from 'd3-array';
 import { flatten } from 'lodash';
 import { AppContext } from '../appContext';
 import Search from './Search';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type == "project"]{
   "researchers": researchers[]->
@@ -138,7 +139,8 @@ class Researchers extends Component {
 
   selectResearcher = (type, value) => {
     this.context.toggleSelected({ type: type, value: value });
-    //this.props.history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(this.context.selected);
+    this.props.history.push(`/${this.context.section}${queryParams}`);
   };
 
   render() {

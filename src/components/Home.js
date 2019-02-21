@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 import Header from './Header';
-//import Projects from './Projects';
+import { withRouter } from 'react-router-dom';
 import Chemicals from './Chemicals';
 import Topics from './Topics';
 import Researchers from './Researchers';
@@ -79,15 +80,17 @@ class Home extends Component {
 
   componentDidMount() {
     const pathname = this.props.location.pathname.split('/');
-    // this.setSection(pathname[1]);
-    console.log(this.props.location);
-    // if (pathname[2]) {
-    //   const selected = { type: pathname[1], value: pathname[2] };
-    //   this.addSelected(selected);
-    // } else {
-    //   const selected = { type: pathname[1], value: null };
-    //   this.addSelected(selected);
-    // }
+    this.setSection(pathname[1]);
+    const parsed = queryString.parse(this.props.location.search);
+    if (parsed.selected && Array.isArray(parsed.selected)) {
+      parsed.selected.forEach(p => {
+        const selected = { type: pathname[1], value: p };
+        this.toggleSelected(selected);
+      });
+    } else if (parsed.selected && !Array.isArray(parsed.selected)) {
+      const selected = { type: pathname[1], value: parsed.selected };
+      this.toggleSelected(selected);
+    }
   }
 
   render() {
