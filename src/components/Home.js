@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header';
-import Projects from './Projects';
+//import Projects from './Projects';
 import Chemicals from './Chemicals';
 import Topics from './Topics';
 import Researchers from './Researchers';
@@ -9,6 +9,8 @@ import Methodologies from './Methodologies';
 import Times from './Times';
 import { AppContext } from '../appContext';
 import { find, findIndex } from 'lodash';
+
+const Projects = React.lazy(() => import('./Projects'));
 
 class Home extends Component {
   constructor(props) {
@@ -118,7 +120,9 @@ class Home extends Component {
                 overflow: 'scroll'
               }}
             >
-              <Projects />
+              <React.Suspense fallback={<div>{'loading...'}</div>}>
+                <Projects />
+              </React.Suspense>
             </div>
           </div>
         </div>

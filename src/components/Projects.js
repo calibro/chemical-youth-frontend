@@ -59,7 +59,6 @@ const Projects = ({}) => {
     //console.log('selectedFilters', selectedFilters);
     if (selectedFilters.length > 0) {
       if (context.section === 'location') {
-        console.log(project);
         if (project.place && project.place.length > 0) {
           const places = project.place.map(m => m.city.toLowerCase());
           return arrayContainsArray(places, selectedFilters);
@@ -84,6 +83,13 @@ const Projects = ({}) => {
         if (project.methodologies && project.methodologies.length > 0) {
           const methodologies = project.methodologies.map(m => m.name);
           return arrayContainsArray(methodologies, selectedFilters);
+        } else {
+          return false;
+        }
+      } else if (context.section === 'researcher') {
+        if (project.researchers && project.researchers.length > 0) {
+          const researchers = project.researchers.map(m => m.name);
+          return arrayContainsArray(researchers, selectedFilters);
         } else {
           return false;
         }
