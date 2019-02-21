@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { findDOMNode } from 'react-dom';
 import sanityClient from '../lib/sanity';
 import {
   forceSimulation,
