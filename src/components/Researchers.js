@@ -11,6 +11,7 @@ import {
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { flatten } from 'lodash';
+import ReactTooltip from 'react-tooltip';
 import { AppContext } from '../appContext';
 import Search from './Search';
 import { parseQueryParams } from '../utils';
@@ -150,6 +151,7 @@ class Researchers extends Component {
       : [];
     return (
       <div className='w-100 h-100 d-flex flex-column'>
+        <ReactTooltip place='top' theme='dark' effect='solid' />
         <Search
           items={researchers}
           selectionCallBack={this.selectResearcher}
@@ -177,6 +179,7 @@ class Researchers extends Component {
                 return (
                   <g key={index}>
                     <circle
+                      data-tip={node.name}
                       cx={node.x}
                       cy={node.y}
                       fill={
@@ -192,6 +195,12 @@ class Researchers extends Component {
                           'researcher',
                           node.name.toLowerCase()
                         )
+                      }
+                      onMouseEnter={() =>
+                        ReactTooltip.show(findDOMNode(this.refs[node.name]))
+                      }
+                      onMouseLeave={() =>
+                        ReactTooltip.hide(findDOMNode(this.refs[node.name]))
                       }
                     />
 

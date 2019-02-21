@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import {
@@ -10,6 +11,7 @@ import {
 } from 'd3-force';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
+import ReactTooltip from 'react-tooltip';
 import { AppContext } from '../appContext';
 import Search from './Search';
 import { parseQueryParams } from '../utils';
@@ -229,6 +231,7 @@ class Chemicals extends Component {
       : [];
     return (
       <div className='w-100 h-100 d-flex flex-column'>
+        <ReactTooltip place='top' theme='dark' effect='solid' />
         <Search
           items={chemicals}
           selectionCallBack={this.selectChemical}
@@ -242,6 +245,8 @@ class Chemicals extends Component {
                 return (
                   <g key={index}>
                     <circle
+                      data-tip={node.name}
+                      ref={node.name}
                       cx={node.x}
                       cy={node.y}
                       fill={
@@ -251,6 +256,12 @@ class Chemicals extends Component {
                       strokeWidth={2}
                       r={radiusScale(node.relatedProjects)}
                       onClick={() => this.selectChemical('chemical', node.name)}
+                      onMouseEnter={() =>
+                        ReactTooltip.show(findDOMNode(this.refs[node.name]))
+                      }
+                      onMouseLeave={() =>
+                        ReactTooltip.hide(findDOMNode(this.refs[node.name]))
+                      }
                     />
 
                     {radiusScale(node.relatedProjects) > 10 && (
