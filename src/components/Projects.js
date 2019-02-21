@@ -88,7 +88,9 @@ const Projects = ({}) => {
         }
       } else if (context.section === 'researcher') {
         if (project.researchers && project.researchers.length > 0) {
-          const researchers = project.researchers.map(m => m.name);
+          const researchers = project.researchers.map(m =>
+            m.name.toLowerCase()
+          );
           return arrayContainsArray(researchers, selectedFilters);
         } else {
           return false;
@@ -152,6 +154,7 @@ const Projects = ({}) => {
               />
             );
           })}
+        {!projects && <div>No projects found</div>}
       </div>
     </div>
   );

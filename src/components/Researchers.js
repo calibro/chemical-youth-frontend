@@ -136,7 +136,7 @@ class Researchers extends Component {
       });
   };
 
-  selectChemical = (type, value) => {
+  selectResearcher = (type, value) => {
     this.context.toggleSelected({ type: type, value: value });
     //this.props.history.push(`/${type}/${value}`);
   };
@@ -150,8 +150,8 @@ class Researchers extends Component {
       <div className='w-100 h-100 d-flex flex-column'>
         <Search
           items={researchers}
-          selectionCallBack={this.selectChemical}
-          type={'chemical'}
+          selectionCallBack={this.selectResearcher}
+          type={'researcher'}
         />
         <div className='w-100 h-100 d-flex flex-column'>
           <svg width={svgWidth} height={svgHeight}>
@@ -178,12 +178,19 @@ class Researchers extends Component {
                       cx={node.x}
                       cy={node.y}
                       fill={
-                        selected.indexOf(node.name) > -1 ? 'black' : 'white'
+                        selected.indexOf(node.name.toLowerCase()) > -1
+                          ? 'black'
+                          : 'white'
                       }
                       stroke='black'
                       strokeWidth={2}
                       r={radiusScale(node.value)}
-                      onClick={() => this.selectChemical('chemical', node.name)}
+                      onClick={() =>
+                        this.selectResearcher(
+                          'researcher',
+                          node.name.toLowerCase()
+                        )
+                      }
                     />
 
                     {radiusScale(node.value) > 10 && (

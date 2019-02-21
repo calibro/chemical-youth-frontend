@@ -4,6 +4,7 @@ import BlockContent from '@sanity/block-content-to-react';
 import { withRouter } from 'react-router-dom';
 import { AppContext } from '../appContext';
 import Slider from 'react-slick';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Header from './Header';
 import List from './List';
 
@@ -24,6 +25,7 @@ const urlFor = source => {
 
 const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
+  const [modal, toggleModal] = useState(false);
   const slug = location.pathname.split('/')[2];
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -130,15 +132,24 @@ const ProjectPage = ({ history, location }) => {
                     if (project.internalResourcesFiles[index]) {
                       return (
                         <div key={index}>
-                          <a
-                            href={project.internalResourcesFiles[index].url}
-                            download
-                          >
-                            <BlockContent
-                              blocks={el.name}
-                              serializers={serializers}
-                            />
-                          </a>
+                          {el.private ? (
+                            <div onClick={() => toggleModal(true)} className=''>
+                              <BlockContent
+                                blocks={el.name}
+                                serializers={serializers}
+                              />
+                            </div>
+                          ) : (
+                            <a
+                              href={project.internalResourcesFiles[index].url}
+                              download
+                            >
+                              <BlockContent
+                                blocks={el.name}
+                                serializers={serializers}
+                              />
+                            </a>
+                          )}
                         </div>
                       );
                     }
@@ -162,7 +173,7 @@ const ProjectPage = ({ history, location }) => {
             </div>
           )}
         </div>
-        <div className='w-30 p-5'>
+        <div className='w-30 p-3 mt-5'>
           <div className='d-flex flex-column my-4'>
             <h4>LOCATIONS</h4>
             <List
@@ -207,6 +218,20 @@ const ProjectPage = ({ history, location }) => {
           </div>
         </div>
       )}
+      <Modal isOpen={modal} toggle={() => toggleModal(!modal)} className={''}>
+        <ModalHeader toggle={() => toggleModal(!modal)}>
+          This document is private
+        </ModalHeader>
+        <ModalBody>
+          If you want to read this document, send us a message at{' '}
+          <a href='mailto:info@info.com'>info@info.com</a>
+        </ModalBody>
+        <ModalFooter>
+          <Button color='secondary' onClick={() => toggleModal(!modal)}>
+            Close
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 };

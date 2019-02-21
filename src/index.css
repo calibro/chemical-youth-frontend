@@ -106,3 +106,33 @@ body,
   opacity: 1;
   transition: 1s opacity;
 }
+
+a,
+.link {
+  cursor: pointer;
+  position: relative;
+  color: black;
+}
+a::hover,
+.link::hover {
+  color: black !important;
+  text-decoration: none;
+}
+
+a::after,
+.link::after {
+  content: '';
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  opacity: 0;
+  transition: 0.5s opacity;
+  background-color: black;
+}
+a:hover a::after,
+.link:hover.link::after {
+  opacity: 1;
+  transition: 0.5s opacity;
+}

@@ -72,7 +72,7 @@ const Times = ({ type }) => {
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>
-      <div className='w-100 d-flex p-3' />
+      {/* <Search items={times} selectionCallBack={selectTime} type={'time'} /> */}
       <div className='w-100'>
         {times.map((time, index) => {
           const duration = time[0].months;

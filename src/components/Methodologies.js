@@ -4,6 +4,7 @@ import sanityClient from '../lib/sanity';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
+import Search from './Search';
 
 const query = `*[_type == "methodology"]{
   _id, name,
@@ -46,7 +47,11 @@ const Methodologies = ({ type, history }) => {
 
   return (
     <div className='w-100 h-100 d-flex flex-column'>
-      <div className='w-100 d-flex p-3' />
+      <Search
+        items={methodologies}
+        selectionCallBack={selectMethod}
+        type={'method'}
+      />
       <div className='w-100 h-100'>
         {methodologies
           .sort((a, b) => b.relatedProjects - a.relatedProjects)
