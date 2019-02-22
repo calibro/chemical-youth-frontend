@@ -21,7 +21,7 @@ const query = `*[_type == "project"]{
   "researchers": researchers[]->
 }`;
 
-const svgWidth = window.innerWidth / 2;
+const svgWidth = window.innerWidth / 2 - 40;
 const svgHeight = window.innerHeight - 140;
 
 const radiusScale = scaleLinear().range([0, 50]);
@@ -151,7 +151,7 @@ class Researchers extends Component {
       ? this.context.selected.map(s => s.value)
       : [];
     return (
-      <div className='w-100 h-100 d-flex flex-column'>
+      <div className='container'>
         <ReactTooltip place='top' theme='dark' effect='solid' />
         <Search
           items={researchers}
@@ -190,7 +190,7 @@ class Researchers extends Component {
                           : 'white'
                       }
                       stroke='black'
-                      strokeWidth={2}
+                      strokeWidth={1}
                       r={radiusScale(node.value)}
                       onClick={() =>
                         this.selectResearcher(

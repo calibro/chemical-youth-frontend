@@ -4,6 +4,7 @@ import sanityClient from '../lib/sanity';
 import Location from './Location';
 import { AppContext } from '../appContext';
 import Search from './Search';
+import Loader from './Loader';
 import { parseQueryParams } from '../utils';
 
 const query = `*[_type == "location"]{
@@ -14,6 +15,7 @@ const query = `*[_type == "location"]{
 
 const Locations = ({ type, history }) => {
   const [locations, setLocations] = useState([]);
+  const [loading, setLoading] = useState(true);
   const context = useContext(AppContext);
 
   useEffect(() => {
@@ -34,6 +36,7 @@ const Locations = ({ type, history }) => {
 
   const handleStatusChange = res => {
     setLocations(res);
+    setLoading(false);
   };
 
   const selectLocation = (type, value) => {
@@ -43,11 +46,12 @@ const Locations = ({ type, history }) => {
   };
 
   return (
-    <div className='w-100 h-100 d-flex flex-column'>
+    <div className='container'>
+      {loading && <Loader />}
       <Search
         items={locations}
         selectionCallBack={selectLocation}
-        type={'topic'}
+        type={'location'}
         objectKey={'city'}
       />
       <div className='w-100 d-flex flex-wrap'>

@@ -35,11 +35,14 @@ class Search extends Component {
     const { value } = this.state;
 
     return (
-      <div className='w-100 p-3'>
+      <div className='w-100'>
         <Autocomplete
           getItemValue={item => (objectKey ? item[objectKey] : item.name)}
           items={items}
-          inputProps={{ className: 'states-autocomplete' }}
+          inputProps={{
+            className: 'states-autocomplete',
+            placeholder: `Search ${type}`
+          }}
           wrapperStyle={{
             position: 'relative'
           }}

@@ -6,6 +6,7 @@ import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
 import Search from './Search';
 import { parseQueryParams } from '../utils';
+import Loader from './Loader';
 
 const query = `*[_type=="topic"]{
   _id, name,
@@ -14,6 +15,7 @@ const query = `*[_type=="topic"]{
 
 const Topics = ({ type, history }) => {
   const [topics, setTopics] = useState([]);
+  const [loading, setLoading] = useState(true);
   const context = useContext(AppContext);
 
   useEffect(() => {
@@ -34,6 +36,7 @@ const Topics = ({ type, history }) => {
 
   function handleStatusChange(res) {
     setTopics(res);
+    setLoading(false);
   }
 
   const selectTopic = (type, value) => {
@@ -50,9 +53,10 @@ const Topics = ({ type, history }) => {
     .domain([0, max]);
 
   return (
-    <div className='w-100 h-100 d-flex flex-column'>
+    <div className='container'>
+      {loading && <Loader />}
       <Search items={topics} selectionCallBack={selectTopic} type={'topic'} />
-      <div className='w-100 h-100 d-flex flex-wrap p-3 align-items-baseline'>
+      <div className='w-100 h-100 d-flex flex-wrap align-items-baseline mt-3'>
         {topics
           .sort((a, b) => {
             return b.relatedProjects - a.relatedProjects;
@@ -60,7 +64,7 @@ const Topics = ({ type, history }) => {
           .map((topic, index) => {
             return (
               <div
-                className='position-relative px-3'
+                className='position-relative mr-3'
                 key={index}
                 style={{
                   height: '45px'
@@ -68,6 +72,7 @@ const Topics = ({ type, history }) => {
                 onClick={() => selectTopic('topic', topic.name)}
               >
                 <div
+                  className='cursor-pointer'
                   style={{
                     fontSize: wordScale
                       ? wordScale(topic.relatedProjects)

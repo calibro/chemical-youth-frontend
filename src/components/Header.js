@@ -26,6 +26,12 @@ const Header = ({ history, expanded = true }) => {
     >
       {expanded && (
         <div className='w-70 d-flex align-items-center justify-content-around'>
+          <div>
+            <div className={`text-light`}>LOGO</div>
+          </div>
+          <div>
+            <div className={`text-light`}>View by:</div>
+          </div>
           <div onClick={() => changeSection('chemical')}>
             <div
               className={`text-light cursor-pointer ${

@@ -6,6 +6,7 @@ import Slider from 'react-slick';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Header from './Header';
 import List from './List';
+import Loader from './Loader';
 
 const serializers = {
   types: {
@@ -25,6 +26,7 @@ const urlFor = source => {
 const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
   const [modal, toggleModal] = useState(false);
+  const [loading, setLoading] = useState(true);
   const slug = location.pathname.split('/')[2];
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -60,6 +62,7 @@ const ProjectPage = ({ history, location }) => {
 
   const handleStatusChange = res => {
     setProject(res[0]);
+    setLoading(false);
   };
 
   const SampleNextArrow = props => {
@@ -89,13 +92,17 @@ const ProjectPage = ({ history, location }) => {
   };
 
   return (
-    <div className='w-100 d-flex flex-column'>
+    <div className='w-100 d-flex flex-column position-relative justify-content-center'>
       <Header expanded={false} />
-      <div className='w-100 d-flex flex-wrap'>
+      <div
+        className='w-100 d-flex flex-wrap'
+        style={{ maxWidth: '1300px', margin: 'auto' }}
+      >
+        {loading && <Loader fullheader={false} />}
         <div className='close-icon' onClick={back}>
           X
         </div>
-        <div className='w-70 p-3'>
+        <div className='w-70'>
           <div className='w-100 py-3'>
             <div className='h1'> {project.title} </div>
             <div className='py-2' style={{ fontSize: '10px' }}>
@@ -113,7 +120,7 @@ const ProjectPage = ({ history, location }) => {
             </div>
             {project.mainImage && (
               <div>
-                <img src={project.mainImage} width='100%' />
+                <img src={`${project.mainImage}?w=1000&fit=max`} width='100%' />
               </div>
             )}
             <div className='py-4'>
@@ -172,7 +179,7 @@ const ProjectPage = ({ history, location }) => {
             </div>
           )}
         </div>
-        <div className='w-30 p-3 mt-5'>
+        <div className='w-30 mt-5' style={{ paddingLeft: '100px' }}>
           <div className='d-flex flex-column my-4'>
             <h4>LOCATIONS</h4>
             <List
@@ -206,7 +213,7 @@ const ProjectPage = ({ history, location }) => {
                 return (
                   <div className='' key={index}>
                     <img
-                      src={image}
+                      src={`${image}?h=600&fit=max`}
                       key={index}
                       style={{ maxHeight: '600px' }}
                     />

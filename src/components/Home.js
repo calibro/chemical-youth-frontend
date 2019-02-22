@@ -8,6 +8,7 @@ import Researchers from './Researchers';
 import Locations from './Locations';
 import Methodologies from './Methodologies';
 import Times from './Times';
+import Loader from './Loader';
 import { AppContext } from '../appContext';
 import { find, findIndex } from 'lodash';
 
@@ -97,39 +98,41 @@ class Home extends Component {
     const pathname = this.props.location.pathname.split('/')[1];
     return (
       <AppContext.Provider value={this.state}>
-        <div className='w-100 h-100 d-flex flex-column'>
-          <Header />
-          <div
-            className='w-100 d-flex'
-            style={{
-              height: 'calc(100% - 80px)'
-            }}
-          >
-            <div
-              className='w-50 h-100'
-              style={{
-                overflow: 'scroll'
-              }}
-            >
-              {pathname === 'chemical' && <Chemicals />}
-              {pathname === 'topic' && <Topics />}
-              {pathname === 'location' && <Locations />}
-              {pathname === 'researcher' && <Researchers />}
-              {pathname === 'time' && <Times />}
-              {pathname === 'method' && <Methodologies />}
-            </div>
-            <div
-              className='w-50 h-100'
-              style={{
-                overflow: 'scroll'
-              }}
-            >
-              <React.Suspense fallback={<div>{'loading...'}</div>}>
-                <Projects />
-              </React.Suspense>
-            </div>
+          <div className='w-100 h-100 d-flex flex-column'>
+            <React.Suspense fallback={
+              <Loader />
+            }>
+              <Header />
+              <div
+                className='w-100 d-flex'
+                style={{
+                  height: 'calc(100% - 80px)'
+                }}
+              >
+                <div
+                  className='half-container'
+                  style={{
+                    overflow: 'scroll'
+                  }}
+                >
+                    {pathname === 'chemical' && <Chemicals />}
+                    {pathname === 'topic' && <Topics />}
+                    {pathname === 'location' && <Locations />}
+                    {pathname === 'researcher' && <Researchers />}
+                    {pathname === 'time' && <Times />}
+                    {pathname === 'method' && <Methodologies />}
+                </div>
+                <div
+                  className='half-container'
+                  style={{
+                    overflow: 'scroll'
+                  }}
+                >
+                  <Projects />
+                </div>
+              </div>
+            </React.Suspense>
           </div>
-        </div>
       </AppContext.Provider>
     );
   }

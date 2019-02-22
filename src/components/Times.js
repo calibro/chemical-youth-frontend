@@ -74,7 +74,7 @@ const Times = ({ type, history }) => {
     .domain([0, 3, 6, 12, 24, 36]);
 
   return (
-    <div className='w-100 h-100 d-flex flex-column'>
+    <div className='container'>
       {/* <Search items={times} selectionCallBack={selectTime} type={'time'} /> */}
       <div className='w-100'>
         {times.map((time, index) => {
@@ -86,7 +86,9 @@ const Times = ({ type, history }) => {
               style={{
                 width: `${widthScale(duration)}%`,
                 height: `${heightScale(time.length)}px`,
-                border: '1px solid #b7b7b7',
+                borderBottom: '1px solid #b7b7b7',
+                borderRight: '1px solid #b7b7b7',
+                borderLeft: '1px solid #b7b7b7',
                 backgroundColor:
                   selected.indexOf(duration) > -1 ? 'black' : 'white',
                 color: selected.indexOf(duration) > -1 ? 'white' : 'black'

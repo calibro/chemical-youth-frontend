@@ -48,7 +48,7 @@ const Methodologies = ({ type, history }) => {
     .domain([0, max]);
 
   return (
-    <div className='w-100 h-100 d-flex flex-column'>
+    <div className='container'>
       <Search
         items={methodologies}
         selectionCallBack={selectMethod}

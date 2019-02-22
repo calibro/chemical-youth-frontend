@@ -4,6 +4,7 @@ import Project from './Project';
 import { AppContext } from '../appContext';
 import { uniqBy } from 'lodash';
 import { timeLabels, quantizeTime } from '../timeUtils';
+import Loader from './Loader';
 
 const query = `*[_type == "project"]{
   _id, title, body, slug, startDate, endDate,
@@ -34,6 +35,7 @@ const arrayContainsArray = (superset, subset) => {
 
 const Projects = ({}) => {
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const context = useContext(AppContext);
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -52,6 +54,7 @@ const Projects = ({}) => {
 
   const handleStatusChange = res => {
     setProjects(res);
+    setLoading(false);
   };
 
   const filter = project => {
@@ -115,11 +118,12 @@ const Projects = ({}) => {
 
   return (
     <div className='w-100 h-100 d-flex flex-column p-4'>
-      <div className='w-100 d-flex py-2'>
+      {loading && <Loader />}
+      <div className='py-2 project-counter'>
         {projects.filter(project => filter(project)).length}/ 63 PROJECTS SHOWN
       </div>
       {
-        <div className='w-100 d-flex py-2 flex-wrap'>
+        <div className='w-100 py-2'>
           {context.selected.map((el, index) => {
             return (
               <div className='tag' key={index}>

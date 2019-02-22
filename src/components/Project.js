@@ -37,10 +37,9 @@ const Project = ({ project, countries }) => {
               return (
                 <span
                   key={index}
-                  className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}
-                  style={{
-                    fontSize: '10px'
-                  }}
+                  className={`py-1 ${
+                    index === 0 ? 'pr-1' : 'px-1'
+                  } country-label`}
                 >
                   {country ? country.name : ''}
                 </span>
