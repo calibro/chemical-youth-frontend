@@ -18,23 +18,23 @@ const Header = ({ history, expanded = true }) => {
 
   return (
     <div
-      className='w-100 d-flex'
+      className='w-100 d-flex position-relative'
       style={{
-        height: expanded ? '80px' : '40px',
-        backgroundColor: 'blue'
+        height: expanded ? '70px' : '35px'
       }}
     >
+      <div className='w-100 header-background' />
       {expanded && (
-        <div className='w-70 d-flex align-items-center justify-content-around'>
+        <div className='header-container w-70 d-flex align-items-center justify-content-around'>
           <div>
-            <div className={`text-light`}>LOGO</div>
+            <div className={``}>LOGO</div>
           </div>
           <div>
-            <div className={`text-light`}>View by:</div>
+            <div className={`header-el-not-link`}>View by:</div>
           </div>
           <div onClick={() => changeSection('chemical')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'chemical' ? 'underline' : 'none'
               }`}
             >
@@ -43,7 +43,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('topic')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'topic' ? 'underline' : 'none'
               }`}
             >
@@ -52,7 +52,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('location')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'location' ? 'underline' : 'none'
               }`}
             >
@@ -61,7 +61,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('researcher')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'researcher' ? 'underline' : 'none'
               }`}
             >
@@ -70,7 +70,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('time')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'time' ? 'underline' : 'none'
               }`}
             >
@@ -79,7 +79,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('method')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'method' ? 'underline' : 'none'
               }`}
             >

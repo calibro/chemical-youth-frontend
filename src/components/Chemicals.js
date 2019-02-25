@@ -21,7 +21,7 @@ const query = `*[_type=="chemical"]{
   "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
 
-const svgWidth = window.innerWidth / 2 - 40;
+const svgWidth = window.innerWidth / 2 - 60;
 const svgHeight = window.innerHeight - 140;
 
 const radiusScale = scaleLinear().range([0, 50]);
@@ -230,7 +230,7 @@ class Chemicals extends Component {
       ? this.context.selected.map(s => s.value)
       : [];
     return (
-      <div className='container'>
+      <div className='viz-container'>
         <ReactTooltip place='top' theme='dark' effect='solid' />
         <Search
           items={chemicals}
@@ -262,6 +262,7 @@ class Chemicals extends Component {
                       onMouseLeave={() =>
                         ReactTooltip.hide(findDOMNode(this.refs[node.name]))
                       }
+                      style={{ cursor: 'pointer' }}
                     />
 
                     {radiusScale(node.relatedProjects) > 10 && (

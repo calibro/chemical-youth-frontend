@@ -117,7 +117,7 @@ const Projects = ({}) => {
   };
 
   return (
-    <div className='w-100 h-100 d-flex flex-column p-4'>
+    <div className='w-100 h-100 d-flex flex-column'>
       {loading && <Loader />}
       <div className='py-2 project-counter'>
         {projects.filter(project => filter(project)).length}/ 63 PROJECTS SHOWN

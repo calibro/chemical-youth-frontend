@@ -5,16 +5,9 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
 
 html,
@@ -134,13 +127,20 @@ a:hover a::after,
   height: 100%;
 }
 
-.container {
+.half-container {
+  padding: 10px 30px;
+}
+.half-container:nth-child(2) {
+  border-left: solid 1px #000000;
+}
+
+.viz-container {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 input.states-autocomplete {
@@ -150,11 +150,53 @@ input.states-autocomplete {
   padding: 5px;
 }
 
+/* HEADER */
+
+.header-background {
+  opacity: 0.57;
+  background-image: linear-gradient(
+    86deg,
+    #3023ae,
+    #53bcfd 14%,
+    #be47b9 43%,
+    #ecd451
+  );
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.header-container {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.header-el-not-link {
+  font-size: 14px;
+  color: black;
+}
+
+.header-el {
+  font-size: 12px;
+  color: black;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
 /* PROJECTS */
 
 .project-counter {
   width: 100%;
-  font-weight: bold;
+  font-weight: 600;
+  letter-spacing: 1px;
   font-size: 12px;
   display: flex;
 }
@@ -173,7 +215,32 @@ input.states-autocomplete {
   float: left;
 }
 
-.country-label {
+.project {
+  width: 100%;
+  border-top: 1px solid #d7d7d7;
+  padding: 1rem 0;
+}
+
+.project-title {
+  font-size: 26px;
+}
+
+.project-researchers {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.project-body {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-top: 15px;
+}
+
+.project-country-label {
   opacity: 0.5;
   font-size: 11px;
+  margin-top: 15px;
 }

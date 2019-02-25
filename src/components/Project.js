@@ -4,14 +4,9 @@ import { Link } from 'react-router-dom';
 const Project = ({ project, countries }) => {
   return (
     <Link to={`/projects/${project.slug ? project.slug.current : ''}`}>
-      <div
-        className='w-100 py-3'
-        style={{
-          borderTop: '1px solid #b7b7b7'
-        }}
-      >
-        <div className='h4'> {project.title} </div>
-        <div className='h6'>
+      <div className='project'>
+        <div className='project-title'> {project.title} </div>
+        <div className='project-researchers'>
           {project.researchers &&
             project.researchers.map((researcher, index) => {
               return (
@@ -24,22 +19,18 @@ const Project = ({ project, countries }) => {
               );
             })}
         </div>
-        <div>
-          <p>
-            {project.body &&
-              project.body[0] &&
-              project.body[0].children[0].text.slice(0, 200) + '...'}
-          </p>
+        <div className='project-body'>
+          {project.body &&
+            project.body[0] &&
+            project.body[0].children[0].text.slice(0, 200) + '...'}
         </div>
-        <div>
+        <div className='project-country-label'>
           {countries &&
             countries.map((country, index) => {
               return (
                 <span
                   key={index}
-                  className={`py-1 ${
-                    index === 0 ? 'pr-1' : 'px-1'
-                  } country-label`}
+                  className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}
                 >
                   {country ? country.name : ''}
                 </span>
