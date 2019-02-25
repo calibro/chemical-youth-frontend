@@ -48,13 +48,13 @@ const Methodologies = ({ type, history }) => {
     .domain([0, max]);
 
   return (
-    <div className='container'>
+    <div className='viz-container'>
       <Search
         items={methodologies}
         selectionCallBack={selectMethod}
         type={'method'}
       />
-      <div className='w-100 h-100'>
+      <div className='w-100 h-100 mt-4'>
         {methodologies
           .sort((a, b) => b.relatedProjects - a.relatedProjects)
           .map((methodology, index) => {
@@ -65,7 +65,7 @@ const Methodologies = ({ type, history }) => {
                 key={index}
                 style={{
                   height: `${heightScale(methodology.relatedProjects)}px`,
-                  borderTop: '1px solid #b7b7b7',
+                  borderTop: '1px solid #d7d7d7',
                   backgroundColor:
                     selected.indexOf(methodology.name) > -1 ? 'black' : 'white',
                   color:

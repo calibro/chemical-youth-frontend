@@ -22,7 +22,7 @@ const Project = ({ project, countries }) => {
         <div className='project-body'>
           {project.body &&
             project.body[0] &&
-            project.body[0].children[0].text.slice(0, 200) + '...'}
+            project.body[0].children[0].text.slice(0, 250) + '...'}
         </div>
         <div className='project-country-label'>
           {countries &&

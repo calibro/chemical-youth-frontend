@@ -119,11 +119,11 @@ const Projects = ({}) => {
   return (
     <div className='w-100 h-100 d-flex flex-column'>
       {loading && <Loader />}
-      <div className='py-2 project-counter'>
+      <div className='pb-2 project-counter'>
         {projects.filter(project => filter(project)).length}/ 63 PROJECTS SHOWN
       </div>
       {
-        <div className='w-100 py-2'>
+        <div className='w-100'>
           {context.selected.map((el, index) => {
             return (
               <div className='tag' key={index}>

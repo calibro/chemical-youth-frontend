@@ -74,9 +74,9 @@ const Times = ({ type, history }) => {
     .domain([0, 3, 6, 12, 24, 36]);
 
   return (
-    <div className='container'>
+    <div className='viz-container'>
       {/* <Search items={times} selectionCallBack={selectTime} type={'time'} /> */}
-      <div className='w-100'>
+      <div className='w-100 mt-3'>
         {times.map((time, index) => {
           const duration = time[0].months;
           return (
@@ -86,9 +86,10 @@ const Times = ({ type, history }) => {
               style={{
                 width: `${widthScale(duration)}%`,
                 height: `${heightScale(time.length)}px`,
-                borderBottom: '1px solid #b7b7b7',
-                borderRight: '1px solid #b7b7b7',
-                borderLeft: '1px solid #b7b7b7',
+                borderBottom: '1px solid #d7d7d7',
+                borderRight: '1px solid #d7d7d7',
+                borderLeft: '1px solid #d7d7d7',
+                borderTop: index === 0 ? '1px solid #d7d7d7' : 'none',
                 backgroundColor:
                   selected.indexOf(duration) > -1 ? 'black' : 'white',
                 color: selected.indexOf(duration) > -1 ? 'white' : 'black'

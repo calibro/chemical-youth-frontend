@@ -46,7 +46,7 @@ const Locations = ({ type, history }) => {
   };
 
   return (
-    <div className='container'>
+    <div className='viz-container'>
       {loading && <Loader />}
       <Search
         items={locations}
@@ -54,7 +54,7 @@ const Locations = ({ type, history }) => {
         type={'location'}
         objectKey={'city'}
       />
-      <div className='w-100 d-flex flex-wrap'>
+      <div className='w-100 d-flex flex-wrap mt-4'>
         {locations.map((location, index) => {
           if (location.coordinates.lat) {
             return (

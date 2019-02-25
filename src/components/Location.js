@@ -17,15 +17,15 @@ const Location = ({
         },${
           coordinates.lat
         },${zoom},0,0/600x600?access_token=pk.eyJ1Ijoid2F2ZWZhY3RvcnkiLCJhIjoicVpwemdfYyJ9._y58vUr3LapeG3s1U_sPqQ)`,
-        width: '33%',
+        width: '33.3%',
         height: '16vw',
         border:
-          selected.indexOf(city.toLowerCase()) > -1 ? '2px solid black' : 'none'
+          selected.indexOf(city.toLowerCase()) > -1 ? '3px solid black' : 'none'
       }}
       onClick={() => callbackClick('location', city.toLowerCase())}
     >
-      <div className='p-2'>{country}</div>
-      <div className='p-2'>{city}</div>
+      <div className='location-country'>{country}</div>
+      <div className='location-city'>{city}</div>
     </div>
   );
 };

@@ -53,7 +53,7 @@ const Topics = ({ type, history }) => {
     .domain([0, max]);
 
   return (
-    <div className='container'>
+    <div className='viz-container'>
       {loading && <Loader />}
       <Search items={topics} selectionCallBack={selectTopic} type={'topic'} />
       <div className='w-100 h-100 d-flex flex-wrap align-items-baseline mt-3'>
@@ -79,7 +79,7 @@ const Topics = ({ type, history }) => {
                       : '10px',
                     bottom: '3px',
                     fontWeight:
-                      selected.indexOf(topic.name) > -1 ? 'bold' : 'normal'
+                      selected.indexOf(topic.name) > -1 ? '600' : '300'
                   }}
                 >
                   {topic.name} <sup>{topic.relatedProjects}</sup>
