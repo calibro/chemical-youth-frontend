@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 const Header = ({ history, expanded = true }) => {
   const context = useContext(AppContext);
   useEffect(() => {
-    console.log('effect');
     const pathname = history.location.pathname.split('/');
     context.setSection(pathname[1]);
   }, [history.location.pathname]);
@@ -25,7 +24,7 @@ const Header = ({ history, expanded = true }) => {
     >
       <div className='w-100 header-background' />
       {expanded && (
-        <div className='header-container w-70 d-flex align-items-center justify-content-around'>
+        <div className='header-content w-70 d-flex align-items-center justify-content-around'>
           <div>
             <div className={``}>
               <img src='images/logo-dark.svg' width={60} />

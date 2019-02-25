@@ -102,10 +102,7 @@ const ProjectPage = ({ history, location }) => {
   return (
     <div className='w-100 d-flex flex-column position-relative justify-content-center'>
       <Header expanded={false} />
-      <div
-        className='w-100 d-flex flex-wrap'
-        style={{ maxWidth: '1300px', margin: 'auto' }}
-      >
+      <div className='w-100 d-flex flex-wrap container'>
         {loading && <Loader fullheader={false} />}
         <div className='close-icon' onClick={back}>
           X
