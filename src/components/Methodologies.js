@@ -61,15 +61,12 @@ const Methodologies = ({ type, history }) => {
             const selected = context.selected.map(s => s.value);
             return (
               <div
-                className='w-100 px-3 d-flex align-items-center cursor-pointer'
+                className={`px-3 method-block ${
+                  selected.indexOf(methodology.name) > -1 ? 'active' : ''
+                }`}
                 key={index}
                 style={{
-                  height: `${heightScale(methodology.relatedProjects)}px`,
-                  borderTop: '1px solid #d7d7d7',
-                  backgroundColor:
-                    selected.indexOf(methodology.name) > -1 ? 'black' : 'white',
-                  color:
-                    selected.indexOf(methodology.name) > -1 ? 'white' : 'black'
+                  height: `${heightScale(methodology.relatedProjects)}px`
                 }}
                 onClick={() => selectMethod('method', methodology.name)}
               >

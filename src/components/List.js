@@ -17,13 +17,7 @@ const Project = ({ type, elements, objectKey, history }) => {
           if (el) {
             const name = objectKey ? el[objectKey] : el.name;
             return (
-              <div
-                className='mr-3 link'
-                key={index}
-                style={{
-                  fontSize: '12px'
-                }}
-              >
+              <div className='mr-2 link list-el' key={index}>
                 <div onClick={() => changeSection(type, name.toLowerCase())}>
                   {name}
                 </div>

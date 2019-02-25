@@ -49,24 +49,6 @@ body,
   background-color: red;
 }
 
-.close-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
-  position: absolute;
-  top: 50px;
-  right: 50px;
-  color: black;
-  background-color: white;
-  border: 1px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 99;
-}
-
 .cursor-pointer {
   cursor: pointer;
 }
@@ -125,6 +107,7 @@ a:hover a::after,
 .half-container {
   width: 50%;
   height: 100%;
+  background-color: white;
 }
 
 .half-container {
@@ -225,9 +208,9 @@ input.states-autocomplete {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 10px;
+  padding: 6px;
   margin: 10px 10px 10px 0;
-  font-size: 12px;
+  font-size: 14px;
   float: left;
 }
 
@@ -262,7 +245,82 @@ input.states-autocomplete {
   margin-top: 15px;
 }
 
+/* PROJECT PAGE */
+
+.project-page-title {
+  font-family: 'CrimsonText-Roman';
+  font-size: 50px;
+}
+
+.project-page-researcher {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-top: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.project-page-body {
+  font-family: CrimsonText-Roman;
+}
+.project-page-body p {
+  font-family: 'CrimsonText-Roman';
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+.project-page-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.project-page-resource {
+  font-family: 'CrimsonText-Roman';
+  font-size: 16px;
+}
+
+.close-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 44px;
+  box-shadow: 0 2px 4px 2px rgba(217, 217, 217, 0.56);
+  background-color: #ffffff;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 99;
+}
+
 /* LOCATIONS */
+
+.location-block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  width: 33.3%;
+  height: 16vw;
+  transition: 0.2s all;
+  cursor: pointer;
+}
+
+.location-block.active,
+.location-block:hover {
+  border: 3px solid black;
+  transition: 0.2s all;
+}
+
 .location-country {
   font-size: 12px;
   font-weight: 600;
@@ -273,4 +331,57 @@ input.states-autocomplete {
 .location-city {
   font-size: 18px;
   font-weight: 300;
+}
+
+.list-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.list-el {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* TIME */
+
+.time-block {
+  border-bottom: 1px solid #d7d7d7;
+  border-right: 1px solid #d7d7d7;
+  border-left: 1px solid #d7d7d7;
+  background-color: white;
+  color: black;
+  transition: 0.2s all;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-block.active,
+.time-block:hover {
+  background-color: black;
+  color: white;
+  transition: 0.2s all;
+}
+
+/* METHOD */
+
+.method-block {
+  width: 100%;
+  border-top: 1px solid #d7d7d7;
+  background-color: white;
+  color: black;
+  transition: 0.2s all;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.method-block.active,
+.method-block:hover {
+  background-color: black;
+  color: white;
+  transition: 0.2s all;
 }

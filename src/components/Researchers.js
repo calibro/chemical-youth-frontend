@@ -158,7 +158,7 @@ class Researchers extends Component {
           selectionCallBack={this.selectResearcher}
           type={'researcher'}
         />
-        <div className='w-100 h-100 d-flex flex-column'>
+        <div className='w-100 h-100 d-flex flex-column mt-4'>
           <svg width={svgWidth} height={svgHeight}>
             {links.map((link, index) => {
               return (
@@ -204,6 +204,7 @@ class Researchers extends Component {
                       onMouseLeave={() =>
                         ReactTooltip.hide(findDOMNode(this.refs[node.name]))
                       }
+                      className='cursor-pointer'
                     />
 
                     {radiusScale(node.value) > 10 && (

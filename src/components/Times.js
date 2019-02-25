@@ -81,18 +81,14 @@ const Times = ({ type, history }) => {
           const duration = time[0].months;
           return (
             <div
-              className='px-3 d-flex justify-content-between align-items-center'
+              className={`px-3 time-block ${
+                selected.indexOf(duration) > -1 ? 'active' : ''
+              }`}
               key={index}
               style={{
                 width: `${widthScale(duration)}%`,
                 height: `${heightScale(time.length)}px`,
-                borderBottom: '1px solid #d7d7d7',
-                borderRight: '1px solid #d7d7d7',
-                borderLeft: '1px solid #d7d7d7',
-                borderTop: index === 0 ? '1px solid #d7d7d7' : 'none',
-                backgroundColor:
-                  selected.indexOf(duration) > -1 ? 'black' : 'white',
-                color: selected.indexOf(duration) > -1 ? 'white' : 'black'
+                borderTop: index === 0 ? '1px solid #d7d7d7' : 'none'
               }}
               onClick={() => selectTime('time', duration)}
             >

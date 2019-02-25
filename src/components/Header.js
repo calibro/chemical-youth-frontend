@@ -20,7 +20,7 @@ const Header = ({ history, expanded = true }) => {
     <div
       className='w-100 d-flex position-relative'
       style={{
-        height: expanded ? '70px' : '35px'
+        height: expanded ? '70px' : '12px'
       }}
     >
       <div className='w-100 header-background' />

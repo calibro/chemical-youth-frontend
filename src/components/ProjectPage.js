@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import sanityClient, { builder } from '../lib/sanity';
+import { AppContext } from '../appContext';
 import BlockContent from '@sanity/block-content-to-react';
 import { withRouter } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -27,6 +28,8 @@ const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
   const [modal, toggleModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const context = useContext(AppContext);
+
   const slug = location.pathname.split('/')[2];
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -79,6 +82,11 @@ const ProjectPage = ({ history, location }) => {
     history.goBack();
   };
 
+  const changeSection = (type, name) => {
+    context.setSelected({ type: type, value: name });
+    history.push(`/${type}?selected=${name}`);
+  };
+
   const settings = {
     dots: false,
     infinite: true,
@@ -102,28 +110,36 @@ const ProjectPage = ({ history, location }) => {
         <div className='close-icon' onClick={back}>
           X
         </div>
-        <div className='w-70'>
+        <div className='w-70' style={{ paddingLeft: '80px' }}>
           <div className='w-100 py-3'>
-            <div className='h1'> {project.title} </div>
-            <div className='py-2' style={{ fontSize: '10px' }}>
+            <div className='project-page-title'> {project.title} </div>
+            <div className='d-flex'>
               {project.researchers &&
                 project.researchers.map((researcher, index) => {
                   return (
-                    <span
+                    <div
                       key={index}
-                      className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}
+                      className={`project-page-researcher link py-1 ${
+                        index === 0 ? 'pr-2' : 'px-2'
+                      }`}
+                      onClick={() =>
+                        changeSection(
+                          'researcher',
+                          researcher.name.toLowerCase()
+                        )
+                      }
                     >
                       {researcher.name}
-                    </span>
+                    </div>
                   );
                 })}
             </div>
             {project.mainImage && (
-              <div>
+              <div className='mt-4'>
                 <img src={`${project.mainImage}?w=1000&fit=max`} width='100%' />
               </div>
             )}
-            <div className='py-4'>
+            <div className='py-4 project-page-body'>
               {project.body && project.body[0] && (
                 <BlockContent blocks={project.body} serializers={serializers} />
               )}
@@ -131,13 +147,13 @@ const ProjectPage = ({ history, location }) => {
           </div>
           {(project.internalResources || project.externalResources) && (
             <div className='w-100 mb-5'>
-              <div className='h6'> RESOURCES </div>
+              <div className='project-page-section-title'> RESOURCES </div>
               <div className='w-100'>
                 {project.internalResources &&
                   project.internalResources.map((el, index) => {
                     if (project.internalResourcesFiles[index]) {
                       return (
-                        <div key={index}>
+                        <div key={index} className='project-page-resource'>
                           {el.private ? (
                             <div onClick={() => toggleModal(true)} className=''>
                               <BlockContent
@@ -164,7 +180,7 @@ const ProjectPage = ({ history, location }) => {
                   project.externalResources.map((el, index) => {
                     if (el.linkUrl) {
                       return (
-                        <div key={index}>
+                        <div key={index} className='project-page-resource'>
                           <a href={el.linkUrl} target='_blank' download>
                             <BlockContent
                               blocks={el.name}
@@ -179,9 +195,12 @@ const ProjectPage = ({ history, location }) => {
             </div>
           )}
         </div>
-        <div className='w-30 mt-5' style={{ paddingLeft: '100px' }}>
+        <div
+          className='w-30 mt-5 d-flex flex-column'
+          style={{ paddingLeft: '80px' }}
+        >
           <div className='d-flex flex-column my-4'>
-            <h4>LOCATIONS</h4>
+            <div className='list-title'>LOCATIONS</div>
             <List
               type={'location'}
               elements={project.places}
@@ -189,24 +208,29 @@ const ProjectPage = ({ history, location }) => {
             />
           </div>
           <div className='d-flex flex-column my-4'>
-            <h4>CHEMICALS</h4>
+            <div className='list-title'>CHEMICALS</div>
             <List type={'chemical'} elements={project.chemicals} />
           </div>
           <div className='d-flex flex-column my-4'>
-            <h4>METHODS</h4>
+            <div className='list-title'>METHODS</div>
             <List type={'method'} elements={project.methods} />
           </div>
           <div className='d-flex flex-column my-4'>
-            <h4>TOPICS</h4>
+            <div className='list-title'>TOPICS</div>
             <div className='d-flex flex-wrap'>
               <List type={'topic'} elements={project.topics} />
             </div>
           </div>
         </div>
+        <div
+          className='project-page-section-title'
+          style={{ paddingLeft: '80px' }}
+        >
+          IMAGES
+        </div>
       </div>
       {project.images && (
         <div className='w-100 mb-5'>
-          <div className='h6 p-3'> IMAGES </div>
           <div className='' style={{ height: '600px', marginBottom: '100px' }}>
             <Slider {...settings}>
               {project.images.map((image, index) => {

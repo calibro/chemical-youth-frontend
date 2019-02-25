@@ -98,41 +98,39 @@ class Home extends Component {
     const pathname = this.props.location.pathname.split('/')[1];
     return (
       <AppContext.Provider value={this.state}>
-          <div className='w-100 h-100 d-flex flex-column'>
-            <React.Suspense fallback={
-              <Loader />
-            }>
-              <Header />
+        <div className='w-100 h-100 d-flex flex-column'>
+          <React.Suspense fallback={<Loader />}>
+            <Header />
+            <div
+              className='w-100 d-flex bg-white'
+              style={{
+                height: 'calc(100% - 70px)'
+              }}
+            >
               <div
-                className='w-100 d-flex'
+                className='half-container'
                 style={{
-                  height: 'calc(100% - 80px)'
+                  overflow: 'scroll'
                 }}
               >
-                <div
-                  className='half-container'
-                  style={{
-                    overflow: 'scroll'
-                  }}
-                >
-                    {pathname === 'chemical' && <Chemicals />}
-                    {pathname === 'topic' && <Topics />}
-                    {pathname === 'location' && <Locations />}
-                    {pathname === 'researcher' && <Researchers />}
-                    {pathname === 'time' && <Times />}
-                    {pathname === 'method' && <Methodologies />}
-                </div>
-                <div
-                  className='half-container'
-                  style={{
-                    overflow: 'scroll'
-                  }}
-                >
-                  <Projects />
-                </div>
+                {pathname === 'chemical' && <Chemicals />}
+                {pathname === 'topic' && <Topics />}
+                {pathname === 'location' && <Locations />}
+                {pathname === 'researcher' && <Researchers />}
+                {pathname === 'time' && <Times />}
+                {pathname === 'method' && <Methodologies />}
               </div>
-            </React.Suspense>
-          </div>
+              <div
+                className='half-container'
+                style={{
+                  overflow: 'scroll'
+                }}
+              >
+                <Projects />
+              </div>
+            </div>
+          </React.Suspense>
+        </div>
       </AppContext.Provider>
     );
   }
