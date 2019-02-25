@@ -7,7 +7,8 @@ import {
   forceManyBody,
   forceCenter,
   forceCollide,
-  forceLink
+  forceLink,
+  forceRadial
 } from 'd3-force';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
@@ -24,7 +25,7 @@ const query = `*[_type == "project"]{
 const svgWidth = window.innerWidth / 2 - 60;
 const svgHeight = window.innerHeight - 140;
 
-const radiusScale = scaleLinear().range([0, 50]);
+const radiusScale = scaleLinear().range([0, 60]);
 
 class Researchers extends Component {
   constructor(props) {
@@ -109,32 +110,46 @@ class Researchers extends Component {
     this.setState({ links: formattedLinks });
 
     const simulation = forceSimulation(simulationNodes)
-      .force('charge', forceManyBody().strength(-3))
-      .force('link', forceLink(formattedLinks))
+      .force('charge', forceManyBody().strength(0))
+      .force(
+        'link',
+        forceLink(formattedLinks)
+          .strength(d => {
+            return d.weight;
+          })
+          .distance(d => {
+            console.log(d);
+            return d.weight * 3;
+          })
+      )
+      .force(
+        'r',
+        forceRadial(function(d) {
+          return d.weight === 3 ? 100 : d.weight === 2 ? 200 : 100;
+        })
+      )
       .force('center', forceCenter(svgWidth / 2, svgHeight / 2))
       .force(
         'collision',
-        forceCollide()
-          .radius(n => n.radius + 12)
-          .strength(3)
-          .iterations(1)
+        forceCollide().radius(n => n.radius + 15)
+        // .strength(1)
+        // .iterations(1)
       )
       .on('tick', a => {
-        simulationNodes.forEach(function(d) {
-          d.x =
-            d.x < radiusScale(d.value)
-              ? radiusScale(d.value)
-              : d.x > svgWidth - radiusScale(d.value)
-              ? svgWidth - radiusScale(d.value)
-              : d.x;
-
-          d.y =
-            d.y < radiusScale(d.value)
-              ? radiusScale(d.value)
-              : d.y > svgHeight - radiusScale(d.value)
-              ? svgHeight - radiusScale(d.value)
-              : d.y;
-        });
+        // simulationNodes.forEach(function(d) {
+        //   d.x =
+        //     d.x < radiusScale(d.value)
+        //       ? radiusScale(d.value)
+        //       : d.x > svgWidth - radiusScale(d.value)
+        //       ? svgWidth - radiusScale(d.value)
+        //       : d.x;
+        //   d.y =
+        //     d.y < radiusScale(d.value)
+        //       ? radiusScale(d.value)
+        //       : d.y > svgHeight - radiusScale(d.value)
+        //       ? svgHeight - radiusScale(d.value)
+        //       : d.y;
+        // });
         this.setState({ nodes: simulationNodes });
       });
   };
@@ -209,7 +224,7 @@ class Researchers extends Component {
 
                     {radiusScale(node.value) > 10 && (
                       <g>
-                        <rect
+                        {/* <rect
                           x={node.x - radiusScale(node.value) - 5}
                           y={node.y - 5}
                           width={radiusScale(node.value) * 2 + 10}
@@ -220,7 +235,7 @@ class Researchers extends Component {
                           style={{
                             pointerEvents: 'none'
                           }}
-                        />
+                        /> */}
                         <text
                           dx={node.x}
                           dy={node.y}
@@ -228,11 +243,14 @@ class Researchers extends Component {
                             fontSize: '9px',
                             textTransform: 'uppercase',
                             dominantBaseline: 'central',
-                            pointerEvents: 'none'
+                            pointerEvents: 'none',
+                            paintOrder: 'stroke'
                           }}
                           fill={
                             selected.indexOf(node.name) > -1 ? 'white' : 'black'
                           }
+                          stroke={'white'}
+                          strokeWidth={1}
                           textAnchor='middle'
                           //filter='url(#solid)'
                         >

@@ -253,7 +253,7 @@ class Chemicals extends Component {
                         selected.indexOf(node.name) > -1 ? 'black' : 'white'
                       }
                       stroke='black'
-                      strokeWidth={2}
+                      strokeWidth={1}
                       r={radiusScale(node.relatedProjects)}
                       onClick={() => this.selectChemical('chemical', node.name)}
                       onMouseEnter={() =>
