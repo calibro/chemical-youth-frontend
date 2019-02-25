@@ -16,12 +16,7 @@ const Header = ({ history, expanded = true }) => {
   }
 
   return (
-    <div
-      className='w-100 d-flex position-relative'
-      style={{
-        height: expanded ? '70px' : '12px'
-      }}
-    >
+    <div className={`header ${expanded ? '' : 'small'}`}>
       <div className='w-100 header-background' />
       {expanded && (
         <div className='header-content w-70 d-flex align-items-center justify-content-around'>

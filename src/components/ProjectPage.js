@@ -110,7 +110,7 @@ const ProjectPage = ({ history, location }) => {
         <div className='w-70' style={{ paddingLeft: '80px' }}>
           <div className='w-100 py-3'>
             <div className='project-page-title'> {project.title} </div>
-            <div className='d-flex'>
+            <div className='d-flex flex-wrap'>
               {project.researchers &&
                 project.researchers.map((researcher, index) => {
                   return (
@@ -219,12 +219,14 @@ const ProjectPage = ({ history, location }) => {
             </div>
           </div>
         </div>
-        <div
-          className='project-page-section-title'
-          style={{ paddingLeft: '80px' }}
-        >
-          IMAGES
-        </div>
+        {project.images && (
+          <div
+            className='project-page-section-title'
+            style={{ paddingLeft: '80px' }}
+          >
+            IMAGES
+          </div>
+        )}
       </div>
       {project.images && (
         <div className='w-100 mb-5'>

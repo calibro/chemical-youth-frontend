@@ -19,7 +19,7 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      section: '',
+      section: 'chemical',
       setSection: this.setSection,
       selectedChemical: '',
       setSelectedChemical: this.setSelectedChemical,
@@ -98,8 +98,8 @@ class Home extends Component {
     const pathname = this.props.location.pathname.split('/')[1];
     return (
       <AppContext.Provider value={this.state}>
-        <div className='w-100 h-100 d-flex flex-column'>
-          <React.Suspense fallback={<Loader />}>
+        <React.Suspense fallback={<Loader />}>
+          <div className='w-100 h-100 d-flex flex-column'>
             <Header />
             <div
               className='w-100 d-flex bg-white'
@@ -129,8 +129,8 @@ class Home extends Component {
                 <Projects />
               </div>
             </div>
-          </React.Suspense>
-        </div>
+          </div>
+        </React.Suspense>
       </AppContext.Provider>
     );
   }

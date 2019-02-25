@@ -24,19 +24,21 @@ const Project = ({ project, countries }) => {
             project.body[0] &&
             project.body[0].children[0].text.slice(0, 250) + '...'}
         </div>
-        <div className='project-country-label'>
+        <div className='project-country-labels'>
+          <img
+            src='images/earth.svg'
+            width={11}
+            style={{ opacity: 0.5, marginRight: '5px' }}
+          />
           {countries &&
             countries.map((country, index) => {
               return (
                 <div
                   key={index}
-                  className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}
+                  className={`project-country-label py-1 ${
+                    index === 0 ? 'pr-1' : 'px-1'
+                  }`}
                 >
-                  <img
-                    src='images/earth.svg'
-                    width={11}
-                    style={{ opacity: 0.5 }}
-                  />{' '}
                   {country ? country.name : ''}
                 </div>
               );
