@@ -35,12 +35,17 @@ class Search extends Component {
     const { value } = this.state;
 
     return (
-      <div className='w-100'>
+      <div className='autocomplete-container'>
+        <img
+          src='images/magnify.svg'
+          width={20}
+          className='autocomplete-icon'
+        />
         <Autocomplete
           getItemValue={item => (objectKey ? item[objectKey] : item.name)}
           items={items}
           inputProps={{
-            className: 'states-autocomplete',
+            className: 'autocomplete-input',
             placeholder: `Search ${type}`
           }}
           wrapperStyle={{

@@ -28,12 +28,17 @@ const Project = ({ project, countries }) => {
           {countries &&
             countries.map((country, index) => {
               return (
-                <span
+                <div
                   key={index}
                   className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}
                 >
+                  <img
+                    src='images/earth.svg'
+                    width={11}
+                    style={{ opacity: 0.5 }}
+                  />{' '}
                   {country ? country.name : ''}
-                </span>
+                </div>
               );
             })}
         </div>

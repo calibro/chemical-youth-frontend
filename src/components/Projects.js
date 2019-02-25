@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import Project from './Project';
 import { AppContext } from '../appContext';
 import { uniqBy } from 'lodash';
 import { timeLabels, quantizeTime } from '../timeUtils';
 import Loader from './Loader';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type == "project"]{
   _id, title, body, slug, startDate, endDate,
@@ -33,7 +35,7 @@ const arrayContainsArray = (superset, subset) => {
   });
 };
 
-const Projects = ({}) => {
+const Projects = ({ history }) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const context = useContext(AppContext);
@@ -113,7 +115,8 @@ const Projects = ({}) => {
 
   const toggleSelected = (type, value) => {
     context.toggleSelected({ type: type, value: value });
-    //history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(context.selected);
+    history.push(`/${context.section}${queryParams}`);
   };
 
   return (
@@ -134,7 +137,12 @@ const Projects = ({}) => {
                   className='p-2 cursor-pointer'
                   onClick={() => toggleSelected(el.type, el.value)}
                 >
-                  X
+                  <svg width='20' height='20' viewBox='0 0 24 24'>
+                    <path
+                      className='path'
+                      d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'
+                    />
+                  </svg>
                 </div>
               </div>
             );
@@ -164,4 +172,4 @@ const Projects = ({}) => {
   );
 };
 
-export default Projects;
+export default withRouter(Projects);

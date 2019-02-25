@@ -17,10 +17,6 @@ body,
   height: 100%;
 }
 
-.states-autocomplete {
-  width: 100%;
-}
-
 .w-70 {
   width: 70%;
 }
@@ -126,10 +122,24 @@ a:hover a::after,
   /* padding: 20px; */
 }
 
-input.states-autocomplete {
-  border: 0px;
+.autocomplete-container {
+  width: 100%;
   border-bottom: 1px solid #d7d7d7;
+}
+
+.autocomplete-icon {
+  opacity: 0.5;
+  float: left;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+input.autocomplete-input {
+  width: calc(100% - 25px);
+  border: 0px;
   font-size: 13px;
+  padding-top: 5px;
+  padding-left: 5px;
   padding-bottom: 0.5rem !important;
 }
 
@@ -152,14 +162,12 @@ input.states-autocomplete {
   left: 0;
   right: 0;
   animation: Gradient 15s ease infinite;
+  animation-direction: alternate;
 }
 
 @keyframes Gradient {
   0% {
     background-position: 0% 50%;
-  }
-  50% {
-    background-position: 50% 50%;
   }
   100% {
     background-position: 100% 50%;
@@ -212,6 +220,23 @@ input.states-autocomplete {
   margin: 10px 10px 10px 0;
   font-size: 14px;
   float: left;
+  transition: 0.2s all;
+}
+
+.tag:hover {
+  background-color: black;
+  color: white;
+  transition: 0.2s all;
+}
+
+.path {
+  fill: black;
+  transition: 0.2s all;
+}
+
+.tag:hover .path {
+  fill: white;
+  transition: 0.2s all;
 }
 
 .project {

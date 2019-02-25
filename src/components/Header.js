@@ -27,7 +27,9 @@ const Header = ({ history, expanded = true }) => {
       {expanded && (
         <div className='header-container w-70 d-flex align-items-center justify-content-around'>
           <div>
-            <div className={``}>LOGO</div>
+            <div className={``}>
+              <img src='images/logo-dark.svg' width={60} />
+            </div>
           </div>
           <div>
             <div className={`header-el-not-link`}>View by:</div>
