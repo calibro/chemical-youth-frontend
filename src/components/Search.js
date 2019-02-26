@@ -57,7 +57,9 @@ class Search extends Component {
             position: 'absolute',
             zIndex: 999,
             top: 31,
-            left: 0
+            left: 0,
+            maxHeight: '500px',
+            overflow: 'auto'
           }}
           open={true}
           renderItem={(item, isHighlighted) => (

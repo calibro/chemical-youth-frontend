@@ -70,10 +70,11 @@ a,
   position: relative;
   color: black;
 }
-a::hover,
-.link::hover {
+
+a:hover,
+.link:hover {
   color: black !important;
-  text-decoration: none;
+  /* text-decoration: none; */
 }
 
 a::after,
@@ -85,14 +86,14 @@ a::after,
   bottom: -1px;
   left: 0;
   opacity: 0;
-  transition: 0.5s opacity;
+  transition: 0.2s opacity;
   background-color: black;
 }
 
 a:hover a::after,
 .link:hover.link::after {
   opacity: 1;
-  transition: 0.5s opacity;
+  transition: 0.2s opacity;
 }
 
 .half-container {
@@ -404,6 +405,7 @@ input.autocomplete-input {
 .project-page-resource {
   font-family: 'CrimsonText-Roman';
   font-size: 16px;
+  position: relative;
 }
 
 .close-icon {

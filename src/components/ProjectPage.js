@@ -6,8 +6,8 @@ import { withRouter } from 'react-router-dom';
 import Slider from 'react-slick';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Header from './Header';
-import List from './List';
 import Loader from './Loader';
+import ProjectPageSideBar from './ProjectPageSideBar';
 
 const serializers = {
   types: {
@@ -110,7 +110,7 @@ const ProjectPage = ({ history, location }) => {
                     <div
                       key={index}
                       className={`project-page-researcher link py-1 ${
-                        index === 0 ? 'pr-2' : 'px-2'
+                        index === 0 ? 'mr-2' : 'mx-2'
                       }`}
                       onClick={() =>
                         changeSection(
@@ -143,9 +143,15 @@ const ProjectPage = ({ history, location }) => {
                   project.internalResources.map((el, index) => {
                     if (project.internalResourcesFiles[index]) {
                       return (
-                        <div key={index} className='project-page-resource'>
+                        <div
+                          key={index}
+                          className='project-page-resource rainbow-line'
+                        >
                           {el.private ? (
-                            <div onClick={() => toggleModal(true)} className=''>
+                            <div
+                              onClick={() => toggleModal(true)}
+                              className='cursor-pointer'
+                            >
                               <BlockContent
                                 blocks={el.name}
                                 serializers={serializers}
@@ -170,7 +176,10 @@ const ProjectPage = ({ history, location }) => {
                   project.externalResources.map((el, index) => {
                     if (el.linkUrl) {
                       return (
-                        <div key={index} className='project-page-resource'>
+                        <div
+                          key={index}
+                          className='project-page-resource rainbow-line'
+                        >
                           <a href={el.linkUrl} target='_blank' download>
                             <BlockContent
                               blocks={el.name}
@@ -185,33 +194,7 @@ const ProjectPage = ({ history, location }) => {
             </div>
           )}
         </div>
-        <div
-          className='w-30 mt-5 d-flex flex-column'
-          style={{ paddingLeft: '80px' }}
-        >
-          <div className='d-flex flex-column my-4'>
-            <div className='list-title'>LOCATIONS</div>
-            <List
-              type={'location'}
-              elements={project.places}
-              objectKey={'city'}
-            />
-          </div>
-          <div className='d-flex flex-column my-4'>
-            <div className='list-title'>CHEMICALS</div>
-            <List type={'chemical'} elements={project.chemicals} />
-          </div>
-          <div className='d-flex flex-column my-4'>
-            <div className='list-title'>METHODS</div>
-            <List type={'method'} elements={project.methods} />
-          </div>
-          <div className='d-flex flex-column my-4'>
-            <div className='list-title'>TOPICS</div>
-            <div className='d-flex flex-wrap'>
-              <List type={'topic'} elements={project.topics} />
-            </div>
-          </div>
-        </div>
+        <ProjectPageSideBar project={project} />
         {project.images && (
           <div
             className='project-page-section-title'
