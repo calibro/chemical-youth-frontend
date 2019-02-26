@@ -28,6 +28,7 @@ const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
   const [modal, toggleModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [activeSlide, setActiveSlide] = useState(0);
   const context = useContext(AppContext);
 
   const slug = location.pathname.split('/')[2];
@@ -68,16 +69,6 @@ const ProjectPage = ({ history, location }) => {
     setLoading(false);
   };
 
-  const SampleNextArrow = props => {
-    const { className, style, onClick } = props;
-    return <div className={className} style={{ ...style }} onClick={onClick} />;
-  };
-
-  const SamplePrevArrow = props => {
-    const { className, style, onClick } = props;
-    return <div className={className} style={{ ...style }} onClick={onClick} />;
-  };
-
   const back = () => {
     history.goBack();
   };
@@ -87,6 +78,8 @@ const ProjectPage = ({ history, location }) => {
     history.push(`/${type}?selected=${name}`);
   };
 
+  let slider = null;
+
   const settings = {
     dots: false,
     infinite: true,
@@ -95,8 +88,8 @@ const ProjectPage = ({ history, location }) => {
     slidesToScroll: 1,
     adaptiveHeight: true,
     variableWidth: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
+    arrows: false,
+    afterChange: current => setActiveSlide(current)
   };
 
   return (
@@ -227,26 +220,45 @@ const ProjectPage = ({ history, location }) => {
             IMAGES
           </div>
         )}
-      </div>
-      {project.images && (
-        <div className='w-100 mb-5'>
-          <div className='' style={{ height: '600px', marginBottom: '100px' }}>
-            <Slider {...settings}>
-              {project.images.map((image, index) => {
-                return (
-                  <div className='' key={index}>
-                    <img
-                      src={`${image}?h=600&fit=max`}
-                      key={index}
-                      style={{ maxHeight: '600px' }}
-                    />
-                  </div>
-                );
-              })}
-            </Slider>
+        {project.images && (
+          <div className='w-100 mb-5' style={{ paddingLeft: '80px' }}>
+            <div className='' style={{ height: '600px', marginBottom: '50px' }}>
+              <Slider ref={c => (slider = c)} {...settings}>
+                {project.images.map((image, index) => {
+                  return (
+                    <div className='' key={index}>
+                      <img
+                        src={`${image}?h=600&fit=max`}
+                        key={index}
+                        style={{ maxHeight: '600px' }}
+                      />
+                    </div>
+                  );
+                })}
+              </Slider>
+            </div>
+            <div className={'slider-arrows'}>
+              <img
+                alt='previous image'
+                src='/images/arrow-left.svg'
+                width={20}
+                className='cursor-pointer'
+                onClick={() => slider.slickPrevious()}
+              />
+              <div>
+                {activeSlide + 1} / {project.images.length}
+              </div>
+              <img
+                alt='next image'
+                src='/images/arrow-right.svg'
+                width={20}
+                className='cursor-pointer'
+                onClick={() => slider.slickNext()}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       <Modal isOpen={modal} toggle={() => toggleModal(!modal)} className={''}>
         <ModalHeader toggle={() => toggleModal(!modal)}>
           This document is private
