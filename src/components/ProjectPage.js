@@ -222,7 +222,7 @@ const ProjectPage = ({ history, location }) => {
         )}
         {project.images && (
           <div className='w-100 mb-5' style={{ paddingLeft: '80px' }}>
-            <div className='' style={{ height: '600px', marginBottom: '50px' }}>
+            <div className='slider'>
               <Slider ref={c => (slider = c)} {...settings}>
                 {project.images.map((image, index) => {
                   return (
@@ -230,7 +230,7 @@ const ProjectPage = ({ history, location }) => {
                       <img
                         src={`${image}?h=600&fit=max`}
                         key={index}
-                        style={{ maxHeight: '600px' }}
+                        className='slider-image'
                       />
                     </div>
                   );
