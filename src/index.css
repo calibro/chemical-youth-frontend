@@ -25,6 +25,10 @@ body,
   width: 30%;
 }
 
+.hover-el:hover {
+  background-color: lightgrey;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
