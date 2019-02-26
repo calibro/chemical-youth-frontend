@@ -136,20 +136,20 @@ class Researchers extends Component {
         // .iterations(1)
       )
       .on('tick', a => {
-        // simulationNodes.forEach(function(d) {
-        //   d.x =
-        //     d.x < radiusScale(d.value)
-        //       ? radiusScale(d.value)
-        //       : d.x > svgWidth - radiusScale(d.value)
-        //       ? svgWidth - radiusScale(d.value)
-        //       : d.x;
-        //   d.y =
-        //     d.y < radiusScale(d.value)
-        //       ? radiusScale(d.value)
-        //       : d.y > svgHeight - radiusScale(d.value)
-        //       ? svgHeight - radiusScale(d.value)
-        //       : d.y;
-        // });
+        simulationNodes.forEach(function(d) {
+          d.x =
+            d.x < radiusScale(d.value)
+              ? radiusScale(d.value)
+              : d.x > svgWidth - radiusScale(d.value)
+              ? svgWidth - radiusScale(d.value)
+              : d.x;
+          d.y =
+            d.y < radiusScale(d.value)
+              ? radiusScale(d.value)
+              : d.y > svgHeight - radiusScale(d.value)
+              ? svgHeight - radiusScale(d.value)
+              : d.y;
+        });
         this.setState({ nodes: simulationNodes });
       });
   };

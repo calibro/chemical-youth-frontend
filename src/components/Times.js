@@ -76,7 +76,7 @@ const Times = ({ type, history }) => {
   return (
     <div className='viz-container'>
       {/* <Search items={times} selectionCallBack={selectTime} type={'time'} /> */}
-      <div className='w-100 mt-3'>
+      <div className='w-100 mt-3 overflow-auto'>
         {times.map((time, index) => {
           const duration = time[0].months;
           return (

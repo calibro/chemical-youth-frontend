@@ -16,6 +16,7 @@ const query = `*[_type=="topic"]{
 const Topics = ({ type, history }) => {
   const [topics, setTopics] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(null);
   const context = useContext(AppContext);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const Topics = ({ type, history }) => {
     <div className='viz-container'>
       {loading && <Loader />}
       <Search items={topics} selectionCallBack={selectTopic} type={'topic'} />
-      <div className='w-100 h-100 d-flex flex-wrap align-items-baseline mt-3'>
+      <div className='w-100 h-100 d-flex flex-wrap align-items-baseline mt-3 overflow-auto'>
         {topics
           .sort((a, b) => {
             return b.relatedProjects - a.relatedProjects;
@@ -70,6 +71,8 @@ const Topics = ({ type, history }) => {
                   height: '45px'
                 }}
                 onClick={() => selectTopic('topic', topic.name)}
+                onMouseEnter={() => setActiveIndex(index)}
+                onMouseLeave={() => setActiveIndex(null)}
               >
                 <div
                   className='cursor-pointer'
@@ -79,7 +82,9 @@ const Topics = ({ type, history }) => {
                       : '10px',
                     bottom: '3px',
                     fontWeight:
-                      selected.indexOf(topic.name) > -1 ? '600' : '300'
+                      selected.indexOf(topic.name) > -1 || activeIndex === index
+                        ? '600'
+                        : '300'
                   }}
                 >
                   {topic.name} <sup>{topic.relatedProjects}</sup>

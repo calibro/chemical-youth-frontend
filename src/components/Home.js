@@ -107,12 +107,7 @@ class Home extends Component {
                 height: 'calc(100% - 70px)'
               }}
             >
-              <div
-                className='half-container'
-                style={{
-                  overflow: 'scroll'
-                }}
-              >
+              <div className='half-container'>
                 {pathname === 'chemical' && <Chemicals />}
                 {pathname === 'topic' && <Topics />}
                 {pathname === 'location' && <Locations />}
