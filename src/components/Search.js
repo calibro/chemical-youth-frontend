@@ -44,7 +44,6 @@ class Search extends Component {
         <Autocomplete
           getItemValue={item => (objectKey ? item[objectKey] : item.name)}
           items={items}
-          autoHighlight={true}
           inputProps={{
             className: 'autocomplete-input',
             placeholder: `Search ${type}`
@@ -68,11 +67,12 @@ class Search extends Component {
               style={{
                 padding: '10px',
                 borderBottom: '1px solid #d7d7d7',
-                boxShadow:
-                  'box-shadow: 0 2px 4px 2px rgba(217, 217, 217, 0.56)',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                opacity: this.context.selected.some(e => e.value === item.name)
+                  ? 0.5
+                  : 1
               }}
-              className='hover-el'
+              className={`hover-el`}
             >
               {objectKey ? item[objectKey] : item.name}
             </div>
@@ -83,6 +83,10 @@ class Search extends Component {
           onSelect={val => {
             selectionCallBack(type, val);
             this.setState({ value: '' });
+          }}
+          isItemSelectable={item => {
+            console.log(this.context.selected.some(e => e.value === item.name));
+            return !this.context.selected.some(e => e.value === item.name);
           }}
         />
       </div>

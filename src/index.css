@@ -531,6 +531,10 @@ input.autocomplete-input {
   align-items: center;
 }
 
+.method-block:nth-child(1) {
+  border-top: 0px solid #d7d7d7;
+}
+
 .method-block.active,
 .method-block:hover {
   background-color: black;
@@ -545,4 +549,36 @@ input.autocomplete-input {
   padding: 5px;
   font-size: 10px;
   font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* VIZ */
+
+.rect {
+  pointer-events: none;
+}
+
+.circle {
+  cursor: pointer;
+}
+
+.circle,
+.rect {
+  fill: white;
+}
+
+.circle.active,
+.rect.active {
+  fill: black;
+}
+
+.text {
+  fill: black;
+  font-size: 9px;
+  text-transform: uppercase;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.text.active {
+  fill: white;
 }
