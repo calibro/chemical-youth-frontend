@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
+import circlePack from '../lib/circlePack';
 import {
   forceSimulation,
   forceManyBody,
@@ -23,7 +23,7 @@ const query = `*[_type=="chemical"]{
 const svgWidth = window.innerWidth / 2 - 60;
 const svgHeight = window.innerHeight - 140;
 
-const radiusScale = scaleLinear().range([0, 50]);
+const radiusScale = scaleLinear().range([0, 450]);
 
 // const Chemicals = ({ type }) => {
 //   const [chemicals, setChemicals] = useState([]);
@@ -229,6 +229,16 @@ class Chemicals extends Component {
 
   render() {
     const { nodes, chemicals, activeIndex } = this.state;
+
+    const rCircles = nodes
+      //.sort((a, b) => a.relatedProjects - b.relatedProjects)
+      .map(v => {
+        return { r: v.relatedProjects };
+      });
+
+    const circlePackLayout = new circlePack(svgWidth, svgHeight);
+    const circles = circlePackLayout.pack(rCircles);
+
     const selected = this.context.selected
       ? this.context.selected.map(s => s.value)
       : [];
@@ -246,8 +256,12 @@ class Chemicals extends Component {
           type={'chemical'}
         />
         <div className='w-100 h-100 d-flex flex-column'>
-          <svg width={svgWidth} height={svgHeight}>
-            {nodes.map((node, index) => {
+          <svg
+            width={svgWidth}
+            height={svgHeight}
+            viewBox={circlePackLayout.bounds(circles, 1).join()}
+          >
+            {/* {nodes.map((node, index) => {
               const radius = radiusScale(node.relatedProjects);
               if (node.relatedProjects > 0) {
                 return (
@@ -315,6 +329,9 @@ class Chemicals extends Component {
                   </g>
                 );
               }
+            })} */}
+            {circles.map(v => {
+              return <circle cx={v.x} cy={v.y} r={v.r} />;
             })}
           </svg>
         </div>
