@@ -65,7 +65,6 @@ class Search extends Component {
           renderItem={(item, isHighlighted) => (
             <div
               key={item._id}
-              id={isHighlighted}
               style={{
                 padding: '10px',
                 borderBottom: '1px solid #d7d7d7',
