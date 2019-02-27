@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
+import { ScrollToHOC, ScrollArea } from 'react-scroll-to';
 import Location from './Location';
 import { AppContext } from '../appContext';
 import Search from './Search';
+import Loader from './Loader';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type == "location"]{
   _id, city, coordinates, zoom,
@@ -11,10 +15,12 @@ const query = `*[_type == "location"]{
   "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
 
-const Locations = ({ type, history }) => {
-  const [locations, setLocations] = useState([]);
-  const context = useContext(AppContext);
+let offsets = {};
 
+const Locations = ({ type, history, scrollTo }) => {
+  const [locations, setLocations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const context = useContext(AppContext);
   useEffect(() => {
     if (locations.length === 0) {
       sanityClient
@@ -32,45 +38,61 @@ const Locations = ({ type, history }) => {
   }, [type]);
 
   const handleStatusChange = res => {
-    console.log(res);
     setLocations(res);
+    res.forEach((v, i) => {
+      console.log(Math.floor(i / 3));
+      offsets[v.city.toLowerCase()] = getYOffset(i);
+    });
+    setLoading(false);
   };
 
   const selectLocation = (type, value) => {
     context.toggleSelected({ type: type, value: value });
-    //history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(context.selected);
+    history.push(`/${context.section}${queryParams}`);
+    console.log(offsets[value]);
+    scrollTo({ id: 'locations', y: offsets[value] });
+  };
+
+  const getYOffset = index => {
+    const rowHeight = (window.innerWidth / 100) * 16;
+    console.log(rowHeight);
+    return Math.floor(index / 3) * rowHeight;
   };
 
   return (
-    <div className='w-100 h-100 d-flex flex-column'>
+    <div className='viz-container'>
+      {loading && <Loader />}
       <Search
         items={locations}
         selectionCallBack={selectLocation}
-        type={'topic'}
+        type={'location'}
         objectKey={'city'}
       />
-      <div className='w-100 d-flex flex-wrap'>
-        {locations.map((location, index) => {
-          console.log(location);
-          if (location.coordinates.lat) {
-            return (
-              <Location
-                key={index}
-                coordinates={location.coordinates}
-                zoom={location.zoom}
-                country={location.country.name}
-                city={location.city}
-                callbackClick={selectLocation}
-                selected={
-                  context.selected ? context.selected.map(s => s.value) : []
-                }
-              />
-            );
-          }
-        })}
-      </div>
+      <ScrollArea id='locations' className='overflow-auto'>
+        <div className='w-100 d-flex flex-wrap mt-4'>
+          {locations.map((location, index) => {
+            if (location.coordinates.lat) {
+              return (
+                <Location
+                  key={index}
+                  coordinates={location.coordinates}
+                  y={() => getYOffset(index)}
+                  zoom={location.zoom}
+                  country={location.country.name}
+                  city={location.city}
+                  callbackClick={selectLocation}
+                  selected={
+                    context.selected ? context.selected.map(s => s.value) : []
+                  }
+                />
+              );
+            }
+          })}
+        </div>
+      </ScrollArea>
     </div>
   );
 };
 
-export default withRouter(Locations);
+export default ScrollToHOC(withRouter(Locations));

@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import Project from './Project';
 import { AppContext } from '../appContext';
-import { difference } from 'lodash';
+import { uniqBy } from 'lodash';
+import { timeLabels, quantizeTime } from '../timeUtils';
+import Loader from './Loader';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type == "project"]{
   _id, title, body, slug, startDate, endDate,
@@ -14,25 +18,26 @@ const query = `*[_type == "project"]{
   "methodologies": methodologies[]->,
 }`;
 
-function monthDiff(d1, d2) {
+const monthDiff = (d1, d2) => {
   var months;
   months = (d2.getFullYear() - d1.getFullYear()) * 12;
   months -= d1.getMonth() + 1;
   months += d2.getMonth();
   return months <= 0 ? 0 : months;
-}
+};
 
-function arrayContainsArray(superset, subset) {
+const arrayContainsArray = (superset, subset) => {
   if (0 === subset.length) {
     return false;
   }
-  return subset.every(function(value) {
+  return subset.some(value => {
     return superset.indexOf(value) >= 0;
   });
-}
+};
 
-const Projects = ({}) => {
+const Projects = ({ history }) => {
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const context = useContext(AppContext);
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -49,19 +54,18 @@ const Projects = ({}) => {
       });
   }, [context]);
 
-  function handleStatusChange(res) {
+  const handleStatusChange = res => {
     setProjects(res);
-  }
+    setLoading(false);
+  };
 
-  function filter(project) {
+  const filter = project => {
     const selectedFilters = context.selected.map(v => v.value);
     //console.log('selectedFilters', selectedFilters);
     if (selectedFilters.length > 0) {
       if (context.section === 'location') {
-        console.log(project);
         if (project.place && project.place.length > 0) {
           const places = project.place.map(m => m.city.toLowerCase());
-          console.log(places);
           return arrayContainsArray(places, selectedFilters);
         } else {
           return false;
@@ -87,39 +91,58 @@ const Projects = ({}) => {
         } else {
           return false;
         }
+      } else if (context.section === 'researcher') {
+        if (project.researchers && project.researchers.length > 0) {
+          const researchers = project.researchers.map(m =>
+            m.name.toLowerCase()
+          );
+          return arrayContainsArray(researchers, selectedFilters);
+        } else {
+          return false;
+        }
       } else if (context.section === 'time') {
-        const duration = project.endDate
-          ? monthDiff(new Date(project.startDate), new Date(project.endDate))
-          : 'still running';
-        console.log(duration, selectedFilters);
+        const diff = monthDiff(
+          new Date(project.startDate),
+          new Date(project.endDate)
+        );
+        const duration = quantizeTime(diff);
         return selectedFilters.indexOf(duration) > -1;
       }
     } else {
       return true;
     }
-  }
+  };
 
   const toggleSelected = (type, value) => {
     context.toggleSelected({ type: type, value: value });
-    //history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(context.selected);
+    history.push(`/${context.section}${queryParams}`);
   };
 
   return (
-    <div className='w-100 h-100 d-flex flex-column p-4'>
-      <div className='w-100 d-flex py-3'>
+    <div className='w-100 h-100 d-flex flex-column'>
+      {loading && <Loader />}
+      <div className='pb-2 project-counter'>
         {projects.filter(project => filter(project)).length}/ 63 PROJECTS SHOWN
       </div>
       {
-        <div className='w-100 d-flex py-3 flex-wrap'>
+        <div className='w-100'>
           {context.selected.map((el, index) => {
             return (
-              <div className='tag'>
-                <div className='p-2'>{el.value}</div>
+              <div className='tag' key={index}>
+                <div className='p-2'>
+                  {context.section === 'time' ? timeLabels[el.value] : el.value}
+                </div>
                 <div
                   className='p-2 cursor-pointer'
                   onClick={() => toggleSelected(el.type, el.value)}
                 >
-                  X
+                  <svg width='20' height='20' viewBox='0 0 24 24'>
+                    <path
+                      className='path'
+                      d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'
+                    />
+                  </svg>
                 </div>
               </div>
             );
@@ -129,12 +152,24 @@ const Projects = ({}) => {
       <div className='w-100 h-100 d-flex flex-column'>
         {projects
           .filter(project => filter(project))
+          .sort((a, b) => {
+            const textA = a.title.toUpperCase();
+            const textB = b.title.toUpperCase();
+            return textA < textB ? -1 : textA > textB ? 1 : 0;
+          })
           .map((project, index) => {
-            return <Project project={project} key={index} />;
+            return (
+              <Project
+                project={project}
+                key={index}
+                countries={uniqBy(project.countries, 'name')}
+              />
+            );
           })}
+        {!projects && <div>No projects found</div>}
       </div>
     </div>
   );
 };
 
-export default Projects;
+export default withRouter(Projects);

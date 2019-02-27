@@ -4,6 +4,10 @@ import { withRouter } from 'react-router-dom';
 
 const Header = ({ history, expanded = true }) => {
   const context = useContext(AppContext);
+  useEffect(() => {
+    const pathname = history.location.pathname.split('/');
+    context.setSection(pathname[1]);
+  }, [history.location.pathname]);
 
   function changeSection(section) {
     context.setSection(section);
@@ -12,18 +16,21 @@ const Header = ({ history, expanded = true }) => {
   }
 
   return (
-    <div
-      className='w-100 d-flex'
-      style={{
-        height: expanded ? '80px' : '40px',
-        backgroundColor: 'blue'
-      }}
-    >
+    <div className={`header ${expanded ? '' : 'small'}`}>
+      <div className='w-100 header-background' />
       {expanded && (
-        <div className='w-70 d-flex align-items-center justify-content-around'>
+        <div className='header-content w-70 d-flex align-items-center justify-content-around'>
+          <div>
+            <div className={``}>
+              <img src='images/logo-dark.svg' width={60} />
+            </div>
+          </div>
+          <div>
+            <div className={`header-el-not-link`}>View by:</div>
+          </div>
           <div onClick={() => changeSection('chemical')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'chemical' ? 'underline' : 'none'
               }`}
             >
@@ -32,7 +39,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('topic')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'topic' ? 'underline' : 'none'
               }`}
             >
@@ -41,7 +48,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('location')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'location' ? 'underline' : 'none'
               }`}
             >
@@ -50,7 +57,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('researcher')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'researcher' ? 'underline' : 'none'
               }`}
             >
@@ -59,7 +66,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('time')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'time' ? 'underline' : 'none'
               }`}
             >
@@ -68,7 +75,7 @@ const Header = ({ history, expanded = true }) => {
           </div>
           <div onClick={() => changeSection('method')}>
             <div
-              className={`text-light cursor-pointer ${
+              className={`header-el ${
                 context.section === 'method' ? 'underline' : 'none'
               }`}
             >

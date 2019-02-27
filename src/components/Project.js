@@ -1,16 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const Project = ({ project }) => {
+
+const Project = ({ project, countries }) => {
   return (
     <Link to={`/projects/${project.slug ? project.slug.current : ''}`}>
-      <div
-        className='w-100 py-3'
-        style={{
-          borderTop: '1px solid #b7b7b7'
-        }}
-      >
-        <div className='h4'> {project.title} </div>
-        <div className='h6'>
+      <div className='project'>
+        <div className='project-title'> {project.title} </div>
+        <div className='project-researchers'>
           {project.researchers &&
             project.researchers.map((researcher, index) => {
               return (
@@ -23,26 +19,28 @@ const Project = ({ project }) => {
               );
             })}
         </div>
-        <div>
-          <p>
-            {project.body &&
-              project.body[0] &&
-              project.body[0].children[0].text.slice(0, 200) + '...'}
-          </p>
+        <div className='project-body'>
+          {project.body &&
+            project.body[0] &&
+            project.body[0].children[0].text.slice(0, 250) + '...'}
         </div>
-        <div>
-          {project.countries &&
-            project.countries.map((country, index) => {
+        <div className='project-country-labels'>
+          <img
+            src='images/earth.svg'
+            width={11}
+            style={{ opacity: 0.5, marginRight: '5px' }}
+          />
+          {countries &&
+            countries.map((country, index) => {
               return (
-                <span
+                <div
                   key={index}
-                  className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}
-                  style={{
-                    fontSize: '10px'
-                  }}
+                  className={`project-country-label py-1 ${
+                    index === 0 ? 'pr-1' : 'px-1'
+                  }`}
                 >
                   {country ? country.name : ''}
-                </span>
+                </div>
               );
             })}
         </div>

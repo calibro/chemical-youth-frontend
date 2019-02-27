@@ -1,4 +1,5 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import {
@@ -10,16 +11,18 @@ import {
 } from 'd3-force';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
+import ReactTooltip from 'react-tooltip';
 import { AppContext } from '../appContext';
 import Search from './Search';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type=="chemical"]{
   name,
   "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
 
-const svgWidth = window.innerWidth / 2;
-const svgHeight = window.innerHeight - 80;
+const svgWidth = window.innerWidth / 2 - 60;
+const svgHeight = window.innerHeight - 140;
 
 const radiusScale = scaleLinear().range([0, 50]);
 
@@ -186,12 +189,12 @@ class Chemicals extends Component {
 
     const simulation = forceSimulation(simulationNodes)
       .force('charge', forceManyBody().strength(50))
-      .force('link', forceLink(links))
+      //.force('link', forceLink(links))
       .force('center', forceCenter(svgWidth / 2, svgHeight / 2))
       .force(
         'collision',
         forceCollide()
-          .radius(n => n.radius + 12)
+          .radius(n => n.radius + 10)
           .strength(2)
           .iterations(1)
       )
@@ -217,7 +220,8 @@ class Chemicals extends Component {
 
   selectChemical = (type, value) => {
     this.context.toggleSelected({ type: type, value: value });
-    //this.props.history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(this.context.selected);
+    this.props.history.push(`/${this.context.section}${queryParams}`);
   };
 
   render() {
@@ -226,7 +230,8 @@ class Chemicals extends Component {
       ? this.context.selected.map(s => s.value)
       : [];
     return (
-      <div className='w-100 h-100 d-flex flex-column'>
+      <div className='viz-container'>
+        <ReactTooltip place='top' theme='dark' effect='solid' />
         <Search
           items={chemicals}
           selectionCallBack={this.selectChemical}
@@ -240,45 +245,59 @@ class Chemicals extends Component {
                 return (
                   <g key={index}>
                     <circle
+                      data-tip={node.name}
+                      ref={node.name}
                       cx={node.x}
                       cy={node.y}
                       fill={
                         selected.indexOf(node.name) > -1 ? 'black' : 'white'
                       }
                       stroke='black'
-                      strokeWidth={2}
+                      strokeWidth={1}
                       r={radiusScale(node.relatedProjects)}
                       onClick={() => this.selectChemical('chemical', node.name)}
+                      onMouseEnter={() =>
+                        ReactTooltip.show(findDOMNode(this.refs[node.name]))
+                      }
+                      onMouseLeave={() =>
+                        ReactTooltip.hide(findDOMNode(this.refs[node.name]))
+                      }
+                      style={{ cursor: 'pointer' }}
                     />
-                    <rect
-                      x={node.x - radiusScale(node.relatedProjects) - 5}
-                      y={node.y - 5}
-                      width={radiusScale(node.relatedProjects) * 2 + 10}
-                      height={10}
-                      fill={selected.indexOf(node.name) > -1 ? 'none' : 'white'}
-                      style={{
-                        pointerEvents: 'none'
-                      }}
-                    />
-                    {
-                      <text
-                        dx={node.x}
-                        dy={node.y}
-                        style={{
-                          fontSize: '9px',
-                          textTransform: 'uppercase',
-                          dominantBaseline: 'central',
-                          pointerEvents: 'none'
-                        }}
-                        fill={
-                          selected.indexOf(node.name) > -1 ? 'white' : 'black'
-                        }
-                        textAnchor='middle'
-                        //filter='url(#solid)'
-                      >
-                        {node.name}
-                      </text>
-                    }
+
+                    {radiusScale(node.relatedProjects) > 10 && (
+                      <g>
+                        <rect
+                          x={node.x - radiusScale(node.relatedProjects) - 5}
+                          y={node.y - 5}
+                          width={radiusScale(node.relatedProjects) * 2 + 10}
+                          height={10}
+                          fill={
+                            selected.indexOf(node.name) > -1 ? 'none' : 'white'
+                          }
+                          style={{
+                            pointerEvents: 'none'
+                          }}
+                        />
+                        <text
+                          dx={node.x}
+                          dy={node.y}
+                          style={{
+                            fontSize: '9px',
+                            textTransform: 'uppercase',
+                            dominantBaseline: 'central',
+                            pointerEvents: 'none'
+                          }}
+                          fill={
+                            selected.indexOf(node.name) > -1 ? 'white' : 'black'
+                          }
+                          textAnchor='middle'
+                          //filter='url(#solid)'
+                        >
+                          {node.name}
+                        </text>
+                      </g>
+                    )}
                   </g>
                 );
               }

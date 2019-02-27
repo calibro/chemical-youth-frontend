@@ -1,23 +1,26 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
-import { scaleLinear } from 'd3-scale';
+import { scaleOrdinal, scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { groupBy } from 'lodash';
 import { AppContext } from '../appContext';
+import { timeLabels, quantizeTime } from '../timeUtils';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type == "project"]{
   endDate, startDate
 }`;
 
-function monthDiff(d1, d2) {
+const monthDiff = (d1, d2) => {
   var months;
   months = (d2.getFullYear() - d1.getFullYear()) * 12;
   months -= d1.getMonth() + 1;
   months += d2.getMonth();
   return months <= 0 ? 0 : months;
-}
+};
 
-const Times = ({ type }) => {
+const Times = ({ type, history }) => {
   const [times, setTimes] = useState([]);
   const [derivedTimes, setDerivedTimes] = useState([]);
   const context = useContext(AppContext);
@@ -39,11 +42,10 @@ const Times = ({ type }) => {
     }
   }, [type]);
 
-  function handleStatusChange(res) {
+  const handleStatusChange = res => {
     const derivedTimes = res.map((time, index) => {
-      time.months = time.endDate
-        ? monthDiff(new Date(time.startDate), new Date(time.endDate))
-        : 'still running';
+      const diff = monthDiff(new Date(time.startDate), new Date(time.endDate));
+      time.months = quantizeTime(diff);
       return time;
     });
     setDerivedTimes(derivedTimes);
@@ -52,49 +54,46 @@ const Times = ({ type }) => {
     const groupedByTimes = Object.values(groupBy(sortedTimes, el => el.months));
 
     setTimes(groupedByTimes.reverse());
-  }
+  };
 
   const selectTime = (type, value) => {
     context.toggleSelected({ type: type, value: value });
-    //history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(context.selected);
+    history.push(`/${context.section}${queryParams}`);
   };
 
   const selected = context.selected.map(s => s.value);
 
-  const [min, max] = extent(
-    derivedTimes.filter(v => v.months !== 'still running'),
-    d => d.months
-  );
-  console.log(max);
+  const [min, max] = extent(times, d => d.length);
   const heightScale = scaleLinear()
     .range([30, 200])
     .domain([0, max]);
 
+  const widthScale = scaleOrdinal()
+    .range([50, 60, 70, 80, 90, 100])
+    .domain([0, 3, 6, 12, 24, 36]);
+
   return (
-    <div className='w-100 h-100 d-flex flex-column'>
-      <div className='w-100 d-flex p-3' />
-      <div className='w-100'>
+    <div className='viz-container'>
+      {/* <Search items={times} selectionCallBack={selectTime} type={'time'} /> */}
+      <div className='w-100 mt-3 overflow-auto'>
         {times.map((time, index) => {
           const duration = time[0].months;
           return (
             <div
-              className='p-3 d-flex justify-content-between align-items-center'
+              className={`px-3 time-block ${
+                selected.indexOf(duration) > -1 ? 'active' : ''
+              }`}
               key={index}
               style={{
-                height: `${heightScale(duration)}px`,
-                borderTop: '1px solid #b7b7b7',
-                backgroundColor:
-                  selected.indexOf(duration) > -1 ? 'black' : 'white',
-                color: selected.indexOf(duration) > -1 ? 'white' : 'black'
+                width: `${widthScale(duration)}%`,
+                height: `${heightScale(time.length)}px`,
+                borderTop: index === 0 ? '1px solid #d7d7d7' : 'none'
               }}
               onClick={() => selectTime('time', duration)}
             >
-              <span>{`${time.length} projects`}</span>
-              <span>{`${
-                duration === 'still running'
-                  ? 'still running'
-                  : duration + ' months'
-              }`}</span>
+              <div>{`${time.length} projects`}</div>
+              <div>{`${timeLabels[duration]}`}</div>
             </div>
           );
         })}
@@ -103,4 +102,4 @@ const Times = ({ type }) => {
   );
 };
 
-export default Times;
+export default withRouter(Times);

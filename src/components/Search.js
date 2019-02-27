@@ -35,11 +35,20 @@ class Search extends Component {
     const { value } = this.state;
 
     return (
-      <div className='w-100 p-3'>
+      <div className='autocomplete-container'>
+        <img
+          src='images/magnify.svg'
+          width={20}
+          className='autocomplete-icon'
+        />
         <Autocomplete
           getItemValue={item => (objectKey ? item[objectKey] : item.name)}
           items={items}
-          inputProps={{ className: 'states-autocomplete' }}
+          autoHighlight={true}
+          inputProps={{
+            className: 'autocomplete-input',
+            placeholder: `Search ${type}`
+          }}
           wrapperStyle={{
             position: 'relative'
           }}
@@ -47,13 +56,24 @@ class Search extends Component {
             backgroundColor: 'white',
             position: 'absolute',
             zIndex: 999,
-            top: 30,
+            top: 31,
             left: 0
           }}
+          open={true}
           renderItem={(item, isHighlighted) => (
             <div
               key={item._id}
-              style={{ background: isHighlighted ? 'lightgray' : 'white' }}
+              id={isHighlighted}
+              style={{
+                padding: '10px',
+                borderBottom: '1px solid #d7d7d7',
+                borderLeft: '1px solid #d7d7d7',
+                borderRight: '1px solid #d7d7d7',
+                boxShadow:
+                  'box-shadow: 0 2px 4px 2px rgba(217, 217, 217, 0.56)',
+                cursor: 'pointer'
+              }}
+              className='hover-el'
             >
               {objectKey ? item[objectKey] : item.name}
             </div>

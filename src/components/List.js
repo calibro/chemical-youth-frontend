@@ -1,38 +1,32 @@
 import React, { useContext } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { AppContext } from '../appContext';
 
 const Project = ({ type, elements, objectKey, history }) => {
   const context = useContext(AppContext);
 
   const changeSection = (type, name) => {
-    context.setSection(type);
     context.setSelected({ type: type, value: name });
-    history.push(`/${type}/${name}`);
+    history.push(`/${type}?selected=${name}`);
   };
 
   return (
     <div className='d-flex flex-wrap'>
-      {elements &&
+      {elements ? (
         elements.map((el, index) => {
-          console.log(type, el);
           if (el) {
             const name = objectKey ? el[objectKey] : el.name;
+            const val = type === 'location' ? name.toLowerCase() : name;
             return (
-              <div
-                className='pr-3 cursor-pointer'
-                key={index}
-                style={{
-                  fontSize: '12px'
-                }}
-              >
-                <div onClick={() => changeSection(type, name.toLowerCase())}>
-                  {name}
-                </div>
+              <div className='mr-2 link list-el' key={index}>
+                <div onClick={() => changeSection(type, val)}>{name}</div>
               </div>
             );
           }
-        })}
+        })
+      ) : (
+        <div>Not found</div>
+      )}
     </div>
   );
 };

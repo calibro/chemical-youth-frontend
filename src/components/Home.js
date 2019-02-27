@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 import Header from './Header';
-import Projects from './Projects';
+import { withRouter } from 'react-router-dom';
 import Chemicals from './Chemicals';
 import Topics from './Topics';
 import Researchers from './Researchers';
 import Locations from './Locations';
 import Methodologies from './Methodologies';
 import Times from './Times';
+import Loader from './Loader';
 import { AppContext } from '../appContext';
 import { find, findIndex } from 'lodash';
+
+const Projects = React.lazy(() => import('./Projects'));
 
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      section: '',
+      section: 'chemical',
       setSection: this.setSection,
       selectedChemical: '',
       setSelectedChemical: this.setSelectedChemical,
@@ -62,7 +66,7 @@ class Home extends Component {
 
   toggleSelected = selected => {
     const selectedArray = this.state.selected;
-    if (selected.type && selected.value) {
+    if (selected.type && selected.value !== null) {
       if (find(selectedArray, selected)) {
         const index = findIndex(selectedArray, selected);
         selectedArray.splice(index, 1);
@@ -78,50 +82,50 @@ class Home extends Component {
   componentDidMount() {
     const pathname = this.props.location.pathname.split('/');
     this.setSection(pathname[1]);
-    // if (pathname[2]) {
-    //   const selected = { type: pathname[1], value: pathname[2] };
-    //   this.addSelected(selected);
-    // } else {
-    //   const selected = { type: pathname[1], value: null };
-    //   this.addSelected(selected);
-    // }
+    const parsed = queryString.parse(this.props.location.search);
+    if (parsed.selected && Array.isArray(parsed.selected)) {
+      parsed.selected.forEach(p => {
+        const selected = { type: pathname[1], value: p };
+        this.toggleSelected(selected);
+      });
+    } else if (parsed.selected && !Array.isArray(parsed.selected)) {
+      const selected = { type: pathname[1], value: parsed.selected };
+      this.toggleSelected(selected);
+    }
   }
 
   render() {
     const pathname = this.props.location.pathname.split('/')[1];
     return (
       <AppContext.Provider value={this.state}>
-        <div className='w-100 h-100 d-flex flex-column'>
-          <Header />
-          <div
-            className='w-100 d-flex'
-            style={{
-              height: 'calc(100% - 80px)'
-            }}
-          >
+        <React.Suspense fallback={<Loader />}>
+          <div className='w-100 h-100 d-flex flex-column'>
+            <Header />
             <div
-              className='w-50 h-100'
+              className='w-100 d-flex bg-white'
               style={{
-                overflow: 'scroll'
+                height: 'calc(100% - 70px)'
               }}
             >
-              {pathname === 'chemical' && <Chemicals />}
-              {pathname === 'topic' && <Topics />}
-              {pathname === 'location' && <Locations />}
-              {pathname === 'researcher' && <Researchers />}
-              {pathname === 'time' && <Times />}
-              {pathname === 'method' && <Methodologies />}
-            </div>
-            <div
-              className='w-50 h-100'
-              style={{
-                overflow: 'scroll'
-              }}
-            >
-              <Projects />
+              <div className='half-container'>
+                {pathname === 'chemical' && <Chemicals />}
+                {pathname === 'topic' && <Topics />}
+                {pathname === 'location' && <Locations />}
+                {pathname === 'researcher' && <Researchers />}
+                {pathname === 'time' && <Times />}
+                {pathname === 'method' && <Methodologies />}
+              </div>
+              <div
+                className='half-container'
+                style={{
+                  overflow: 'scroll'
+                }}
+              >
+                <Projects />
+              </div>
             </div>
           </div>
-        </div>
+        </React.Suspense>
       </AppContext.Provider>
     );
   }

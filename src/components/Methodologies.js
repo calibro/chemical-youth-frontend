@@ -4,6 +4,8 @@ import sanityClient from '../lib/sanity';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
+import Search from './Search';
+import { parseQueryParams } from '../utils';
 
 const query = `*[_type == "methodology"]{
   _id, name,
@@ -36,7 +38,8 @@ const Methodologies = ({ type, history }) => {
 
   const selectMethod = (type, value) => {
     context.toggleSelected({ type: type, value: value });
-    //history.push(`/${type}/${value}`);
+    const queryParams = parseQueryParams(context.selected);
+    history.push(`/${context.section}${queryParams}`);
   };
 
   const [min, max] = extent(methodologies, d => d.relatedProjects);
@@ -45,24 +48,25 @@ const Methodologies = ({ type, history }) => {
     .domain([0, max]);
 
   return (
-    <div className='w-100 h-100 d-flex flex-column'>
-      <div className='w-100 d-flex p-3' />
-      <div className='w-100 h-100'>
+    <div className='viz-container'>
+      <Search
+        items={methodologies}
+        selectionCallBack={selectMethod}
+        type={'method'}
+      />
+      <div className='w-100 h-100 mt-4 overflow-auto'>
         {methodologies
           .sort((a, b) => b.relatedProjects - a.relatedProjects)
           .map((methodology, index) => {
             const selected = context.selected.map(s => s.value);
             return (
               <div
-                className='w-100 px-3 d-flex align-items-center cursor-pointer'
+                className={`px-3 method-block ${
+                  selected.indexOf(methodology.name) > -1 ? 'active' : ''
+                }`}
                 key={index}
                 style={{
-                  height: `${heightScale(methodology.relatedProjects)}px`,
-                  borderTop: '1px solid #b7b7b7',
-                  backgroundColor:
-                    selected.indexOf(methodology.name) > -1 ? 'black' : 'white',
-                  color:
-                    selected.indexOf(methodology.name) > -1 ? 'white' : 'black'
+                  height: `${heightScale(methodology.relatedProjects)}px`
                 }}
                 onClick={() => selectMethod('method', methodology.name)}
               >
