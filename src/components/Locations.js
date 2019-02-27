@@ -39,10 +39,12 @@ const Locations = ({ type, history, scrollTo }) => {
 
   const handleStatusChange = res => {
     setLocations(res);
-    res.forEach((v, i) => {
-      console.log(Math.floor(i / 3));
-      offsets[v.city.toLowerCase()] = getYOffset(i);
-    });
+    res
+      .filter(v => v.coordinates.lat)
+      .forEach((v, i) => {
+        offsets[v.city.toLowerCase()] = getYOffset(i);
+      });
+    console.log(offsets);
     setLoading(false);
   };
 
