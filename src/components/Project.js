@@ -1,34 +1,37 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Project = ({ project, countries }) => {
   return (
-    <Link to={`/projects/${project.slug ? project.slug.current : ''}`}>
-      <div className='project'>
-        <div className='project-title'> {project.title} </div>
-        <div className='project-researchers'>
+    <Link to={`/projects/${project.slug ? project.slug.current : ""}`}>
+      <div className="project">
+        <div className="project-title"> {project.title} </div>
+        <div className="project-researchers">
           {project.researchers &&
             project.researchers.map((researcher, index) => {
               return (
-                <span
-                  key={index}
-                  className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}
-                >
-                  {researcher.name}
-                </span>
+                <React.Fragment>
+                  <span
+                    key={index}
+                    className={`py-1 ${index === 0 ? "pr-1" : "px-1"}`}
+                  >
+                    {researcher.name}
+                  </span>
+                  {index < project.researchers.length - 1 ? <span>|</span> : ""}
+                </React.Fragment>
               );
             })}
         </div>
-        <div className='project-body'>
+        <div className="project-body">
           {project.body &&
             project.body[0] &&
-            project.body[0].children[0].text.slice(0, 250) + '...'}
+            project.body[0].children[0].text.slice(0, 250) + "..."}
         </div>
-        <div className='project-country-labels'>
+        <div className="project-country-labels">
           <img
-            src='images/earth.svg'
+            src="images/earth.svg"
             width={11}
-            style={{ opacity: 0.5, marginRight: '5px' }}
+            style={{ opacity: 0.5, marginRight: "5px" }}
           />
           {countries &&
             countries.map((country, index) => {
@@ -36,10 +39,10 @@ const Project = ({ project, countries }) => {
                 <div
                   key={index}
                   className={`project-country-label py-1 ${
-                    index === 0 ? 'pr-1' : 'px-1'
+                    index === 0 ? "pr-1" : "px-1"
                   }`}
                 >
-                  {country ? country.name : ''}
+                  {country ? country.name : ""}
                 </div>
               );
             })}

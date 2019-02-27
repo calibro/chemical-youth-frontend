@@ -5,7 +5,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -40,7 +40,7 @@ body,
 
 .underline::after,
 .header-el::after {
-  content: '';
+  content: "";
   width: 100%;
   height: 3px;
   position: absolute;
@@ -79,11 +79,11 @@ a:hover,
 
 a::after,
 .link::after {
-  content: '';
+  content: "";
   width: 100%;
   height: 1px;
   position: absolute;
-  bottom: -1px;
+  bottom: 3px;
   left: 0;
   opacity: 0;
   transition: 0.2s opacity;
@@ -206,14 +206,14 @@ input.autocomplete-input {
 }
 
 .landing-lower-link {
-  font-family: CrimsonText-Roman;
+  font-family: Crimson Text;
   font-size: 26px;
   cursor: pointer;
   position: relative;
 }
 
 .rainbow-line::after {
-  content: '';
+  content: "";
   width: 100%;
   height: 1px;
   position: absolute;
@@ -343,7 +343,7 @@ input.autocomplete-input {
 
 .project-title {
   font-size: 26px;
-  font-family: 'Crimson Text', serif;
+  font-family: "Crimson Text", serif;
 }
 
 .project-researchers {
@@ -372,26 +372,34 @@ input.autocomplete-input {
 /* PROJECT PAGE */
 
 .project-page-title {
-  font-family: 'CrimsonText-Roman';
+  font-family: "Crimson Text";
   font-size: 50px;
+  line-height: 3.3rem;
+  margin-bottom: 11px;
 }
 
 .project-page-researcher {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
-  margin-top: 5px;
   text-transform: uppercase;
   cursor: pointer;
 }
 
 .project-page-body {
-  font-family: CrimsonText-Roman;
+  font-family: Crimson Text;
 }
 .project-page-body p {
-  font-family: 'CrimsonText-Roman';
+  font-family: "Crimson Text";
   font-size: 24px;
   line-height: 1.5;
+}
+
+.project-page-body h3 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.7rem;
+  margin-top: 25px;
+  font-weight: 300;
 }
 
 .project-page-section-title {
@@ -403,9 +411,42 @@ input.autocomplete-input {
 }
 
 .project-page-resource {
-  font-family: 'CrimsonText-Roman';
+  font-family: "Crimson Text";
   font-size: 16px;
   position: relative;
+  margin-bottom: 15px;
+}
+
+.project-page-resource::after {
+  content: "";
+  width: 10%;
+  height: 1px;
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.project-page-resource a {
+  display: block;
+  transform: translateX(0);
+  transition: transform 0.2s linear;
+}
+.project-page-resource a:hover {
+  text-decoration: none;
+  transform: translateX(5px);
+}
+
+.resource-category {
+  margin-right: 5px;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.resource-container,
+.resource-container > p {
+  display: inline;
 }
 
 .close-icon {
@@ -431,6 +472,15 @@ input.autocomplete-input {
 .slider {
   height: 600px;
   margin-bottom: 50px;
+}
+
+.slider .slick-slide.slick-current {
+  filter: grayscale(0);
+}
+
+.slider .slick-slide {
+  transition: filter 0.2s linear, opacity 0.2s linear;
+  filter: grayscale(0.8);
 }
 
 .slider-image {
