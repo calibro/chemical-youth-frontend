@@ -54,7 +54,7 @@ const Methodologies = ({ type, history }) => {
         selectionCallBack={selectMethod}
         type={'method'}
       />
-      <div className='w-100 h-100 mt-4 overflow-auto'>
+      <div className='w-100 h-100 overflow-auto'>
         {methodologies
           .sort((a, b) => b.relatedProjects - a.relatedProjects)
           .map((methodology, index) => {

@@ -142,7 +142,8 @@ class Chemicals extends Component {
     super(props);
     this.state = {
       chemicals: [],
-      nodes: []
+      nodes: [],
+      activeState: null
     };
   }
 
@@ -227,7 +228,7 @@ class Chemicals extends Component {
   };
 
   render() {
-    const { nodes, chemicals } = this.state;
+    const { nodes, chemicals, activeIndex } = this.state;
     const selected = this.context.selected
       ? this.context.selected.map(s => s.value)
       : [];
@@ -260,19 +261,24 @@ class Chemicals extends Component {
                       ref={node.name}
                       cx={node.x}
                       cy={node.y}
-                      fill={
-                        selected.indexOf(node.name) > -1 ? 'black' : 'white'
-                      }
+                      className={`circle ${
+                        selected.indexOf(node.name) > -1 ||
+                        activeIndex === index
+                          ? 'active'
+                          : ''
+                      }`}
                       stroke='black'
                       strokeWidth={1}
                       r={radiusScale(node.relatedProjects)}
                       onClick={() => this.selectChemical('chemical', node.name)}
-                      onMouseEnter={() =>
-                        ReactTooltip.show(findDOMNode(this.refs[node.name]))
-                      }
-                      onMouseLeave={() =>
-                        ReactTooltip.hide(findDOMNode(this.refs[node.name]))
-                      }
+                      onMouseEnter={() => {
+                        this.setState({ activeIndex: index });
+                        ReactTooltip.show(findDOMNode(this.refs[node.name]));
+                      }}
+                      onMouseLeave={() => {
+                        this.setState({ activeIndex: null });
+                        ReactTooltip.hide(findDOMNode(this.refs[node.name]));
+                      }}
                       style={{ cursor: 'pointer' }}
                     />
 
@@ -283,25 +289,22 @@ class Chemicals extends Component {
                           y={node.y - 5}
                           width={node.name.length * 5.2}
                           height={10}
-                          fill={
-                            selected.indexOf(node.name) > -1 ? 'black' : 'white'
-                          }
-                          style={{
-                            pointerEvents: 'none'
-                          }}
+                          className={`rect ${
+                            selected.indexOf(node.name) > -1 ||
+                            activeIndex === index
+                              ? 'active'
+                              : ''
+                          }`}
                         />
                         <text
                           dx={node.x}
                           dy={node.y}
-                          style={{
-                            fontSize: '9px',
-                            textTransform: 'uppercase',
-                            dominantBaseline: 'central',
-                            pointerEvents: 'none'
-                          }}
-                          fill={
-                            selected.indexOf(node.name) > -1 ? 'white' : 'black'
-                          }
+                          className={`text ${
+                            selected.indexOf(node.name) > -1 ||
+                            activeIndex === index
+                              ? 'active'
+                              : ''
+                          }`}
                           textAnchor='middle'
                           //filter='url(#solid)'
                         >

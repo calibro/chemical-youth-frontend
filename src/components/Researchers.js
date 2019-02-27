@@ -33,7 +33,8 @@ class Researchers extends Component {
     this.state = {
       researchers: [],
       nodes: [],
-      links: []
+      links: [],
+      activeIndex: null
     };
   }
 
@@ -144,15 +145,15 @@ class Researchers extends Component {
         simulationNodes.forEach(function(d) {
           d.x =
             d.x < radiusScale(d.value)
-              ? radiusScale(d.value) + 2
+              ? radiusScale(d.value) + 5
               : d.x > svgWidth - radiusScale(d.value)
-              ? svgWidth - radiusScale(d.value) - 2
+              ? svgWidth - radiusScale(d.value) - 5
               : d.x;
           d.y =
             d.y < radiusScale(d.value)
-              ? radiusScale(d.value) + 2
+              ? radiusScale(d.value) + 5
               : d.y > svgHeight - radiusScale(d.value)
-              ? svgHeight - radiusScale(d.value) - 2
+              ? svgHeight - radiusScale(d.value) - 5
               : d.y;
         });
         this.setState({ nodes: simulationNodes });
@@ -166,7 +167,7 @@ class Researchers extends Component {
   };
 
   render() {
-    const { nodes, links, researchers } = this.state;
+    const { nodes, links, researchers, activeIndex } = this.state;
     const selected = this.context.selected
       ? this.context.selected.map(s => s.value)
       : [];
@@ -200,57 +201,59 @@ class Researchers extends Component {
                 return (
                   <g key={index}>
                     <circle
-                      data-tip={node.name}
+                      data-tip={
+                        radiusScale(node.relatedProjects) <= 10
+                          ? node.name.toUpperCase()
+                          : ''
+                      }
                       ref={node.name}
                       cx={node.x}
                       cy={node.y}
-                      fill={
-                        selected.indexOf(node.name) > -1 ? 'black' : 'white'
-                      }
+                      className={`circle ${
+                        selected.indexOf(node.name) > -1 ||
+                        activeIndex === index
+                          ? 'active'
+                          : ''
+                      }`}
                       stroke='black'
                       strokeWidth={1}
                       r={radiusScale(node.value)}
                       onClick={() =>
                         this.selectResearcher('researcher', node.name)
                       }
-                      onMouseEnter={() =>
-                        ReactTooltip.show(findDOMNode(this.refs[node.name]))
-                      }
-                      onMouseLeave={() =>
-                        ReactTooltip.hide(findDOMNode(this.refs[node.name]))
-                      }
-                      className='cursor-pointer'
+                      onMouseEnter={() => {
+                        this.setState({ activeIndex: index });
+                        ReactTooltip.show(findDOMNode(this.refs[node.name]));
+                      }}
+                      onMouseLeave={() => {
+                        this.setState({ activeIndex: null });
+                        ReactTooltip.hide(findDOMNode(this.refs[node.name]));
+                      }}
                     />
 
                     {radiusScale(node.value) > 10 && (
                       <g>
-                        {/* <rect
-                          x={node.x - radiusScale(node.value) - 5}
-                          y={node.y - 5}
-                          width={radiusScale(node.value) * 2 + 10}
+                        <rect
+                          x={node.x - (node.name.length * 5.2) / 2}
+                          y={node.y - 4}
+                          width={node.name.length * 5.2}
                           height={10}
-                          fill={
-                            selected.indexOf(node.name) > -1 ? 'none' : 'white'
-                          }
-                          style={{
-                            pointerEvents: 'none'
-                          }}
-                        /> */}
+                          className={`rect ${
+                            selected.indexOf(node.name) > -1 ||
+                            activeIndex === index
+                              ? 'active'
+                              : ''
+                          }`}
+                        />
                         <text
                           dx={node.x}
                           dy={node.y}
-                          style={{
-                            fontSize: '9px',
-                            textTransform: 'uppercase',
-                            dominantBaseline: 'central',
-                            pointerEvents: 'none',
-                            paintOrder: 'stroke'
-                          }}
-                          fill={
-                            selected.indexOf(node.name) > -1 ? 'white' : 'black'
-                          }
-                          stroke={'white'}
-                          strokeWidth={1}
+                          className={`text ${
+                            selected.indexOf(node.name) > -1 ||
+                            activeIndex === index
+                              ? 'active'
+                              : ''
+                          }`}
                           textAnchor='middle'
                           //filter='url(#solid)'
                         >
