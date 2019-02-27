@@ -551,6 +551,21 @@ input.autocomplete-input {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
+/* TOPIC */
+
+.topic-block-line {
+  width: 90%;
+  height: 2px;
+  background-color: black;
+  opacity: 0;
+  transition: 0.2s opacity;
+}
+
+.topic-block-line.active {
+  opacity: 1;
+  transition: 0.2s opacity;
+}
+
 /* VIZ */
 
 .rect {

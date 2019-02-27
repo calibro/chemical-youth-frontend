@@ -65,7 +65,7 @@ const Topics = ({ type, history }) => {
           .map((topic, index) => {
             return (
               <div
-                className='position-relative mr-3'
+                className={`position-relative mr-3`}
                 key={index}
                 style={{
                   height: '45px'
@@ -80,15 +80,18 @@ const Topics = ({ type, history }) => {
                     fontSize: wordScale
                       ? wordScale(topic.relatedProjects)
                       : '10px',
-                    bottom: '3px',
-                    fontWeight:
-                      selected.indexOf(topic.name) > -1 || activeIndex === index
-                        ? '600'
-                        : '300'
+                    bottom: '3px'
                   }}
                 >
                   {topic.name} <sup>{topic.relatedProjects}</sup>
                 </div>
+                <div
+                  className={`topic-block-line ${
+                    selected.indexOf(topic.name) > -1 || activeIndex === index
+                      ? 'active'
+                      : ''
+                  }`}
+                />
               </div>
             );
           })}
