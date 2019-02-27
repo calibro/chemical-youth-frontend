@@ -58,7 +58,6 @@ const Locations = ({ type, history, scrollTo }) => {
 
   const getYOffset = index => {
     const rowHeight = (window.innerWidth / 100) * 16;
-    console.log(rowHeight);
     return Math.floor(index / 3) * rowHeight;
   };
 

@@ -9,11 +9,15 @@ const Header = ({ history, expanded = true }) => {
     context.setSection(pathname[1]);
   }, [history.location.pathname]);
 
-  function changeSection(section) {
+  const changeSection = section => {
     context.setSection(section);
     context.selected = [];
     history.push(`/${section}`);
-  }
+  };
+
+  const goToLanding = () => {
+    history.push(`/`);
+  };
 
   return (
     <div className={`header ${expanded ? '' : 'small'}`}>
@@ -21,8 +25,8 @@ const Header = ({ history, expanded = true }) => {
       {expanded && (
         <div className='header-content w-70 d-flex align-items-center justify-content-around'>
           <div>
-            <div className={``}>
-              <img src='images/logo-dark.svg' width={60} />
+            <div className={`cursor-pointer`} onClick={() => goToLanding()}>
+              <img src='images/logo-white.svg' width={60} />
             </div>
           </div>
           <div>

@@ -56,7 +56,7 @@ class Search extends Component {
             backgroundColor: 'white',
             position: 'absolute',
             zIndex: 999,
-            top: 31,
+            top: 33,
             left: 0,
             maxHeight: '500px',
             overflow: 'auto'
@@ -68,8 +68,6 @@ class Search extends Component {
               style={{
                 padding: '10px',
                 borderBottom: '1px solid #d7d7d7',
-                borderLeft: '1px solid #d7d7d7',
-                borderRight: '1px solid #d7d7d7',
                 boxShadow:
                   'box-shadow: 0 2px 4px 2px rgba(217, 217, 217, 0.56)',
                 cursor: 'pointer'
@@ -83,7 +81,7 @@ class Search extends Component {
           shouldItemRender={this.matchStateToTerm}
           onChange={(event, value) => this.setState({ value: value })}
           onSelect={val => {
-            selectionCallBack(type, val.toLowerCase());
+            selectionCallBack(type, val);
             this.setState({ value: '' });
           }}
         />

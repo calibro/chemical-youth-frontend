@@ -26,7 +26,8 @@ body,
 }
 
 .hover-el:hover {
-  background-color: lightgrey;
+  background-color: black;
+  color: white;
 }
 
 .cursor-pointer {
@@ -42,9 +43,9 @@ body,
 .header-el::after {
   content: '';
   width: 100%;
-  height: 3px;
+  height: 2px;
   position: absolute;
-  top: 22px;
+  top: 21px;
   left: 0;
   opacity: 1;
   transition: 0.5s opacity;
@@ -380,7 +381,7 @@ input.autocomplete-input {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
-  margin-top: 5px;
+  margin: 5px 10px 0 0;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -535,4 +536,13 @@ input.autocomplete-input {
   background-color: black;
   color: white;
   transition: 0.2s all;
+}
+
+.tooltip-extra-class {
+  pointer-events: auto !important;
+  background-color: black !important;
+  border-radius: 0;
+  padding: 5px;
+  font-size: 10px;
+  font-family: 'Source Sans Pro', sans-serif;
 }

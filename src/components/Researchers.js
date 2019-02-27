@@ -12,7 +12,7 @@ import {
 } from 'd3-force';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
-import { flatten } from 'lodash';
+import { flatten, groupBy } from 'lodash';
 import ReactTooltip from 'react-tooltip';
 import { AppContext } from '../appContext';
 import Search from './Search';
@@ -56,24 +56,36 @@ class Researchers extends Component {
 
           const projects = res.map(r => r.researchers.map(v => v.name));
 
-          let links = {};
+          let links = [];
 
-          projects.map(researchers => {
-            if (researchers.length > 1) {
-              for (let i = 0; i < researchers.length - 1; i++) {
-                const researcher1 = researchers[i];
-                const researcher2 = researchers[i + 1];
-                if (!links[researcher1]) {
-                  links[researcher1] = {};
-                  links[researcher1][researcher2] = { count: 1 };
-                } else if (!links[researcher1][researcher2]) {
-                  links[researcher1][researcher2] = { count: 1 };
-                } else {
-                  links[researcher1][researcher2].count += 1;
+          projects.map((researchers, index) => {
+            const length = researchers.length;
+            for (let i = 0; i < length; i++) {
+              const researcher1 = researchers[0];
+              const remainingResearchers = researchers;
+              remainingResearchers.splice(0, 1);
+
+              if (remainingResearchers.length > 0) {
+                for (let j = 0; j < remainingResearchers.length; j++) {
+                  const researcher2 = remainingResearchers[j];
+                  const sortedResearchers = [researcher1, researcher2].sort();
+
+                  links.push(sortedResearchers);
+                  //console.log(researcher1, researcher2);
+                  // if (!links[researcher1]) {
+                  //   links[researcher1] = {};
+                  //   links[researcher1][researcher2] = { count: 1 };
+                  // } else if (!links[researcher1][researcher2]) {
+                  //   links[researcher1][researcher2] = { count: 1 };
+                  // } else {
+                  //   links[researcher1][researcher2].count += 1;
+                  // }
                 }
               }
             }
           });
+
+          console.log(links);
 
           this.setState({ researchers: nodes });
           this.setUpForceLayout(nodes, links);
@@ -95,59 +107,52 @@ class Researchers extends Component {
         return r;
       });
 
-    const researchersLinksArray = Object.entries(researchersLinks);
+    const researchersLinksGrouped = Object.values(groupBy(researchersLinks));
     const formattedLinks = [];
-    researchersLinksArray.forEach((value, i) => {
-      const source = researchersNodes.findIndex(v => v.name === value[0]);
-      const targets = Object.entries(value[1]);
-      targets.forEach(t => {
-        const target = researchersNodes.findIndex(v => v.name === t[0]);
-        const weight = t[1].count;
-        formattedLinks.push({ source: source, target: target, weight: weight });
-      });
+
+    researchersLinksGrouped.map((value, i) => {
+      const source = researchersNodes.findIndex(v => v.name === value[0][0]);
+      const target = researchersNodes.findIndex(v => v.name === value[0][1]);
+      const weight = value.length;
+
+      formattedLinks.push({ source: source, target: target, weight: weight });
     });
 
     this.setState({ links: formattedLinks });
 
     const simulation = forceSimulation(simulationNodes)
-      .force('charge', forceManyBody().strength(0))
+      .force('charge', forceManyBody().strength(2))
       .force(
         'link',
-        forceLink(formattedLinks)
-          .strength(d => {
-            return d.weight;
-          })
-          .distance(d => {
-            console.log(d);
-            return d.weight * 3;
-          })
-      )
-      .force(
-        'r',
-        forceRadial(function(d) {
-          return d.weight === 3 ? 100 : d.weight === 2 ? 200 : 100;
+        forceLink(formattedLinks).strength(d => {
+          return d.weight;
         })
+        // .distance(d => {
+        //   return d.weight * 3;
+        // })
       )
+      .force('r', forceRadial(120))
       .force('center', forceCenter(svgWidth / 2, svgHeight / 2))
       .force(
         'collision',
-        forceCollide().radius(n => n.radius + 15)
-        // .strength(1)
-        // .iterations(1)
+        forceCollide()
+          .radius(n => n.radius + 15)
+          .strength(1)
+          .iterations(5)
       )
       .on('tick', a => {
         simulationNodes.forEach(function(d) {
           d.x =
             d.x < radiusScale(d.value)
-              ? radiusScale(d.value)
+              ? radiusScale(d.value) + 2
               : d.x > svgWidth - radiusScale(d.value)
-              ? svgWidth - radiusScale(d.value)
+              ? svgWidth - radiusScale(d.value) - 2
               : d.x;
           d.y =
             d.y < radiusScale(d.value)
-              ? radiusScale(d.value)
+              ? radiusScale(d.value) + 2
               : d.y > svgHeight - radiusScale(d.value)
-              ? svgHeight - radiusScale(d.value)
+              ? svgHeight - radiusScale(d.value) - 2
               : d.y;
         });
         this.setState({ nodes: simulationNodes });
@@ -200,18 +205,13 @@ class Researchers extends Component {
                       cx={node.x}
                       cy={node.y}
                       fill={
-                        selected.indexOf(node.name.toLowerCase()) > -1
-                          ? 'black'
-                          : 'white'
+                        selected.indexOf(node.name) > -1 ? 'black' : 'white'
                       }
                       stroke='black'
                       strokeWidth={1}
                       r={radiusScale(node.value)}
                       onClick={() =>
-                        this.selectResearcher(
-                          'researcher',
-                          node.name.toLowerCase()
-                        )
+                        this.selectResearcher('researcher', node.name)
                       }
                       onMouseEnter={() =>
                         ReactTooltip.show(findDOMNode(this.refs[node.name]))

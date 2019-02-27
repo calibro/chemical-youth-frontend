@@ -65,7 +65,7 @@ const Projects = ({ history }) => {
     if (selectedFilters.length > 0) {
       if (context.section === 'location') {
         if (project.place && project.place.length > 0) {
-          const places = project.place.map(m => m.city.toLowerCase());
+          const places = project.place.map(m => m.city);
           return arrayContainsArray(places, selectedFilters);
         } else {
           return false;
@@ -93,9 +93,7 @@ const Projects = ({ history }) => {
         }
       } else if (context.section === 'researcher') {
         if (project.researchers && project.researchers.length > 0) {
-          const researchers = project.researchers.map(m =>
-            m.name.toLowerCase()
-          );
+          const researchers = project.researchers.map(m => m.name);
           return arrayContainsArray(researchers, selectedFilters);
         } else {
           return false;
@@ -162,7 +160,9 @@ const Projects = ({ history }) => {
               <Project
                 project={project}
                 key={index}
-                countries={uniqBy(project.countries, 'name')}
+                countries={
+                  project.countries[0] ? uniqBy(project.countries, 'name') : []
+                }
               />
             );
           })}

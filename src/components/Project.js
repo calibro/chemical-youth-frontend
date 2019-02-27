@@ -43,6 +43,11 @@ const Project = ({ project, countries }) => {
                 </div>
               );
             })}
+          {!countries.length && (
+            <div className={`project-country-label py-1 pr-1`}>
+              {project.place ? project.place[0].city : ''}
+            </div>
+          )}
         </div>
       </div>
     </Link>

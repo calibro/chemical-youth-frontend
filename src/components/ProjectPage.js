@@ -109,9 +109,7 @@ const ProjectPage = ({ history, location }) => {
                   return (
                     <div
                       key={index}
-                      className={`project-page-researcher link py-1 ${
-                        index === 0 ? 'mr-2' : 'mx-2'
-                      }`}
+                      className={`project-page-researcher link`}
                       onClick={() =>
                         changeSection(
                           'researcher',
@@ -135,7 +133,9 @@ const ProjectPage = ({ history, location }) => {
               )}
             </div>
           </div>
-          {(project.internalResources || project.externalResources) && (
+          {((project.internalResources && project.internalResources.length) ||
+            (project.externalResources &&
+              project.externalResources.length)) && (
             <div className='w-100 mb-5'>
               <div className='project-page-section-title'> RESOURCES </div>
               <div className='w-100'>
@@ -211,7 +211,7 @@ const ProjectPage = ({ history, location }) => {
                   return (
                     <div className='' key={index}>
                       <img
-                        src={`${image}?h=600&fit=max`}
+                        src={`${image}?h=600`}
                         key={index}
                         className='slider-image'
                       />
@@ -226,7 +226,7 @@ const ProjectPage = ({ history, location }) => {
                 src='/images/arrow-left.svg'
                 width={20}
                 className='cursor-pointer'
-                onClick={() => slider.slickPrevious()}
+                onClick={() => slider.slickPrev()}
               />
               <div>
                 {activeSlide + 1} / {project.images.length}

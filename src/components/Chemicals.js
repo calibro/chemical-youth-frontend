@@ -6,8 +6,7 @@ import {
   forceSimulation,
   forceManyBody,
   forceCenter,
-  forceCollide,
-  forceLink
+  forceCollide
 } from 'd3-force';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
@@ -188,15 +187,15 @@ class Chemicals extends Component {
       .slice(0, simulationNodes.length - 1);
 
     const simulation = forceSimulation(simulationNodes)
-      .force('charge', forceManyBody().strength(50))
+      .force('charge', forceManyBody().strength(5))
       //.force('link', forceLink(links))
       .force('center', forceCenter(svgWidth / 2, svgHeight / 2))
       .force(
         'collision',
         forceCollide()
           .radius(n => n.radius + 10)
-          .strength(2)
-          .iterations(1)
+          .strength(1)
+          .iterations(2)
       )
       .on('tick', a => {
         simulationNodes.forEach(function(d) {
@@ -215,6 +214,9 @@ class Chemicals extends Component {
               : d.y;
         });
         this.setState({ nodes: simulationNodes });
+      })
+      .on('end', a => {
+        //this.setState({ nodes: simulationNodes });
       });
   };
 
@@ -231,7 +233,12 @@ class Chemicals extends Component {
       : [];
     return (
       <div className='viz-container'>
-        <ReactTooltip place='top' theme='dark' effect='solid' />
+        <ReactTooltip
+          place='top'
+          theme='dark'
+          effect='solid'
+          className='tooltip-extra-class'
+        />
         <Search
           items={chemicals}
           selectionCallBack={this.selectChemical}
@@ -245,7 +252,11 @@ class Chemicals extends Component {
                 return (
                   <g key={index}>
                     <circle
-                      data-tip={node.name}
+                      data-tip={
+                        radiusScale(node.relatedProjects) <= 10
+                          ? node.name.toUpperCase()
+                          : ''
+                      }
                       ref={node.name}
                       cx={node.x}
                       cy={node.y}
@@ -268,12 +279,12 @@ class Chemicals extends Component {
                     {radiusScale(node.relatedProjects) > 10 && (
                       <g>
                         <rect
-                          x={node.x - radiusScale(node.relatedProjects) - 5}
+                          x={node.x - (node.name.length * 5.2) / 2}
                           y={node.y - 5}
-                          width={radiusScale(node.relatedProjects) * 2 + 10}
+                          width={node.name.length * 5.2}
                           height={10}
                           fill={
-                            selected.indexOf(node.name) > -1 ? 'none' : 'white'
+                            selected.indexOf(node.name) > -1 ? 'black' : 'white'
                           }
                           style={{
                             pointerEvents: 'none'
