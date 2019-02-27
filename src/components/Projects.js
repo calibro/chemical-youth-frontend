@@ -120,10 +120,12 @@ const Projects = ({ history }) => {
   return (
     <div className='w-100 h-100 d-flex flex-column'>
       {loading && <Loader />}
-      <div className='pb-2 project-counter'>
-        {projects.filter(project => filter(project)).length}/ 63 PROJECTS SHOWN
-      </div>
-      {
+      <div className='project-header'>
+        <div className='pb-2 project-counter'>
+          {projects.filter(project => filter(project)).length}/ 63 PROJECTS
+          SHOWN
+        </div>
+
         <div className='w-100'>
           {context.selected.map((el, index) => {
             return (
@@ -146,8 +148,9 @@ const Projects = ({ history }) => {
             );
           })}
         </div>
-      }
-      <div className='w-100 h-100 d-flex flex-column'>
+      </div>
+
+      <div className='w-100 h-100 d-flex flex-column overflow-auto'>
         {projects
           .filter(project => filter(project))
           .sort((a, b) => {

@@ -10,12 +10,12 @@ const Project = ({ project, countries }) => {
           {project.researchers &&
             project.researchers.map((researcher, index) => {
               return (
-                <span
-                  key={index}
-                  className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}
-                >
-                  {researcher.name}
-                </span>
+                <React.Fragment key={index}>
+                  <span className={`py-1 ${index === 0 ? 'pr-1' : 'px-1'}`}>
+                    {researcher.name}
+                  </span>
+                  {index < project.researchers.length - 1 ? <span>|</span> : ''}
+                </React.Fragment>
               );
             })}
         </div>

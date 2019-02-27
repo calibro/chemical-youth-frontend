@@ -107,18 +107,21 @@ const ProjectPage = ({ history, location }) => {
               {project.researchers &&
                 project.researchers.map((researcher, index) => {
                   return (
-                    <div
-                      key={index}
-                      className={`project-page-researcher link`}
-                      onClick={() =>
-                        changeSection(
-                          'researcher',
-                          researcher.name.toLowerCase()
-                        )
-                      }
-                    >
-                      {researcher.name}
-                    </div>
+                    <React.Fragment key={index}>
+                      <div
+                        className={`project-page-researcher link py-1 ${
+                          index === 0 ? 'mr-2' : 'mx-2'
+                        }`}
+                        onClick={() =>
+                          changeSection('researcher', researcher.name)
+                        }
+                      >
+                        {researcher.name}
+                      </div>
+                      <span>
+                        {index < project.researchers.length - 1 ? '|' : ''}
+                      </span>
+                    </React.Fragment>
                   );
                 })}
             </div>
@@ -143,18 +146,25 @@ const ProjectPage = ({ history, location }) => {
                   project.internalResources.map((el, index) => {
                     if (project.internalResourcesFiles[index]) {
                       return (
-                        <div
-                          key={index}
-                          className='project-page-resource rainbow-line'
-                        >
+                        <div key={index} className='project-page-resource'>
                           {el.private ? (
                             <div
                               onClick={() => toggleModal(true)}
                               className='cursor-pointer'
                             >
+                              <span className='resource-category'>
+                                {'['}
+                                {
+                                  project.internalResourcesCategories[index]
+                                    .name
+                                }
+                                {']'}
+                              </span>
                               <BlockContent
                                 blocks={el.name}
                                 serializers={serializers}
+                                className='resource-container'
+                                renderContainerOnSingleChild={true}
                               />
                             </div>
                           ) : (
@@ -162,9 +172,19 @@ const ProjectPage = ({ history, location }) => {
                               href={project.internalResourcesFiles[index].url}
                               download
                             >
+                              <span className='resource-category'>
+                                {'['}
+                                {
+                                  project.internalResourcesCategories[index]
+                                    .name
+                                }
+                                {']'}
+                              </span>
                               <BlockContent
                                 blocks={el.name}
                                 serializers={serializers}
+                                className='resource-container'
+                                renderContainerOnSingleChild={true}
                               />
                             </a>
                           )}
@@ -176,14 +196,18 @@ const ProjectPage = ({ history, location }) => {
                   project.externalResources.map((el, index) => {
                     if (el.linkUrl) {
                       return (
-                        <div
-                          key={index}
-                          className='project-page-resource rainbow-line'
-                        >
+                        <div key={index} className='project-page-resource'>
+                          <span className='resource-category'>
+                            {'['}
+                            {project.externalResourcesCategories[index].name}
+                            {']'}
+                          </span>
                           <a href={el.linkUrl} target='_blank' download>
                             <BlockContent
                               blocks={el.name}
                               serializers={serializers}
+                              className='resource-container'
+                              renderContainerOnSingleChild={true}
                             />
                           </a>
                         </div>

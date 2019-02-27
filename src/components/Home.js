@@ -115,12 +115,7 @@ class Home extends Component {
                 {pathname === 'time' && <Times />}
                 {pathname === 'method' && <Methodologies />}
               </div>
-              <div
-                className='half-container'
-                style={{
-                  overflow: 'scroll'
-                }}
-              >
+              <div className='half-container'>
                 <Projects />
               </div>
             </div>
