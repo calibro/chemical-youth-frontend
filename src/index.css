@@ -17,12 +17,24 @@ body,
   height: 100%;
 }
 
+.w-30 {
+  width: 30%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
 .w-70 {
   width: 70%;
 }
 
-.w-30 {
-  width: 30%;
+.w-80 {
+  width: 80%;
 }
 
 .hover-el:hover {
@@ -168,7 +180,6 @@ input.autocomplete-input {
 
 .landing-upper-content {
   opacity: 1;
-  padding: 50px;
   display: flex;
   flex-direction: column;
   width: 1100px;
@@ -212,18 +223,35 @@ input.autocomplete-input {
 
 .landing-lower {
   background-color: white;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
   width: 100%;
   height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.landing-lower-link {
+.landing-lower-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 1100px;
+  height: 80px;
+}
+
+.landing-lower-text {
+  width: 230px;
+  height: 80px;
   font-family: 'CrimsonText-Roman';
-  font-size: 26px;
+  font-size: 14px;
+  line-height: 1.36;
+  color: #000000;
+}
+
+.landing-link {
+  font-size: 20px;
   cursor: pointer;
   position: relative;
+  margin: 75px auto;
 }
 
 .rainbow-line::after {
@@ -359,12 +387,7 @@ input.autocomplete-input {
 
 .project {
   width: 100%;
-  border-top: 1px solid #d7d7d7;
   padding: 1rem 0;
-}
-
-.project:first-of-type {
-  border-top: 0px solid #d7d7d7;
 }
 
 .project-title {
@@ -476,11 +499,6 @@ input.autocomplete-input {
 }
 
 .close-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 44px;
-  box-shadow: 0 2px 4px 2px rgba(217, 217, 217, 0.56);
-  background-color: #ffffff;
   position: absolute;
   top: 50px;
   right: 50px;
@@ -488,9 +506,14 @@ input.autocomplete-input {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
   cursor: pointer;
   z-index: 99;
+}
+
+.project-page-special-title {
+  font-family: 'Crimson Text';
+  font-size: 24px;
+  margin-bottom: 11px;
 }
 
 /* SLIDER */

@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Project = ({ project, countries }) => {
+const Project = ({ project, countries, index }) => {
   return (
     <Link to={`/projects/${project.slug ? project.slug.current : ''}`}>
-      <div className='project'>
+      <div
+        className='project'
+        style={{ borderTop: index === 0 ? '' : '1px solid #d7d7d7' }}
+      >
         <div className='project-title'> {project.title} </div>
         <div className='project-researchers'>
           {project.researchers &&

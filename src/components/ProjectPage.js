@@ -3,11 +3,13 @@ import sanityClient, { builder } from '../lib/sanity';
 import { AppContext } from '../appContext';
 import BlockContent from '@sanity/block-content-to-react';
 import { withRouter } from 'react-router-dom';
-import Slider from 'react-slick';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Header from './Header';
 import Loader from './Loader';
 import ProjectPageSideBar from './ProjectPageSideBar';
+import Video from './Video';
+import SpecialProject from './SpecialProject';
+import Carousel from './Carousel';
 
 const serializers = {
   types: {
@@ -28,14 +30,13 @@ const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
   const [modal, toggleModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [activeSlide, setActiveSlide] = useState(0);
   const context = useContext(AppContext);
 
   const slug = location.pathname.split('/')[2];
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     const query = `*[_type == "project" && slug.current == "${slug}"]{
-      _id, title, body, slug,
+      _id, title, body, slug, videoUrl,
       "mainImage": mainImage.asset->url,
       "topics": topics[]->,
       "chemicals": chemicals[]->,
@@ -47,6 +48,7 @@ const ProjectPage = ({ history, location }) => {
       "internalResourcesCategories": internalResources[].category->,
       "internalResourcesFiles": internalResources[].document.asset->,
       "externalResources": externalResources,
+      "externalResourcesCategories": externalResources[].category->,
       "images": images[].asset->url,
     }`;
 
@@ -78,27 +80,16 @@ const ProjectPage = ({ history, location }) => {
     history.push(`/${type}?selected=${name}`);
   };
 
-  let slider = null;
-
-  const settings = {
-    dots: false,
-    infinite: true,
-    centerMode: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    adaptiveHeight: true,
-    variableWidth: true,
-    arrows: false,
-    afterChange: current => setActiveSlide(current)
-  };
-
   return (
     <div className='w-100 d-flex flex-column position-relative justify-content-center'>
       <Header expanded={false} />
       <div className='w-100 d-flex flex-wrap container'>
         {loading && <Loader fullheader={false} />}
-        <div className='close-icon' onClick={back}>
-          X
+        <div className='close-icon link' onClick={back}>
+          Back to home
+          <span>
+            <img src='/images/arrow-right.svg' width='20px' />
+          </span>
         </div>
         <div className='w-70' style={{ paddingLeft: '80px' }}>
           <div className='w-100 py-3'>
@@ -227,44 +218,8 @@ const ProjectPage = ({ history, location }) => {
             IMAGES
           </div>
         )}
-        {project.images && (
-          <div className='w-100 mb-5' style={{ paddingLeft: '80px' }}>
-            <div className='slider'>
-              <Slider ref={c => (slider = c)} {...settings}>
-                {project.images.map((image, index) => {
-                  return (
-                    <div className='' key={index}>
-                      <img
-                        src={`${image}?h=600`}
-                        key={index}
-                        className='slider-image'
-                      />
-                    </div>
-                  );
-                })}
-              </Slider>
-            </div>
-            <div className={'slider-arrows'}>
-              <img
-                alt='previous image'
-                src='/images/arrow-left.svg'
-                width={20}
-                className='cursor-pointer'
-                onClick={() => slider.slickPrev()}
-              />
-              <div>
-                {activeSlide + 1} / {project.images.length}
-              </div>
-              <img
-                alt='next image'
-                src='/images/arrow-right.svg'
-                width={20}
-                className='cursor-pointer'
-                onClick={() => slider.slickNext()}
-              />
-            </div>
-          </div>
-        )}
+        {project.images && <Carousel images={project.images} />}
+        {project.videoUrl && <Video url={project.videoUrl} />}
       </div>
       <Modal isOpen={modal} toggle={() => toggleModal(!modal)} className={''}>
         <ModalHeader toggle={() => toggleModal(!modal)}>
@@ -280,6 +235,10 @@ const ProjectPage = ({ history, location }) => {
           </Button>
         </ModalFooter>
       </Modal>
+      {project.slug &&
+        project.slug.current === 'mapping-chemicals-in-cagayan-de-oro' && (
+          <SpecialProject />
+        )}
     </div>
   );
 };

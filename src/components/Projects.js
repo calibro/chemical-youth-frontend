@@ -163,6 +163,7 @@ const Projects = ({ history }) => {
               <Project
                 project={project}
                 key={index}
+                index={index}
                 countries={
                   project.countries[0] ? uniqBy(project.countries, 'name') : []
                 }

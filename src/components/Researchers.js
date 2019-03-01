@@ -122,15 +122,16 @@ class Researchers extends Component {
     this.setState({ links: formattedLinks });
 
     const simulation = forceSimulation(simulationNodes)
-      .force('charge', forceManyBody().strength(2))
+      .force('charge', forceManyBody().strength(-10))
       .force(
         'link',
-        forceLink(formattedLinks).strength(d => {
-          return d.weight;
-        })
-        // .distance(d => {
-        //   return d.weight * 3;
-        // })
+        forceLink(formattedLinks)
+          .strength(d => {
+            return d.weight;
+          })
+          .distance(d => {
+            return d.weight * 3;
+          })
       )
       .force('r', forceRadial(120))
       .force('center', forceCenter(svgWidth / 2, svgHeight / 2))
@@ -173,7 +174,12 @@ class Researchers extends Component {
       : [];
     return (
       <div className='viz-container'>
-        <ReactTooltip place='top' theme='dark' effect='solid' />
+        <ReactTooltip
+          place='top'
+          theme='dark'
+          effect='solid'
+          className='tooltip-extra-class'
+        />
         <Search
           items={researchers}
           selectionCallBack={this.selectResearcher}
@@ -202,7 +208,7 @@ class Researchers extends Component {
                   <g key={index}>
                     <circle
                       data-tip={
-                        radiusScale(node.relatedProjects) <= 10
+                        radiusScale(node.value) <= 10
                           ? node.name.toUpperCase()
                           : ''
                       }

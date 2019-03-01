@@ -14,11 +14,11 @@ const Location = ({
         selected.indexOf(city) > -1 ? 'active' : ''
       }`}
       style={{
-        backgroundImage: `url(https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${
+        backgroundImage: `url(https://api.mapbox.com/styles/v1/gabrielecolombo/cjsnc1pt701yf1fmoasvam9wv/static/${
           coordinates.lng
         },${
           coordinates.lat
-        },${zoom},0,0/600x600?access_token=pk.eyJ1Ijoid2F2ZWZhY3RvcnkiLCJhIjoicVpwemdfYyJ9._y58vUr3LapeG3s1U_sPqQ)`
+        },${zoom},0,0/600x600?access_token=pk.eyJ1IjoiZ2FicmllbGVjb2xvbWJvIiwiYSI6ImNpdGZqNWY1MjAwZWUyeW1qbDhkZHV2OXMifQ.Nem-UVIW-71T6yQQvjrtog)`
       }}
       onClick={() => callbackClick('location', city)}
     >

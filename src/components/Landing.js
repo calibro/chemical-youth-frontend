@@ -55,17 +55,37 @@ const Landing = ({ history }) => {
               you visit us.
             </div>
           </div>
+          <div className='landing-link link' onClick={() => goToHome()}>
+            EXPLORE THE PROJECT
+            <span>
+              <img src='images/arrow-right.svg' width='20px' />
+            </span>
+          </div>
         </div>
       </div>
       <div className='landing-lower'>
-        <div
-          className='landing-lower-link rainbow-line'
-          onClick={() => goToHome()}
-        >
-          Explore the project
-          <span>
-            <img src='images/arrow-right.svg' width='20px' />
-          </span>
+        <div className='landing-lower-container'>
+          <div className='landing-lower-text'>
+            The ChemicalYouth project is based at the University of Amsterdam
+            and received 5 years of funding from the European Research Council
+            (2013-2018).
+          </div>
+          <div>
+            <img src='images/aissr_logoblokjesite_GRAY.png' height='80px' />
+          </div>
+          <div>
+            <img src='images/uvalogo_tag_p.png' height='80px' />
+          </div>
+          <div>
+            <img src='images/LOGO_ERC.png' height='80px' />
+          </div>
+          <div className='landing-lower-text'>
+            This website is designed and developed by Calibro. Project team:
+            Lorem ipsum, dolor sit amet, other sui, lorem dolor, ather examples.
+          </div>
+          <div>
+            <img src='images/LOGO_ERC.png' height='80px' />
+          </div>
         </div>
       </div>
     </div>
