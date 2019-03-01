@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/chemical-youth-frontend/precache-manifest.00fbefc51a2f06da30de131dfba3f51b.js"
+  "/chemical-youth-frontend/precache-manifest.01bdcfd00587a99a5c6b82d9c45db155.js"
 );
 
 workbox.clientsClaim();
