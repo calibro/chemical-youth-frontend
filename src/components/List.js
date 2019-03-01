@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { withRouter } from "react-router-dom";
-import { AppContext } from "../appContext";
+import React, { useContext } from 'react';
+import { withRouter } from 'react-router-dom';
+import { AppContext } from '../appContext';
 
 const Project = ({ type, elements, objectKey, history }) => {
   const context = useContext(AppContext);
@@ -11,19 +11,18 @@ const Project = ({ type, elements, objectKey, history }) => {
   };
 
   return (
-    <div className="d-flex flex-wrap">
+    <div className='d-flex flex-wrap'>
       {elements ? (
         elements.map((el, index) => {
           if (el) {
             const name = objectKey ? el[objectKey] : el.name;
-            const val = type === "location" ? name.toLowerCase() : name;
             return (
               <React.Fragment key={index}>
-                <div className="mr-1 link list-el">
-                  <div onClick={() => changeSection(type, val)}>{name}</div>
+                <div className='mr-1 link list-el'>
+                  <div onClick={() => changeSection(type, name)}>{name}</div>
                 </div>
-                <span className="mr-1 list-el">
-                  {index < elements.length - 1 ? "|" : ""}
+                <span className='mr-1 list-el'>
+                  {index < elements.length - 1 ? '|' : ''}
                 </span>
               </React.Fragment>
             );
