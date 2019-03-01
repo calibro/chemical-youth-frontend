@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import findDOMNode from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import circlePack from '../lib/circlePack';
