@@ -28,12 +28,12 @@ self.__precacheManifest = [
     "url": "/chemical-youth-frontend/static/media/slick.ced611da.eot"
   },
   {
-    "revision": "b7c9e1e479de3b53f1e4e30ebac2403a",
-    "url": "/chemical-youth-frontend/static/media/slick.b7c9e1e4.woff"
-  },
-  {
     "revision": "d41f55a78e6f49a5512878df1737e58a",
     "url": "/chemical-youth-frontend/static/media/slick.d41f55a7.ttf"
+  },
+  {
+    "revision": "b7c9e1e479de3b53f1e4e30ebac2403a",
+    "url": "/chemical-youth-frontend/static/media/slick.b7c9e1e4.woff"
   },
   {
     "revision": "7564bd60be9ffec30f6d",
