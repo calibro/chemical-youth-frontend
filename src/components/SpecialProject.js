@@ -21,6 +21,7 @@ const SpecialProject = ({}) => {
   const [loading, setLoading] = useState(true);
   const [bounds, setBounds] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [zoom, setZoom] = useState(13);
   const context = useContext(AppContext);
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -76,6 +77,8 @@ const SpecialProject = ({}) => {
       projects[selectedIndex].coordinates.lng
     );
   }
+
+  let map = null;
 
   return (
     <div className='w-100 h-100 d-flex mt-5' style={{ height: '600px' }}>
@@ -141,11 +144,17 @@ const SpecialProject = ({}) => {
 
       <div className='w-60'>
         <Map
+          ref={m => (map = m)}
           style='mapbox://styles/gabrielecolombo/cjsnc1pt701yf1fmoasvam9wv'
           containerStyle={{
             height: '600px',
             width: '100%'
           }}
+          onZoomEnd={z => {
+            console.log(map);
+            //setZoom(z)
+          }}
+          zoom={[zoom]}
           fitBounds={
             bounds
               ? [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
