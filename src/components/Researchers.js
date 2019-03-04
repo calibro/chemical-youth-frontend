@@ -17,6 +17,7 @@ import ReactTooltip from 'react-tooltip';
 import { AppContext } from '../appContext';
 import Search from './Search';
 import { parseQueryParams } from '../utils';
+import Responsive from 'react-responsive';
 
 const query = `*[_type == "project"]{
   "researchers": researchers[]->
@@ -185,94 +186,99 @@ class Researchers extends Component {
           selectionCallBack={this.selectResearcher}
           type={'researcher'}
         />
-        <div className='w-100 h-100 d-flex flex-column mt-4'>
-          <svg width={svgWidth} height={svgHeight}>
-            {links.map((link, index) => {
-              return (
-                <g key={index}>
-                  <line
-                    x1={link.source.x}
-                    y1={link.source.y}
-                    x2={link.target.x}
-                    y2={link.target.y}
-                    style={{ strokeWidth: link.weight }}
-                    stroke='black'
-                  />
-                </g>
-              );
-            })}
-            {nodes.map((node, index) => {
-              const radius = radiusScale(node.value);
-              if (node.value > 0) {
+        <Responsive minWidth={600}>
+          <div
+            className='w-100 d-flex flex-column mt-4'
+            style={{ height: 'calc(100% - 33px)' }}
+          >
+            <svg width={svgWidth} height={svgHeight}>
+              {links.map((link, index) => {
                 return (
                   <g key={index}>
-                    <circle
-                      data-tip={
-                        radiusScale(node.value) <= 10
-                          ? node.name.toUpperCase()
-                          : ''
-                      }
-                      ref={node.name}
-                      cx={node.x}
-                      cy={node.y}
-                      className={`circle ${
-                        selected.indexOf(node.name) > -1 ||
-                        activeIndex === index
-                          ? 'active'
-                          : ''
-                      }`}
+                    <line
+                      x1={link.source.x}
+                      y1={link.source.y}
+                      x2={link.target.x}
+                      y2={link.target.y}
+                      style={{ strokeWidth: link.weight }}
                       stroke='black'
-                      strokeWidth={1}
-                      r={radiusScale(node.value)}
-                      onClick={() =>
-                        this.selectResearcher('researcher', node.name)
-                      }
-                      onMouseEnter={() => {
-                        this.setState({ activeIndex: index });
-                        ReactTooltip.show(findDOMNode(this.refs[node.name]));
-                      }}
-                      onMouseLeave={() => {
-                        this.setState({ activeIndex: null });
-                        ReactTooltip.hide(findDOMNode(this.refs[node.name]));
-                      }}
                     />
-
-                    {radiusScale(node.value) > 10 && (
-                      <g>
-                        <rect
-                          x={node.x - (node.name.length * 5.2) / 2}
-                          y={node.y - 4}
-                          width={node.name.length * 5.2}
-                          height={10}
-                          className={`rect ${
-                            selected.indexOf(node.name) > -1 ||
-                            activeIndex === index
-                              ? 'active'
-                              : ''
-                          }`}
-                        />
-                        <text
-                          dx={node.x}
-                          dy={node.y}
-                          className={`text ${
-                            selected.indexOf(node.name) > -1 ||
-                            activeIndex === index
-                              ? 'active'
-                              : ''
-                          }`}
-                          textAnchor='middle'
-                          //filter='url(#solid)'
-                        >
-                          {node.name}
-                        </text>
-                      </g>
-                    )}
                   </g>
                 );
-              }
-            })}
-          </svg>
-        </div>
+              })}
+              {nodes.map((node, index) => {
+                const radius = radiusScale(node.value);
+                if (node.value > 0) {
+                  return (
+                    <g key={index}>
+                      <circle
+                        data-tip={
+                          radiusScale(node.value) <= 10
+                            ? node.name.toUpperCase()
+                            : ''
+                        }
+                        ref={node.name}
+                        cx={node.x}
+                        cy={node.y}
+                        className={`circle ${
+                          selected.indexOf(node.name) > -1 ||
+                          activeIndex === index
+                            ? 'active'
+                            : ''
+                        }`}
+                        stroke='black'
+                        strokeWidth={1}
+                        r={radiusScale(node.value)}
+                        onClick={() =>
+                          this.selectResearcher('researcher', node.name)
+                        }
+                        onMouseEnter={() => {
+                          this.setState({ activeIndex: index });
+                          ReactTooltip.show(findDOMNode(this.refs[node.name]));
+                        }}
+                        onMouseLeave={() => {
+                          this.setState({ activeIndex: null });
+                          ReactTooltip.hide(findDOMNode(this.refs[node.name]));
+                        }}
+                      />
+
+                      {radiusScale(node.value) > 10 && (
+                        <g>
+                          <rect
+                            x={node.x - (node.name.length * 5.2) / 2}
+                            y={node.y - 4}
+                            width={node.name.length * 5.2}
+                            height={10}
+                            className={`rect ${
+                              selected.indexOf(node.name) > -1 ||
+                              activeIndex === index
+                                ? 'active'
+                                : ''
+                            }`}
+                          />
+                          <text
+                            dx={node.x}
+                            dy={node.y}
+                            className={`text ${
+                              selected.indexOf(node.name) > -1 ||
+                              activeIndex === index
+                                ? 'active'
+                                : ''
+                            }`}
+                            textAnchor='middle'
+                            //filter='url(#solid)'
+                          >
+                            {node.name}
+                          </text>
+                        </g>
+                      )}
+                    </g>
+                  );
+                }
+              })}
+            </svg>
+          </div>
+        </Responsive>
       </div>
     );
   }

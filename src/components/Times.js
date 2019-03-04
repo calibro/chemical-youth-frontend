@@ -7,6 +7,7 @@ import { groupBy } from 'lodash';
 import { AppContext } from '../appContext';
 import { timeLabels, quantizeTime } from '../timeUtils';
 import { parseQueryParams } from '../utils';
+import Responsive from 'react-responsive';
 
 const query = `*[_type == "project"]{
   endDate, startDate
@@ -76,28 +77,33 @@ const Times = ({ type, history }) => {
   return (
     <div className='viz-container'>
       {/* <Search items={times} selectionCallBack={selectTime} type={'time'} /> */}
-      <div className='w-100 mt-3 overflow-auto'>
-        {times.map((time, index) => {
-          const duration = time[0].months;
-          return (
-            <div
-              className={`px-3 time-block ${
-                selected.indexOf(duration) > -1 ? 'active' : ''
-              }`}
-              key={index}
-              style={{
-                width: `${widthScale(duration)}%`,
-                height: `${heightScale(time.length)}px`,
-                borderTop: index === 0 ? '1px solid #d7d7d7' : 'none'
-              }}
-              onClick={() => selectTime('time', duration)}
-            >
-              <div>{`${time.length} projects`}</div>
-              <div>{`${timeLabels[duration]}`}</div>
-            </div>
-          );
-        })}
-      </div>
+      <Responsive minWidth={600}>
+        <div
+          className='w-100 mt-3 overflow-auto'
+          style={{ height: 'calc(100% - 33px)' }}
+        >
+          {times.map((time, index) => {
+            const duration = time[0].months;
+            return (
+              <div
+                className={`px-3 time-block ${
+                  selected.indexOf(duration) > -1 ? 'active' : ''
+                }`}
+                key={index}
+                style={{
+                  width: `${widthScale(duration)}%`,
+                  height: `${heightScale(time.length)}px`,
+                  borderTop: index === 0 ? '1px solid #d7d7d7' : 'none'
+                }}
+                onClick={() => selectTime('time', duration)}
+              >
+                <div>{`${time.length} projects`}</div>
+                <div>{`${timeLabels[duration]}`}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Responsive>
     </div>
   );
 };

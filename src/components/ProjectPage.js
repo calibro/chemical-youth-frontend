@@ -86,12 +86,12 @@ const ProjectPage = ({ history, location }) => {
       <div className='w-100 d-flex flex-wrap container'>
         {loading && <Loader fullheader={false} />}
         <div className='close-icon link' onClick={back}>
-          Back to home
           <span>
-            <img src='/images/arrow-right.svg' width='20px' />
+            <img src='/images/arrow-left.svg' width='20px' />
           </span>
+          Back to home
         </div>
-        <div className='w-70' style={{ paddingLeft: '80px' }}>
+        <div className='left-column'>
           <div className='w-100 py-3'>
             <div className='project-page-title'> {project.title} </div>
             <div className='d-flex flex-wrap'>
@@ -211,12 +211,7 @@ const ProjectPage = ({ history, location }) => {
         </div>
         <ProjectPageSideBar project={project} />
         {project.images && (
-          <div
-            className='project-page-section-title'
-            style={{ paddingLeft: '80px' }}
-          >
-            IMAGES
-          </div>
+          <div className='project-page-section-title'>IMAGES</div>
         )}
         {project.images && <Carousel images={project.images} />}
         {project.videoUrl && <Video url={project.videoUrl} />}

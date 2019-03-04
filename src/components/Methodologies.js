@@ -6,6 +6,7 @@ import { extent } from 'd3-array';
 import { AppContext } from '../appContext';
 import Search from './Search';
 import { parseQueryParams } from '../utils';
+import Responsive from 'react-responsive';
 
 const query = `*[_type == "methodology"]{
   _id, name,
@@ -54,27 +55,32 @@ const Methodologies = ({ type, history }) => {
         selectionCallBack={selectMethod}
         type={'method'}
       />
-      <div className='w-100 h-100 overflow-auto'>
-        {methodologies
-          .sort((a, b) => b.relatedProjects - a.relatedProjects)
-          .map((methodology, index) => {
-            const selected = context.selected.map(s => s.value);
-            return (
-              <div
-                className={`px-3 method-block ${
-                  selected.indexOf(methodology.name) > -1 ? 'active' : ''
-                }`}
-                key={index}
-                style={{
-                  height: `${heightScale(methodology.relatedProjects)}px`
-                }}
-                onClick={() => selectMethod('method', methodology.name)}
-              >
-                {methodology.relatedProjects} {methodology.name}
-              </div>
-            );
-          })}
-      </div>
+      <Responsive minWidth={600}>
+        <div
+          className='w-100 overflow-auto'
+          style={{ height: 'calc(100% - 33px)' }}
+        >
+          {methodologies
+            .sort((a, b) => b.relatedProjects - a.relatedProjects)
+            .map((methodology, index) => {
+              const selected = context.selected.map(s => s.value);
+              return (
+                <div
+                  className={`px-3 method-block ${
+                    selected.indexOf(methodology.name) > -1 ? 'active' : ''
+                  }`}
+                  key={index}
+                  style={{
+                    height: `${heightScale(methodology.relatedProjects)}px`
+                  }}
+                  onClick={() => selectMethod('method', methodology.name)}
+                >
+                  {methodology.relatedProjects} {methodology.name}
+                </div>
+              );
+            })}
+        </div>
+      </Responsive>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../appContext';
 import { withRouter } from 'react-router-dom';
+import { withGetScreen } from 'react-getscreen';
 
-const Header = ({ history, expanded = true }) => {
+const Header = ({ history, expanded = true, isMobile }) => {
   const context = useContext(AppContext);
   useEffect(() => {
     const pathname = history.location.pathname.split('/');
@@ -23,7 +24,11 @@ const Header = ({ history, expanded = true }) => {
     <div className={`header ${expanded ? '' : 'small'}`}>
       <div className='w-100 header-background' />
       {expanded && (
-        <div className='header-content w-70 d-flex align-items-center justify-content-around'>
+        <div
+          className={`header-content ${
+            isMobile ? 'w-100' : 'w-70'
+          } d-flex align-items-center justify-content-around`}
+        >
           <div>
             <div className={`cursor-pointer`} onClick={() => goToLanding()}>
               <img src='images/logo-white.svg' width={60} />
@@ -92,4 +97,4 @@ const Header = ({ history, expanded = true }) => {
   );
 };
 
-export default withRouter(Header);
+export default withGetScreen(withRouter(Header));

@@ -29,7 +29,7 @@ const Project = ({ type, elements, objectKey, history }) => {
           }
         })
       ) : (
-        <div>Not found</div>
+        <div className='mr-1 list-el'>Not found</div>
       )}
     </div>
   );

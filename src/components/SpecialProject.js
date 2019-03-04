@@ -10,7 +10,7 @@ import bbox from '@turf/bbox';
 import { lineString } from '@turf/helpers';
 
 const query = `*[_type == "specialProject1"]{
-  _id, name, coordinates, stringCoordinates, streetviewUrl,
+  _id, name, coordinates, stringCoordinates, streetviewUrl, streetviewCoordinates, streetviewHead, streetviewPitch, streetviewZoom,
   "images": images[].asset->url,
 }`;
 
@@ -21,7 +21,6 @@ const SpecialProject = ({}) => {
   const [loading, setLoading] = useState(true);
   const [bounds, setBounds] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [zoom, setZoom] = useState(13);
   const context = useContext(AppContext);
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -79,6 +78,7 @@ const SpecialProject = ({}) => {
   }
 
   let map = null;
+  let mapZoom = 12;
 
   return (
     <div className='w-100 h-100 d-flex mt-5' style={{ height: '600px' }}>
@@ -86,7 +86,7 @@ const SpecialProject = ({}) => {
         className='w-40 bg-white overflow-auto d-flex flex-column align-items-center'
         style={{ height: '600px' }}
       >
-        <div className='m-3 w-100'>
+        <div className='mb-3 w-100'>
           <div
             style={{
               width: '100%',
@@ -151,15 +151,10 @@ const SpecialProject = ({}) => {
             width: '100%'
           }}
           onZoomEnd={z => {
-            console.log(map);
-            //setZoom(z)
+            const zoom = map.state.map.getZoom();
+            mapZoom = zoom;
           }}
-          zoom={[zoom]}
-          fitBounds={
-            bounds
-              ? [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
-              : [[0, 0], [0, 0]]
-          }
+          zoom={[mapZoom]}
           center={[
             projects && projects[selectedIndex]
               ? projects[selectedIndex].coordinates.lng
@@ -171,16 +166,13 @@ const SpecialProject = ({}) => {
         >
           {projects.map((project, index) => {
             return (
-              <Layer
-                type='circle'
-                paint={getCirclePaint(project, index)}
-                onClick={() => setSelectedIndex(index)}
-              >
+              <Layer type='circle' paint={getCirclePaint(project, index)}>
                 <Feature
                   coordinates={[
                     project.coordinates.lng,
                     project.coordinates.lat
                   ]}
+                  onClick={() => setSelectedIndex(index)}
                 />
               </Layer>
             );

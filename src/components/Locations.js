@@ -8,6 +8,7 @@ import { AppContext } from '../appContext';
 import Search from './Search';
 import Loader from './Loader';
 import { parseQueryParams } from '../utils';
+import Responsive from 'react-responsive';
 
 const query = `*[_type == "location"]{
   _id, city, coordinates, zoom,
@@ -20,6 +21,7 @@ let offsets = {};
 const Locations = ({ type, history, scrollTo }) => {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(null);
   const context = useContext(AppContext);
   useEffect(() => {
     if (locations.length === 0) {
@@ -70,28 +72,37 @@ const Locations = ({ type, history, scrollTo }) => {
         type={'location'}
         objectKey={'city'}
       />
-      <ScrollArea id='locations' className='overflow-auto'>
-        <div className='w-100 d-flex flex-wrap mt-4'>
-          {locations.map((location, index) => {
-            if (location.coordinates.lat) {
-              return (
-                <Location
-                  key={index}
-                  coordinates={location.coordinates}
-                  y={() => getYOffset(index)}
-                  zoom={location.zoom}
-                  country={location.country.name}
-                  city={location.city}
-                  callbackClick={selectLocation}
-                  selected={
-                    context.selected ? context.selected.map(s => s.value) : []
-                  }
-                />
-              );
-            }
-          })}
-        </div>
-      </ScrollArea>
+      <Responsive minWidth={600}>
+        <ScrollArea
+          id='locations'
+          className='overflow-auto'
+          style={{ height: 'calc(100% - 33px)' }}
+        >
+          <div className='w-100 d-flex flex-wrap mt-4'>
+            {locations.map((location, index) => {
+              if (location.coordinates.lat) {
+                return (
+                  <Location
+                    key={index}
+                    index={index}
+                    activeIndex={activeIndex}
+                    coordinates={location.coordinates}
+                    y={() => getYOffset(index)}
+                    zoom={location.zoom}
+                    country={location.country.name}
+                    city={location.city}
+                    callbackClick={selectLocation}
+                    selected={
+                      context.selected ? context.selected.map(s => s.value) : []
+                    }
+                    setActiveIndex={setActiveIndex}
+                  />
+                );
+              }
+            })}
+          </div>
+        </ScrollArea>
+      </Responsive>
     </div>
   );
 };
