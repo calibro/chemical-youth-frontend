@@ -10,7 +10,8 @@ import bbox from '@turf/bbox';
 import { lineString } from '@turf/helpers';
 
 const query = `*[_type == "specialProject1"]{
-  _id, name, coordinates, stringCoordinates, streetviewUrl, streetviewCoordinates, streetviewHead, streetviewPitch, streetviewZoom,
+  _id, name, coordinates, stringCoordinates, streetviewUrl, 
+  streetviewCoordinates, streetviewHead, streetviewPitch, streetviewZoom,
   "images": images[].asset->url,
 }`;
 

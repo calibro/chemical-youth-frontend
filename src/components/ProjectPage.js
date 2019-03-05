@@ -72,13 +72,19 @@ const ProjectPage = ({ history, location }) => {
   };
 
   const back = () => {
-    history.goBack();
+    if (history.length > 2) {
+      history.goBack();
+    } else {
+      history.push(`/chemical`);
+    }
   };
 
   const changeSection = (type, name) => {
     context.setSelected({ type: type, value: name });
     history.push(`/${type}?selected=${name}`);
   };
+
+  console.log(history);
 
   return (
     <div className='w-100 d-flex flex-column position-relative justify-content-center'>

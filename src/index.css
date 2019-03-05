@@ -338,32 +338,20 @@ input.autocomplete-input {
   width: 100%;
   display: flex;
   position: relative;
-  height: 70px !important;
   overflow: hidden;
+  background: linear-gradient(
+    86deg,
+    rgba(48, 35, 174, 0.57),
+    rgba(83, 188, 253, 0.57) 14%,
+    rgb(190, 71, 185, 0.57) 43%,
+    rgba(236, 212, 81, 0.57)
+  );
+  animation: Gradient 15s ease infinite;
+  animation-direction: alternate;
 }
 
 .header.small {
-  height: 12px;
-}
-
-.header-background {
-  opacity: 0.57;
-  background: linear-gradient(
-    86deg,
-    #3023ae,
-    #53bcfd 14%,
-    #be47b9 43%,
-    #ecd451
-  );
-  background-size: 200% 200%;
-  background-position: 0% 50%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  animation: Gradient 15s ease infinite;
-  animation-direction: alternate;
+  height: 12px !important;
 }
 
 @keyframes Gradient {
@@ -395,6 +383,17 @@ input.autocomplete-input {
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+
+.nav-item {
+  margin: 0 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .nav-item {
+    margin: 10px 20px;
+    display: flex;
+  }
 }
 
 /* PROJECTS */
