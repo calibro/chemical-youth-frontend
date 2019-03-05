@@ -123,25 +123,21 @@ class Researchers extends Component {
     this.setState({ links: formattedLinks });
 
     const simulation = forceSimulation(simulationNodes)
-      .force('charge', forceManyBody().strength(-10))
+      .force('charge', forceManyBody().strength(0))
       .force(
         'link',
-        forceLink(formattedLinks)
-          .strength(d => {
-            return d.weight;
-          })
-          .distance(d => {
-            return d.weight * 3;
-          })
+        forceLink(formattedLinks).strength(d => {
+          return d.weight * 0.1;
+        })
       )
-      .force('r', forceRadial(120))
+      .force('r', forceRadial(150))
       .force('center', forceCenter(svgWidth / 2, svgHeight / 2))
       .force(
         'collision',
         forceCollide()
-          .radius(n => n.radius + 15)
+          .radius(n => n.radius + 17)
           .strength(1)
-          .iterations(5)
+          .iterations(30)
       )
       .on('tick', a => {
         simulationNodes.forEach(function(d) {
