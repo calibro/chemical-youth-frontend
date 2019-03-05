@@ -634,6 +634,7 @@ input.autocomplete-input {
 .carousel {
   margin-top: 50px;
   margin-bottom: 50px;
+  margin-left: 80px;
   width: 100%;
 }
 
