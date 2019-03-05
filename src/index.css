@@ -348,6 +348,8 @@ input.autocomplete-input {
   );
   animation: Gradient 15s ease infinite;
   animation-direction: alternate;
+  background-size: 200% 200%;
+  background-position: 0 50%;
 }
 
 .header.small {
@@ -548,6 +550,15 @@ input.autocomplete-input {
   margin-bottom: 15px;
   text-transform: uppercase;
   padding-left: 80px;
+}
+
+.project-page-section-title-no-padding {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  padding-left: 0px;
 }
 
 @media only screen and (max-width: 600px) {

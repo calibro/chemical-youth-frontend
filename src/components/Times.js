@@ -74,6 +74,10 @@ const Times = ({ type, history }) => {
     .range([50, 60, 70, 80, 90, 100])
     .domain([0, 3, 6, 12, 24, 36]);
 
+  const sum = times.reduce((a, b) => {
+    return a + b.length;
+  }, 0);
+
   return (
     <div className='viz-container'>
       {/* <Search items={times} selectionCallBack={selectTime} type={'time'} /> */}
@@ -92,7 +96,7 @@ const Times = ({ type, history }) => {
                 key={index}
                 style={{
                   width: `${widthScale(duration)}%`,
-                  height: `${heightScale(time.length)}px`,
+                  height: `${Math.floor((time.length / sum) * 100)}%`,
                   borderTop: index === 0 ? '1px solid #d7d7d7' : 'none'
                 }}
                 onClick={() => selectTime('time', duration)}

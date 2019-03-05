@@ -133,73 +133,47 @@ const ProjectPage = ({ history, location }) => {
               )}
             </div>
           </div>
-          {((project.internalResources && project.internalResources.length) ||
-            (project.externalResources &&
-              project.externalResources.length)) && (
-            <div className='w-100 mb-5'>
-              <div className='project-page-section-title'> RESOURCES </div>
+          <div className='w-100 mb-5'>
+            {(project.internalResources || project.externalResources) &&
+              (project.internalResources.length > 0 ||
+                project.externalResources.length > 0) && (
+                <div className='project-page-section-title-no-padding'>
+                  RESOURCES
+                </div>
+              )}
+            {project.internalResources && (
               <div className='w-100'>
-                {project.internalResources &&
-                  project.internalResources.map((el, index) => {
-                    if (project.internalResourcesFiles[index]) {
-                      return (
-                        <div key={index} className='project-page-resource'>
-                          {el.private ? (
-                            <div
-                              onClick={() => toggleModal(true)}
-                              className='cursor-pointer'
-                            >
-                              <span className='resource-category'>
-                                {'['}
-                                {
-                                  project.internalResourcesCategories[index]
-                                    .name
-                                }
-                                {']'}
-                              </span>
-                              <BlockContent
-                                blocks={el.name}
-                                serializers={serializers}
-                                className='resource-container'
-                                renderContainerOnSingleChild={true}
-                              />
-                            </div>
-                          ) : (
-                            <a
-                              href={project.internalResourcesFiles[index].url}
-                              download
-                            >
-                              <span className='resource-category'>
-                                {'['}
-                                {
-                                  project.internalResourcesCategories[index]
-                                    .name
-                                }
-                                {']'}
-                              </span>
-                              <BlockContent
-                                blocks={el.name}
-                                serializers={serializers}
-                                className='resource-container'
-                                renderContainerOnSingleChild={true}
-                              />
-                            </a>
-                          )}
-                        </div>
-                      );
-                    }
-                  })}
-                {project.externalResources &&
-                  project.externalResources.map((el, index) => {
-                    if (el.linkUrl) {
-                      return (
-                        <div key={index} className='project-page-resource'>
-                          <span className='resource-category'>
-                            {'['}
-                            {project.externalResourcesCategories[index].name}
-                            {']'}
-                          </span>
-                          <a href={el.linkUrl} target='_blank' download>
+                {project.internalResources.map((el, index) => {
+                  if (project.internalResourcesFiles[index]) {
+                    return (
+                      <div key={index} className='project-page-resource'>
+                        {el.private ? (
+                          <div
+                            onClick={() => toggleModal(true)}
+                            className='cursor-pointer'
+                          >
+                            <span className='resource-category'>
+                              {'['}
+                              {project.internalResourcesCategories[index].name}
+                              {']'}
+                            </span>
+                            <BlockContent
+                              blocks={el.name}
+                              serializers={serializers}
+                              className='resource-container'
+                              renderContainerOnSingleChild={true}
+                            />
+                          </div>
+                        ) : (
+                          <a
+                            href={project.internalResourcesFiles[index].url}
+                            download
+                          >
+                            <span className='resource-category'>
+                              {'['}
+                              {project.internalResourcesCategories[index].name}
+                              {']'}
+                            </span>
                             <BlockContent
                               blocks={el.name}
                               serializers={serializers}
@@ -207,13 +181,39 @@ const ProjectPage = ({ history, location }) => {
                               renderContainerOnSingleChild={true}
                             />
                           </a>
-                        </div>
-                      );
-                    }
-                  })}
+                        )}
+                      </div>
+                    );
+                  }
+                })}
               </div>
-            </div>
-          )}
+            )}
+            {project.externalResources && (
+              <div className='w-100'>
+                {project.externalResources.map((el, index) => {
+                  if (el.linkUrl) {
+                    return (
+                      <div key={index} className='project-page-resource'>
+                        <span className='resource-category'>
+                          {'['}
+                          {project.externalResourcesCategories[index].name}
+                          {']'}
+                        </span>
+                        <a href={el.linkUrl} target='_blank' download>
+                          <BlockContent
+                            blocks={el.name}
+                            serializers={serializers}
+                            className='resource-container'
+                            renderContainerOnSingleChild={true}
+                          />
+                        </a>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            )}
+          </div>
         </div>
         <ProjectPageSideBar project={project} />
         {project.images && (
