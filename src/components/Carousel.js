@@ -39,7 +39,7 @@ const Carousel = ({ images }) => {
       <div className={'slider-arrows'}>
         <img
           alt='previous image'
-          src='/images/arrow-left.svg'
+          src='images/arrow-left.svg'
           width={20}
           className='cursor-pointer'
           onClick={() => slider.slickPrev()}
@@ -49,7 +49,7 @@ const Carousel = ({ images }) => {
         </div>
         <img
           alt='next image'
-          src='/images/arrow-right.svg'
+          src='images/arrow-right.svg'
           width={20}
           className='cursor-pointer'
           onClick={() => slider.slickNext()}
