@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Slider from 'react-slick';
+import { withGetScreen } from 'react-getscreen';
 import Loader from './Loader';
 
-const Carousel = ({ images }) => {
+const Carousel = ({ images, isTablet, isMobile }) => {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const settings = {
@@ -18,16 +19,18 @@ const Carousel = ({ images }) => {
   };
 
   let slider = null;
+  console.log(isMobile());
+  const height = isMobile() ? 300 : 600;
 
   return (
-    <div className='w-100 mb-5' style={{ paddingLeft: '80px' }}>
-      <div className='slider'>
+    <div className='carousel'>
+      <div className={`${isMobile() ? 'slider-half' : 'slider'}`}>
         <Slider ref={c => (slider = c)} {...settings}>
           {images.map((image, index) => {
             return (
               <div className='' key={index}>
                 <img
-                  src={`${image}?h=600`}
+                  src={`${image}?h=${height}`}
                   key={index}
                   className='slider-image'
                 />
@@ -59,4 +62,4 @@ const Carousel = ({ images }) => {
   );
 };
 
-export default Carousel;
+export default withGetScreen(Carousel);

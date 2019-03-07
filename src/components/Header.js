@@ -1,9 +1,24 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../appContext";
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu
+} from "reactstrap";
 import { withRouter } from "react-router-dom";
+import { withGetScreen } from "react-getscreen";
 
-const Header = ({ history, expanded = true }) => {
+const Header = ({ history, expanded = true, isMobile }) => {
   const context = useContext(AppContext);
+  const [isOpen, toggleOpen] = useState(false);
+
   useEffect(() => {
     const pathname = history.location.pathname.split("/");
     context.setSection(pathname[1]);
@@ -20,76 +35,109 @@ const Header = ({ history, expanded = true }) => {
   };
 
   return (
-    <div className={`header ${expanded ? "" : "small"}`}>
-      <div className="w-100 header-background" />
-      {expanded && (
-        <div className="header-content w-70 d-flex align-items-center justify-content-around">
-          <div>
-            <div className={`cursor-pointer`} onClick={() => goToLanding()}>
-              <img src="images/logo-white.svg" width={60} />
-            </div>
-          </div>
-          <div>
-            <div className={`header-el-not-link`}>View by:</div>
-          </div>
-          <div onClick={() => changeSection("chemical")}>
-            <div
-              className={`header-el ${
-                context.section === "chemical" ? "underline" : "none"
-              }`}
-            >
-              CHEMICAL
-            </div>
-          </div>
-          <div onClick={() => changeSection("topic")}>
-            <div
-              className={`header-el ${
-                context.section === "topic" ? "underline" : "none"
-              }`}
-            >
-              TOPIC
-            </div>
-          </div>
-          <div onClick={() => changeSection("location")}>
-            <div
-              className={`header-el ${
-                context.section === "location" ? "underline" : "none"
-              }`}
-            >
-              LOCATION
-            </div>
-          </div>
-          <div onClick={() => changeSection("researcher")}>
-            <div
-              className={`header-el ${
-                context.section === "researcher" ? "underline" : "none"
-              }`}
-            >
-              RESEARCHER
-            </div>
-          </div>
-          <div onClick={() => changeSection("time")}>
-            <div
-              className={`header-el ${
-                context.section === "time" ? "underline" : "none"
-              }`}
-            >
-              TIME
-            </div>
-          </div>
-          <div onClick={() => changeSection("method")}>
-            <div
-              className={`header-el ${
-                context.section === "method" ? "underline" : "none"
-              }`}
-            >
-              METHOD
-            </div>
-          </div>
-        </div>
-      )}
+    <div>
+      <Navbar
+        color="light"
+        light
+        expand="md"
+        className="header"
+        style={{ height: isMobile() ? "auto" : expanded ? "70px" : "12px" }}
+      >
+        {expanded && (
+          <React.Fragment>
+            <NavbarBrand>
+              <div
+                className={`navbar-brand cursor-pointer`}
+                onClick={() => goToLanding()}
+              >
+                <img src="images/logo-white.svg" width={60} />
+              </div>
+            </NavbarBrand>
+            <NavbarToggler onClick={() => toggleOpen(!isOpen)} />
+            <Collapse isOpen={isOpen} navbar>
+              <Nav className="" navbar>
+                <NavItem className="nav-item">
+                  <div className={`header-el-not-link`}>View by:</div>
+                </NavItem>
+                <NavItem
+                  className="nav-item"
+                  onClick={() => changeSection("chemical")}
+                >
+                  <div
+                    className={`header-el ${
+                      context.section === "chemical" ? "underline" : "none"
+                    }`}
+                  >
+                    CHEMICAL
+                  </div>
+                </NavItem>
+                <NavItem
+                  className="nav-item"
+                  onClick={() => changeSection("topic")}
+                >
+                  <div
+                    className={`header-el ${
+                      context.section === "topic" ? "underline" : "none"
+                    }`}
+                  >
+                    TOPIC
+                  </div>
+                </NavItem>
+                <NavItem
+                  className="nav-item"
+                  onClick={() => changeSection("location")}
+                >
+                  <div
+                    className={`header-el ${
+                      context.section === "location" ? "underline" : "none"
+                    }`}
+                  >
+                    LOCATION
+                  </div>
+                </NavItem>
+                <NavItem
+                  className="nav-item"
+                  onClick={() => changeSection("researcher")}
+                >
+                  <div
+                    className={`header-el ${
+                      context.section === "researcher" ? "underline" : "none"
+                    }`}
+                  >
+                    RESEARCHER
+                  </div>
+                </NavItem>
+                <NavItem
+                  className="nav-item"
+                  onClick={() => changeSection("time")}
+                >
+                  <div
+                    className={`header-el ${
+                      context.section === "time" ? "underline" : "none"
+                    }`}
+                  >
+                    TIME
+                  </div>
+                </NavItem>
+                <NavItem
+                  className="nav-item"
+                  onClick={() => changeSection("method")}
+                >
+                  <div
+                    className={`header-el ${
+                      context.section === "method" ? "underline" : "none"
+                    }`}
+                  >
+                    METHOD
+                  </div>
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </React.Fragment>
+        )}
+      </Navbar>
     </div>
   );
 };
 
-export default withRouter(Header);
+export default withGetScreen(withRouter(Header));

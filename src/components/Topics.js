@@ -7,6 +7,7 @@ import { AppContext } from '../appContext';
 import Search from './Search';
 import { parseQueryParams } from '../utils';
 import Loader from './Loader';
+import Responsive from 'react-responsive';
 
 const query = `*[_type=="topic"]{
   _id, name,
@@ -57,45 +58,50 @@ const Topics = ({ type, history }) => {
     <div className='viz-container'>
       {loading && <Loader />}
       <Search items={topics} selectionCallBack={selectTopic} type={'topic'} />
-      <div className='w-100 h-100 d-flex flex-wrap align-items-baseline mt-3 overflow-auto'>
-        {topics
-          .sort((a, b) => {
-            return b.relatedProjects - a.relatedProjects;
-          })
-          .map((topic, index) => {
-            return (
-              <div
-                className={`position-relative mr-3`}
-                key={index}
-                style={{
-                  height: '45px'
-                }}
-                onClick={() => selectTopic('topic', topic.name)}
-                onMouseEnter={() => setActiveIndex(index)}
-                onMouseLeave={() => setActiveIndex(null)}
-              >
+      <Responsive minWidth={600}>
+        <div
+          className='w-100 d-flex flex-wrap align-items-baseline mt-3 overflow-auto'
+          style={{ height: 'calc(100% - 33px)' }}
+        >
+          {topics
+            .sort((a, b) => {
+              return b.relatedProjects - a.relatedProjects;
+            })
+            .map((topic, index) => {
+              return (
                 <div
-                  className='cursor-pointer'
+                  className={`position-relative mr-3`}
+                  key={index}
                   style={{
-                    fontSize: wordScale
-                      ? wordScale(topic.relatedProjects)
-                      : '10px',
-                    bottom: '3px'
+                    height: '45px'
                   }}
+                  onClick={() => selectTopic('topic', topic.name)}
+                  onMouseEnter={() => setActiveIndex(index)}
+                  onMouseLeave={() => setActiveIndex(null)}
                 >
-                  {topic.name} <sup>{topic.relatedProjects}</sup>
+                  <div
+                    className='cursor-pointer'
+                    style={{
+                      fontSize: wordScale
+                        ? wordScale(topic.relatedProjects)
+                        : '10px',
+                      bottom: '3px'
+                    }}
+                  >
+                    {topic.name} <sup>{topic.relatedProjects}</sup>
+                  </div>
+                  <div
+                    className={`topic-block-line ${
+                      selected.indexOf(topic.name) > -1 || activeIndex === index
+                        ? 'active'
+                        : ''
+                    }`}
+                  />
                 </div>
-                <div
-                  className={`topic-block-line ${
-                    selected.indexOf(topic.name) > -1 || activeIndex === index
-                      ? 'active'
-                      : ''
-                  }`}
-                />
-              </div>
-            );
-          })}
-      </div>
+              );
+            })}
+        </div>
+      </Responsive>
     </div>
   );
 };

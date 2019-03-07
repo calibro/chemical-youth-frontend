@@ -101,13 +101,8 @@ class Home extends Component {
         <React.Suspense fallback={<Loader />}>
           <div className='w-100 h-100 d-flex flex-column'>
             <Header />
-            <div
-              className='w-100 d-flex bg-white'
-              style={{
-                height: 'calc(100% - 70px)'
-              }}
-            >
-              <div className='half-container'>
+            <div className='home-container'>
+              <div className='half-container viz'>
                 {pathname === 'chemical' && <Chemicals />}
                 {pathname === 'topic' && <Topics />}
                 {pathname === 'location' && <Locations />}
@@ -115,7 +110,7 @@ class Home extends Component {
                 {pathname === 'time' && <Times />}
                 {pathname === 'method' && <Methodologies />}
               </div>
-              <div className='half-container'>
+              <div className='half-container list'>
                 <Projects />
               </div>
             </div>

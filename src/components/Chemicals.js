@@ -15,6 +15,7 @@ import ReactTooltip from 'react-tooltip';
 import { AppContext } from '../appContext';
 import Search from './Search';
 import { parseQueryParams } from '../utils';
+import Responsive from 'react-responsive';
 
 const query = `*[_type=="chemical"]{
   name,
@@ -229,6 +230,7 @@ class Chemicals extends Component {
 
   render() {
     const { nodes, chemicals, activeIndex } = this.state;
+    const { isMobile } = this.props;
     const selected = this.context.selected
       ? this.context.selected.map(s => s.value)
       : [];
@@ -245,79 +247,86 @@ class Chemicals extends Component {
           selectionCallBack={this.selectChemical}
           type={'chemical'}
         />
-        <div className='w-100 h-100 d-flex flex-column'>
-          <svg width={svgWidth} height={svgHeight}>
-            {nodes.map((node, index) => {
-              const radius = radiusScale(node.relatedProjects);
-              if (node.relatedProjects > 0) {
-                return (
-                  <g key={index}>
-                    <circle
-                      data-tip={
-                        radiusScale(node.relatedProjects) <= 10
-                          ? node.name.toUpperCase()
-                          : ''
-                      }
-                      ref={node.name}
-                      cx={node.x}
-                      cy={node.y}
-                      className={`circle ${
-                        selected.indexOf(node.name) > -1 ||
-                        activeIndex === index
-                          ? 'active'
-                          : ''
-                      }`}
-                      stroke='black'
-                      strokeWidth={1}
-                      r={radiusScale(node.relatedProjects)}
-                      onClick={() => this.selectChemical('chemical', node.name)}
-                      onMouseEnter={() => {
-                        this.setState({ activeIndex: index });
-                        ReactTooltip.show(findDOMNode(this.refs[node.name]));
-                      }}
-                      onMouseLeave={() => {
-                        this.setState({ activeIndex: null });
-                        ReactTooltip.hide(findDOMNode(this.refs[node.name]));
-                      }}
-                      style={{ cursor: 'pointer' }}
-                    />
+        <Responsive minWidth={600}>
+          <div
+            className='w-100 d-flex flex-column'
+            style={{ height: 'calc(100% - 33px)' }}
+          >
+            <svg width={svgWidth} height={svgHeight}>
+              {nodes.map((node, index) => {
+                const radius = radiusScale(node.relatedProjects);
+                if (node.relatedProjects > 0) {
+                  return (
+                    <g key={index}>
+                      <circle
+                        data-tip={
+                          radiusScale(node.relatedProjects) <= 10
+                            ? node.name.toUpperCase()
+                            : ''
+                        }
+                        ref={node.name}
+                        cx={node.x}
+                        cy={node.y}
+                        className={`circle ${
+                          selected.indexOf(node.name) > -1 ||
+                          activeIndex === index
+                            ? 'active'
+                            : ''
+                        }`}
+                        stroke='black'
+                        strokeWidth={1}
+                        r={radiusScale(node.relatedProjects)}
+                        onClick={() =>
+                          this.selectChemical('chemical', node.name)
+                        }
+                        onMouseEnter={() => {
+                          this.setState({ activeIndex: index });
+                          ReactTooltip.show(findDOMNode(this.refs[node.name]));
+                        }}
+                        onMouseLeave={() => {
+                          this.setState({ activeIndex: null });
+                          ReactTooltip.hide(findDOMNode(this.refs[node.name]));
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      />
 
-                    {radiusScale(node.relatedProjects) > 10 && (
-                      <g>
-                        <rect
-                          x={node.x - (node.name.length * 5.2) / 2}
-                          y={node.y - 5}
-                          width={node.name.length * 5.2}
-                          height={10}
-                          className={`rect ${
-                            selected.indexOf(node.name) > -1 ||
-                            activeIndex === index
-                              ? 'active'
-                              : ''
-                          }`}
-                        />
-                        <text
-                          dx={node.x}
-                          dy={node.y}
-                          className={`text ${
-                            selected.indexOf(node.name) > -1 ||
-                            activeIndex === index
-                              ? 'active'
-                              : ''
-                          }`}
-                          textAnchor='middle'
-                          //filter='url(#solid)'
-                        >
-                          {node.name}
-                        </text>
-                      </g>
-                    )}
-                  </g>
-                );
-              }
-            })}
-          </svg>
-        </div>
+                      {radiusScale(node.relatedProjects) > 10 && (
+                        <g>
+                          <rect
+                            x={node.x - (node.name.length * 5.2) / 2}
+                            y={node.y - 5}
+                            width={node.name.length * 5.2}
+                            height={10}
+                            className={`rect ${
+                              selected.indexOf(node.name) > -1 ||
+                              activeIndex === index
+                                ? 'active'
+                                : ''
+                            }`}
+                          />
+                          <text
+                            dx={node.x}
+                            dy={node.y}
+                            className={`text ${
+                              selected.indexOf(node.name) > -1 ||
+                              activeIndex === index
+                                ? 'active'
+                                : ''
+                            }`}
+                            textAnchor='middle'
+                            //filter='url(#solid)'
+                          >
+                            {node.name}
+                          </text>
+                        </g>
+                      )}
+                    </g>
+                  );
+                }
+              })}
+            </svg>
+          </div>
+        </Responsive>
       </div>
     );
   }

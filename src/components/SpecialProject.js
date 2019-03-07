@@ -5,12 +5,12 @@ import Loader from './Loader';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
-import ReactStreetview from 'react-streetview';
+import ReactStreetview from './ReactStreetView';
 import bbox from '@turf/bbox';
 import { lineString } from '@turf/helpers';
 
 const query = `*[_type == "specialProject1"]{
-  _id, name, coordinates, stringCoordinates, streetviewUrl,
+  _id, name, coordinates, stringCoordinates, streetviewUrl, streetviewCoordinates, streetviewHead, streetviewPitch, streetviewZoom,
   "images": images[].asset->url,
 }`;
 
@@ -21,7 +21,6 @@ const SpecialProject = ({}) => {
   const [loading, setLoading] = useState(true);
   const [bounds, setBounds] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [zoom, setZoom] = useState(13);
   const context = useContext(AppContext);
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -72,13 +71,54 @@ const SpecialProject = ({}) => {
   const googleMapsApiKey = 'AIzaSyDQsgQX8xc6_AiLmbwhZrdpELQJC8rlrII';
 
   if (projects && projects[selectedIndex]) {
-    console.log(
-      projects[selectedIndex].coordinates.lat,
-      projects[selectedIndex].coordinates.lng
-    );
+    console.log(projects[selectedIndex]);
   }
 
   let map = null;
+  let mapZoom = 12;
+
+  const activeProject =
+    projects && projects[selectedIndex] ? projects[selectedIndex] : null;
+
+  const streetviewOptions = {
+    // position: {
+    //   lat: projects[selectedIndex].coordinates.lat,
+    //   lng: projects[selectedIndex].coordinates.lng
+    // },
+    position: {
+      lat:
+        activeProject && activeProject.streetviewCoordinates
+          ? activeProject.streetviewCoordinates.lat
+          : 0,
+      lng:
+        activeProject && activeProject.streetviewCoordinates
+          ? activeProject.streetviewCoordinates.lng
+          : 0
+    },
+    pov: {
+      heading:
+        activeProject && activeProject.streetviewHead
+          ? activeProject.streetviewHead
+          : 0,
+      pitch:
+        activeProject && activeProject.streetviewPitch
+          ? activeProject.streetviewPitch
+          : 1
+    },
+    zoom: 1,
+    motionTracking: false,
+    motionTrackingControl: false,
+    linksControl: false,
+    panControl: false,
+    zoomControl: false,
+    addressControl: false,
+    fullscreenControl: false,
+    enableCloseButton: false,
+    disableDefaultUI: true,
+    showRoadLabels: false,
+    clickToGo: false,
+    scrollwheel: false
+  };
 
   return (
     <div className='w-100 h-100 d-flex mt-5' style={{ height: '600px' }}>
@@ -86,42 +126,23 @@ const SpecialProject = ({}) => {
         className='w-40 bg-white overflow-auto d-flex flex-column align-items-center'
         style={{ height: '600px' }}
       >
-        <div className='m-3 w-100'>
-          <div
-            style={{
-              width: '100%',
-              height: '300px',
-              backgroundColor: '#eeeeee'
-            }}
-          >
-            {projects && projects[selectedIndex] && (
+        {activeProject && activeProject.streetviewHead && (
+          <div className='mb-3 w-100'>
+            <div
+              style={{
+                width: '100%',
+                height: '300px',
+                backgroundColor: '#eeeeee'
+              }}
+            >
               <ReactStreetview
                 apiKey={googleMapsApiKey}
-                streetViewPanoramaOptions={{
-                  // position: {
-                  //   lat: projects[selectedIndex].coordinates.lat,
-                  //   lng: projects[selectedIndex].coordinates.lng
-                  // },
-                  position: { lat: 46.9171876, lng: 17.8951832 },
-                  pov: { heading: 0, pitch: 100 },
-                  zoom: 1,
-                  motionTracking: false,
-                  motionTrackingControl: false,
-                  linksControl: false,
-                  panControl: false,
-                  zoomControl: false,
-                  addressControl: false,
-                  fullscreenControl: false,
-                  enableCloseButton: false,
-                  disableDefaultUI: true,
-                  showRoadLabels: false,
-                  clickToGo: false,
-                  scrollwheel: false
-                }}
+                streetViewPanoramaOptions={streetviewOptions}
+                onPositionChanged={() => console.log('onPositionChanged')}
               />
-            )}
+            </div>
           </div>
-        </div>
+        )}
         <div className='m-3 text-left w-80 project-page-special-title'>
           {projects && projects[selectedIndex]
             ? projects[selectedIndex].name
@@ -151,15 +172,10 @@ const SpecialProject = ({}) => {
             width: '100%'
           }}
           onZoomEnd={z => {
-            console.log(map);
-            //setZoom(z)
+            const zoom = map.state.map.getZoom();
+            mapZoom = zoom;
           }}
-          zoom={[zoom]}
-          fitBounds={
-            bounds
-              ? [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
-              : [[0, 0], [0, 0]]
-          }
+          zoom={[mapZoom]}
           center={[
             projects && projects[selectedIndex]
               ? projects[selectedIndex].coordinates.lng
@@ -171,16 +187,13 @@ const SpecialProject = ({}) => {
         >
           {projects.map((project, index) => {
             return (
-              <Layer
-                type='circle'
-                paint={getCirclePaint(project, index)}
-                onClick={() => setSelectedIndex(index)}
-              >
+              <Layer type='circle' paint={getCirclePaint(project, index)}>
                 <Feature
                   coordinates={[
                     project.coordinates.lng,
                     project.coordinates.lat
                   ]}
+                  onClick={() => setSelectedIndex(index)}
                 />
               </Layer>
             );
