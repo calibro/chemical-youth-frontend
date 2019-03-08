@@ -1,0 +1,113 @@
+.project-page-title {
+  font-family: "Crimson Text";
+  font-size: 50px;
+  line-height: 3.3rem;
+  margin-bottom: 11px;
+}
+
+.project-page-researcher {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.project-page-body {
+  font-family: Crimson Text;
+}
+.project-page-body p {
+  font-family: "Crimson Text", serif;
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+.project-page-body h3 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.7rem;
+  margin-top: 25px;
+  font-weight: 300;
+}
+
+.project-page-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  padding-left: 80px;
+}
+
+.project-page-section-title-no-padding {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  padding-left: 0px;
+}
+
+.project-page-resource {
+  font-family: "Crimson Text";
+  font-size: 16px;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.project-page-resource::after {
+  content: "";
+  width: 10%;
+  height: 1px;
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.project-page-resource .resource-item {
+  display: block;
+  transform: translateX(0);
+  transition: transform 0.2s linear;
+  cursor: pointer;
+}
+.project-page-resource .resource-item:hover {
+  text-decoration: none;
+  transform: translateX(5px);
+}
+
+.resource-category {
+  margin-right: 5px;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.resource-container,
+.resource-container > p {
+  display: inline;
+}
+
+.close-icon {
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 99;
+}
+
+@media only screen and (max-width: 600px) {
+  .close-icon {
+    top: 20px;
+    right: 20px;
+  }
+}
+
+.project-page-special-title {
+  font-family: "Crimson Text";
+  font-size: 24px;
+  margin-bottom: 11px;
+}

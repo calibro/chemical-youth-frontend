@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import Slider from 'react-slick';
-import { withGetScreen } from 'react-getscreen';
-import Loader from './Loader';
+import React, { useState } from "react";
+import Slider from "react-slick";
+import { withGetScreen } from "react-getscreen";
+import Loader from "../Loader";
+import styles from "./Carousel.module.css";
 
 const Carousel = ({ images, isTablet, isMobile }) => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -23,38 +24,41 @@ const Carousel = ({ images, isTablet, isMobile }) => {
   const height = isMobile() ? 300 : 600;
 
   return (
-    <div className='carousel'>
-      <div className={`${isMobile() ? 'slider-half' : 'slider'}`}>
+    <div className={styles["carousel"]}>
+      <div
+        className={`${isMobile() ? styles["slider-half"] : styles["slider"]}`}
+      >
         <Slider ref={c => (slider = c)} {...settings}>
           {images.map((image, index) => {
             return (
-              <div className='' key={index}>
+              <div className="" key={index}>
                 <img
+                  alt="gallery"
                   src={`${image}?h=${height}`}
                   key={index}
-                  className='slider-image'
+                  className={styles["slider-image"]}
                 />
               </div>
             );
           })}
         </Slider>
       </div>
-      <div className={'slider-arrows'}>
+      <div className={styles["slider-arrows"]}>
         <img
-          alt='previous image'
-          src='/images/arrow-left.svg'
+          alt="previous"
+          src="images/arrow-left.svg"
           width={20}
-          className='cursor-pointer'
+          className="cursor-pointer"
           onClick={() => slider.slickPrev()}
         />
         <div>
           {activeSlide + 1} / {images.length}
         </div>
         <img
-          alt='next image'
-          src='/images/arrow-right.svg'
+          alt="next"
+          src="images/arrow-right.svg"
           width={20}
-          className='cursor-pointer'
+          className="cursor-pointer"
           onClick={() => slider.slickNext()}
         />
       </div>

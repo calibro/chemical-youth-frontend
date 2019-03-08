@@ -2,6 +2,7 @@
   "name": "chemical-youth",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://calibro.github.io/chemical-youth-frontend",
   "dependencies": {
     "@sanity/block-content-to-react": "^2.0.6",
     "@sanity/client": "^0.140.8",
@@ -12,6 +13,7 @@
     "d3-array": "^2.0.3",
     "d3-force": "^2.0.0",
     "d3-scale": "^2.2.2",
+    "gh-pages": "^2.0.1",
     "lodash": "^4.17.11",
     "mapbox-gl": "^0.53.1",
     "prop-types": "^15.7.2",
@@ -35,6 +37,8 @@
     "slick-carousel": "^1.8.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

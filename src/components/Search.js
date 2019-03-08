@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import Autocomplete from 'react-autocomplete';
-import { AppContext } from '../appContext';
+import React, { Component } from "react";
+import Autocomplete from "react-autocomplete";
+import { AppContext } from "../appContext";
 
 class Search extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      value: ''
+      value: ""
     };
   }
 
@@ -35,39 +35,39 @@ class Search extends Component {
     const { value } = this.state;
 
     return (
-      <div className='autocomplete-container'>
+      <div className="autocomplete-container">
         <img
-          src='images/magnify.svg'
+          src="images/magnify.svg"
           width={20}
-          className='autocomplete-icon'
+          className="autocomplete-icon"
         />
         <Autocomplete
           getItemValue={item => (objectKey ? item[objectKey] : item.name)}
           items={items}
           inputProps={{
-            className: 'autocomplete-input',
+            className: "autocomplete-input",
             placeholder: `Search ${type}`
           }}
           wrapperStyle={{
-            position: 'relative'
+            position: "relative"
           }}
           menuStyle={{
-            backgroundColor: 'white',
-            position: 'absolute',
+            backgroundColor: "white",
+            position: "absolute",
             zIndex: 999,
             top: 33,
             left: 0,
-            maxHeight: '500px',
-            overflow: 'auto'
+            maxHeight: "500px",
+            overflow: "auto"
           }}
           open={true}
           renderItem={(item, isHighlighted) => (
             <div
               key={item._id}
               style={{
-                padding: '10px',
-                borderBottom: '1px solid #d7d7d7',
-                cursor: 'pointer',
+                padding: "10px",
+                borderBottom: "1px solid #d7d7d7",
+                cursor: "pointer",
                 opacity: this.context.selected.some(e => e.value === item.name)
                   ? 0.5
                   : 1
@@ -82,7 +82,7 @@ class Search extends Component {
           onChange={(event, value) => this.setState({ value: value })}
           onSelect={val => {
             selectionCallBack(type, val);
-            this.setState({ value: '' });
+            this.setState({ value: "" });
           }}
           isItemSelectable={item => {
             console.log(this.context.selected.some(e => e.value === item.name));
