@@ -109,6 +109,16 @@ class Researchers extends Component {
         return r;
       });
 
+    simulationNodes.map(v => {
+      if (v.name === 'Anita Hardon') {
+        v.fx = svgWidth / 2;
+        v.fy = svgHeight / 2;
+        return v;
+      }
+    });
+
+    console.log(simulationNodes);
+
     const researchersLinksGrouped = Object.values(groupBy(researchersLinks));
     const formattedLinks = [];
 

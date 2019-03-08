@@ -187,7 +187,11 @@ const SpecialProject = ({}) => {
         >
           {projects.map((project, index) => {
             return (
-              <Layer type='circle' paint={getCirclePaint(project, index)}>
+              <Layer
+                type='circle'
+                paint={getCirclePaint(project, index)}
+                key={index}
+              >
                 <Feature
                   coordinates={[
                     project.coordinates.lng,
