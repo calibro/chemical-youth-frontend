@@ -6,17 +6,17 @@ import sanityClient, { builder } from '../../lib/sanity';
 import { AppContext } from '../../appContext';
 import Header from '../Header';
 import Loader from '../Loader';
-import ProjectPageSideBar from './ProjectPageSideBar';
+import ProjectPageSideBar from '../ProjectPageSideBar/';
 import Video from '../Video';
 import SpecialProject from '../SpecialProject/';
 import Carousel from '../Carousel';
 import ResourceItem from './ResourceItem';
 import styles from './ProjectPage.module.css';
 
-const urlFor = source => {
-  console.log(builder.image(source));
-  return builder.image(source);
-};
+// const urlFor = source => {
+//   console.log(builder.image(source));
+//   return builder.image(source);
+// };
 
 const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
@@ -76,126 +76,139 @@ const ProjectPage = ({ history, location }) => {
     history.push(`/${type}?selected=${name}`);
   };
 
-  console.log(history);
-
   return (
     <React.Fragment>
       <Header expanded={false} />
       <div className='container'>
         {loading && <Loader fullheader={false} />}
-        {/*    <div className="close-icon link" onClick={back}>
-          <span>
-            <img src="/images/arrow-left.svg" width="20px" />
-          </span>
-          Back to home
-        </div>*/}
         <div className='row'>
-          <div className='col-12 col-md-9'>
-            <div className={styles['project-page-title']}>{project.title}</div>
-            <div>
-              {project.researchers &&
-                project.researchers.map((researcher, index) => {
-                  return (
-                    <React.Fragment key={index}>
-                      <span
-                        className={`${
-                          styles['project-page-researcher']
-                        } link py-1 ${index === 0 ? 'mr-2' : 'mx-2'}`}
-                        onClick={() =>
-                          changeSection('researcher', researcher.name)
-                        }
-                      >
-                        {researcher.name}
-                      </span>
-                      <span>
-                        {index < project.researchers.length - 1 ? '|' : ''}
-                      </span>
-                    </React.Fragment>
-                  );
-                })}
+          <div className={`${styles['close-icon-container']} col-12 col-md-1`}>
+            <div className={`${styles['close-icon']}`} onClick={back}>
+              <i className='material-icons'>arrow_back</i>
             </div>
-            {project.mainImage && (
-              <div className='mt-4'>
-                <img
-                  src={`${project.mainImage}?w=1000&fit=max`}
-                  alt='cover'
-                  width='100%'
-                />
+          </div>
+          <div className='col-12 col-md-11'>
+            <div className='row'>
+              <div className='col-12 col-md-9'>
+                <div className={styles['project-page-title']}>
+                  {project.title}
+                </div>
+                <div>
+                  {project.researchers &&
+                    project.researchers.map((researcher, index) => {
+                      return (
+                        <React.Fragment key={index}>
+                          <span
+                            className={`${
+                              styles['project-page-researcher']
+                            } link py-1 ${index === 0 ? 'mr-2' : 'mx-2'}`}
+                            onClick={() =>
+                              changeSection('researcher', researcher.name)
+                            }
+                          >
+                            {researcher.name}
+                          </span>
+                          <span>
+                            {index < project.researchers.length - 1 ? '|' : ''}
+                          </span>
+                        </React.Fragment>
+                      );
+                    })}
+                </div>
               </div>
-            )}
-            {project.body && project.body[0] && (
-              <BlockContent
-                className={`${styles['project-page-body']} py-4 `}
-                blocks={project.body}
-                renderContainerOnSingleChild={true}
-              />
-            )}
-            <div className='mb-5'>
-              {(project.internalResources || project.externalResources) &&
-                (project.internalResources.length > 0 ||
-                  project.externalResources.length > 0) && (
-                  <div
-                    className={styles['project-page-section-title-no-padding']}
-                  >
-                    {'RESOURCES'}
+            </div>
+            <div className='row'>
+              <div className='col-md-9'>
+                {project.mainImage && (
+                  <div className='mt-4'>
+                    <img
+                      src={`${project.mainImage}?w=1000&fit=max`}
+                      alt='cover'
+                      width='100%'
+                    />
                   </div>
                 )}
-              {project.internalResources && (
-                <div className='w-100'>
-                  {project.internalResources.map((el, index) => {
-                    if (project.internalResourcesFiles[index]) {
-                      return (
-                        <div
-                          key={index}
-                          className={styles['project-page-resource']}
-                        >
-                          <ResourceItem
-                            resource={el}
-                            category={
-                              project.internalResourcesCategories[index].name
-                            }
-                            url={project.internalResourcesFiles[index].url}
-                            toggleModal={() => toggleModal(true)}
-                          />
-                        </div>
-                      );
-                    }
-                  })}
+                {project.body && project.body[0] && (
+                  <BlockContent
+                    className={`${styles['project-page-body']} py-4 `}
+                    blocks={project.body}
+                    renderContainerOnSingleChild={true}
+                  />
+                )}
+                <div className='mb-5'>
+                  {(project.internalResources || project.externalResources) &&
+                    (project.internalResources.length > 0 ||
+                      project.externalResources.length > 0) && (
+                      <div
+                        className={
+                          styles['project-page-section-title-no-padding']
+                        }
+                      >
+                        {'RESOURCES'}
+                      </div>
+                    )}
+                  {project.internalResources && (
+                    <div className='w-100'>
+                      {project.internalResources.map((el, index) => {
+                        if (project.internalResourcesFiles[index]) {
+                          return (
+                            <div
+                              key={index}
+                              className={styles['project-page-resource']}
+                            >
+                              <ResourceItem
+                                resource={el}
+                                category={
+                                  project.internalResourcesCategories[index]
+                                    .name
+                                }
+                                url={project.internalResourcesFiles[index].url}
+                                toggleModal={() => toggleModal(true)}
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  )}
+                  {project.externalResources && (
+                    <div className='w-100'>
+                      {project.externalResources.map((el, index) => {
+                        if (el.linkUrl) {
+                          return (
+                            <div
+                              key={index}
+                              className={styles['project-page-resource']}
+                            >
+                              <ResourceItem
+                                resource={el}
+                                category={
+                                  project.externalResourcesCategories[index]
+                                    .name
+                                }
+                                url={el.linkUrl}
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  )}
                 </div>
-              )}
-              {project.externalResources && (
-                <div className='w-100'>
-                  {project.externalResources.map((el, index) => {
-                    if (el.linkUrl) {
-                      return (
-                        <div
-                          key={index}
-                          className={styles['project-page-resource']}
-                        >
-                          <ResourceItem
-                            resource={el}
-                            category={
-                              project.externalResourcesCategories[index].name
-                            }
-                            url={el.linkUrl}
-                          />
-                        </div>
-                      );
-                    }
-                  })}
-                </div>
-              )}
+              </div>
+              <div className='col-12 col-md-3'>
+                <ProjectPageSideBar project={project} />
+              </div>
             </div>
           </div>
-          <div className='col-12 col-md-3'>
-            <ProjectPageSideBar project={project} />
-          </div>
         </div>
-        {project.images && (
-          <div className={styles['project-page-section-title']}>{'IMAGES'}</div>
-        )}
         <div className='row'>
           <div className='col-12'>
+            {project.images && (
+              <div className={styles['project-page-section-title']}>
+                {'IMAGES'}
+              </div>
+            )}
             {project.images && <Carousel images={project.images} />}
             {project.videoUrl && <Video url={project.videoUrl} />}
           </div>

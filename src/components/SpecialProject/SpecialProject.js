@@ -94,7 +94,7 @@ const SpecialProject = ({}) => {
   };
 
   return (
-    <div className='w-100 h-100 d-flex mt-5' style={{ height: '600px' }}>
+    <div className='w-100 d-flex mt-5' style={{ height: '600px' }}>
       <div
         className='w-40 bg-white overflow-auto d-flex flex-column align-items-center position-relative'
         style={{ height: '600px' }}

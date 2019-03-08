@@ -1,8 +1,8 @@
 .project-page-title {
-  font-family: "Crimson Text";
+  font-family: "Crimson Text", serif;
   font-size: 50px;
   line-height: 3.3rem;
-  margin-bottom: 11px;
+  margin: 15px 0px 11px 0px;
 }
 
 .project-page-researcher {
@@ -16,6 +16,7 @@
 .project-page-body {
   font-family: Crimson Text;
 }
+
 .project-page-body p {
   font-family: "Crimson Text", serif;
   font-size: 24px;
@@ -35,7 +36,6 @@
   letter-spacing: 1px;
   margin-bottom: 15px;
   text-transform: uppercase;
-  padding-left: 80px;
 }
 
 .project-page-section-title-no-padding {
@@ -88,26 +88,46 @@
 }
 
 .close-icon {
-  position: absolute;
-  top: 50px;
-  right: 50px;
-  color: black;
+  width: 50px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  z-index: 99;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  box-shadow: 1px 1px 2px 1px rgba(173, 173, 173, 1);
+  position: sticky;
+  top: 24px;
+  margin: 19px 0px;
+  z-index: 1;
+  background-color: white;
 }
 
-@media only screen and (max-width: 600px) {
-  .close-icon {
-    top: 20px;
-    right: 20px;
-  }
+.close-icon-container {
+  position: sticky !important;
+  top: 24px;
+  z-index: 1;
 }
 
 .project-page-special-title {
-  font-family: "Crimson Text";
+  font-family: "Crimson Text", serif;
   font-size: 24px;
   margin-bottom: 11px;
+}
+
+@media (min-width: 576px) {
+}
+
+/* md */
+@media (min-width: 768px) {
+  .close-icon-container {
+    position: relative;
+  }
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 1200px) {
 }

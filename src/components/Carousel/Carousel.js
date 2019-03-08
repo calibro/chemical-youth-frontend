@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import { withGetScreen } from "react-getscreen";
 import Loader from "../Loader";
+import "./Carousel.css";
 import styles from "./Carousel.module.css";
 
 const Carousel = ({ images, isTablet, isMobile }) => {

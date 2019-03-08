@@ -1,0 +1,9 @@
+/*SLIDER*/
+.slick-slide.slick-current {
+  filter: grayscale(0);
+}
+
+.slick-slide {
+  transition: filter 0.2s linear, opacity 0.2s linear;
+  filter: grayscale(0.8);
+}
