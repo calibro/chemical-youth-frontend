@@ -10,7 +10,7 @@ import { parseQueryParams } from '../utils';
 import Responsive from 'react-responsive';
 
 const query = `*[_type == "location"]{
-  _id, city, coordinates, zoom,
+  _id, city, coordinates, zoom, priority,
   country->,
   "relatedProjects": count(*[_type=='project' && references(^._id)])
 }`;
@@ -76,27 +76,35 @@ const Locations = ({ type, history, scrollTo }) => {
           style={{ height: 'calc(100% - 33px)' }}
         >
           <div className='w-100 d-flex flex-wrap mt-4'>
-            {locations.map((location, index) => {
-              if (location.coordinates.lat) {
-                return (
-                  <Location
-                    key={index}
-                    index={index}
-                    activeIndex={activeIndex}
-                    coordinates={location.coordinates}
-                    y={() => getYOffset(index)}
-                    zoom={location.zoom}
-                    country={location.country.name}
-                    city={location.city}
-                    callbackClick={selectLocation}
-                    selected={
-                      context.selected ? context.selected.map(s => s.value) : []
-                    }
-                    setActiveIndex={setActiveIndex}
-                  />
-                );
-              }
-            })}
+            {locations
+              .sort((a, b) => {
+                const aPriority = a.priority || false;
+                const bPriority = b.priority || false;
+                return bPriority - aPriority;
+              })
+              .map((location, index) => {
+                if (location.coordinates.lat) {
+                  return (
+                    <Location
+                      key={index}
+                      index={index}
+                      activeIndex={activeIndex}
+                      coordinates={location.coordinates}
+                      y={() => getYOffset(index)}
+                      zoom={location.zoom}
+                      country={location.country.name}
+                      city={location.city}
+                      callbackClick={selectLocation}
+                      selected={
+                        context.selected
+                          ? context.selected.map(s => s.value)
+                          : []
+                      }
+                      setActiveIndex={setActiveIndex}
+                    />
+                  );
+                }
+              })}
           </div>
         </ScrollArea>
       </Responsive>

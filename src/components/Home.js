@@ -85,11 +85,18 @@ class Home extends Component {
     const parsed = queryString.parse(this.props.location.search);
     if (parsed.selected && Array.isArray(parsed.selected)) {
       parsed.selected.forEach(p => {
-        const selected = { type: pathname[1], value: p };
+        const selected = {
+          type: pathname[1],
+          value: pathname[1] === 'time' ? Number(p) : p
+        };
         this.toggleSelected(selected);
       });
     } else if (parsed.selected && !Array.isArray(parsed.selected)) {
-      const selected = { type: pathname[1], value: parsed.selected };
+      const selected = {
+        type: pathname[1],
+        value:
+          pathname[1] === 'time' ? Number(parsed.selected) : parsed.selected
+      };
       this.toggleSelected(selected);
     }
   }
