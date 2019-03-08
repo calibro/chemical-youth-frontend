@@ -543,17 +543,6 @@ input.autocomplete-input {
   position: relative;
 }
 
-.list-title {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
-
-.list-el {
-  font-size: 14px;
-  line-height: 1.5;
-}
-
 /* TIME */
 
 .time-block {
@@ -622,16 +611,6 @@ input.autocomplete-input {
 .topic-block-line.active {
   opacity: 1;
   transition: 0.2s opacity;
-}
-
-/*SLIDER*/
-.slick-slide.slick-current {
-  filter: grayscale(0);
-}
-
-.slick-slide {
-  transition: filter 0.2s linear, opacity 0.2s linear;
-  filter: grayscale(0.8);
 }
 
 /* VIZ */

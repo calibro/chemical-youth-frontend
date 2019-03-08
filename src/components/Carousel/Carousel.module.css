@@ -3,13 +3,14 @@
   margin-bottom: 50px;
   margin-left: 80px; */
   width: 100%;
+  margin-bottom: 50px;
 }
 
 /* SLIDER */
 
 .slider {
   height: 600px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 .slider-half {
