@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import sanityClient from '../lib/sanity';
 import { ScrollToHOC, ScrollArea } from 'react-scroll-to';
@@ -44,7 +43,7 @@ const Locations = ({ type, history, scrollTo }) => {
     res
       .filter(v => v.coordinates.lat)
       .forEach((v, i) => {
-        offsets[v.city.toLowerCase()] = getYOffset(i);
+        offsets[v.city] = getYOffset(i);
       });
     console.log(offsets);
     setLoading(false);
@@ -55,7 +54,7 @@ const Locations = ({ type, history, scrollTo }) => {
     const queryParams = parseQueryParams(context.selected);
     history.push(`/${context.section}${queryParams}`);
     console.log(offsets[value]);
-    scrollTo({ id: 'locations', y: offsets[value] });
+    scrollTo({ id: 'locations', y: offsets[value], smooth: true });
   };
 
   const getYOffset = index => {
