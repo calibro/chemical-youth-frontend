@@ -45,7 +45,6 @@ const Locations = ({ type, history, scrollTo }) => {
       .forEach((v, i) => {
         offsets[v.city] = getYOffset(i);
       });
-    console.log(offsets);
     setLoading(false);
   };
 
@@ -53,7 +52,6 @@ const Locations = ({ type, history, scrollTo }) => {
     context.toggleSelected({ type: type, value: value });
     const queryParams = parseQueryParams(context.selected);
     history.push(`/${context.section}${queryParams}`);
-    console.log(offsets[value]);
     scrollTo({ id: 'locations', y: offsets[value], smooth: true });
   };
 

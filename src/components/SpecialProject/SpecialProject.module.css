@@ -1,0 +1,18 @@
+.projectPageMapTitle {
+  font-family: 'Crimson Text';
+  font-size: 24px;
+  margin-bottom: 11px;
+  text-align: left;
+  width: 80%;
+  margin: 30px;
+}
+
+.projectPageSectionTitle {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  text-align: left;
+  width: 80%;
+}
