@@ -100,6 +100,14 @@
   position: sticky;
   top: 24px;
   margin: 19px 0px;
+  z-index: 1;
+  background-color: white;
+}
+
+.close-icon-container {
+  position: sticky !important;
+  top: 24px;
+  z-index: 1;
 }
 
 .project-page-special-title {
@@ -113,6 +121,9 @@
 
 /* md */
 @media (min-width: 768px) {
+  .close-icon-container {
+    position: relative;
+  }
 }
 
 @media (min-width: 992px) {

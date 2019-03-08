@@ -83,7 +83,7 @@ const ProjectPage = ({ history, location }) => {
         {loading && <Loader fullheader={false} />}
 
         <div className="row">
-          <div className="col-12 col-md-1">
+          <div className={`${styles["close-icon-container"]} col-12 col-md-1`}>
             <div className={`${styles["close-icon"]}`} onClick={back}>
               <i className="material-icons">arrow_back</i>
             </div>
