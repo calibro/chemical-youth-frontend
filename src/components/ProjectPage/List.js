@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { withRouter } from 'react-router-dom';
-import { AppContext } from '../appContext';
+import { AppContext } from '../../appContext';
 
 const Project = ({ type, elements, objectKey, history }) => {
   const context = useContext(AppContext);
