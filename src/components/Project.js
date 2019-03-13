@@ -4,10 +4,7 @@ import { Link } from "react-router-dom";
 const Project = ({ project, countries, index }) => {
   return (
     <Link to={`/projects/${project.slug ? project.slug.current : ""}`}>
-      <div
-        className="project"
-        style={{ borderTop: index === 0 ? "" : "1px solid #d7d7d7" }}
-      >
+      <div className="project">
         <div className="project-title"> {project.title} </div>
         <div className="project-researchers">
           {project.researchers &&
@@ -23,16 +20,14 @@ const Project = ({ project, countries, index }) => {
             })}
         </div>
         <div className="project-body">
-          {project.body &&
-            project.body[0] &&
-            project.body[0].children[0].text.slice(0, 250) + "..."}
+          <p>
+            {project.body &&
+              project.body[0] &&
+              project.body[0].children[0].text.slice(0, 250) + "..."}
+          </p>
         </div>
         <div className="project-country-labels">
-          <img
-            src="images/earth.svg"
-            width={11}
-            style={{ opacity: 0.5, marginRight: "5px" }}
-          />
+          <i className="material-icons mr-1">language</i>
           {countries &&
             countries.map((country, index) => {
               return (

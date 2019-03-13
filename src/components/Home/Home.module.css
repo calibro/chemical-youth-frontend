@@ -1,0 +1,33 @@
+.split {
+  height: calc(100vh - 70px);
+}
+
+.col-projects {
+  overflow-y: auto;
+  border-left: none;
+  height: 100%;
+}
+
+.col-viz {
+  height: auto;
+}
+
+@media (min-width: 576px) {
+}
+
+/* md */
+@media (min-width: 768px) {
+  .col-projects {
+    border-left: 1px solid black;
+  }
+
+  .col-viz {
+    height: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 1200px) {
+}

@@ -9,6 +9,7 @@
     "@sanity/image-url": "^0.140.8",
     "@turf/bbox": "^6.0.1",
     "@turf/helpers": "^6.1.4",
+    "@vx/responsive": "^0.0.186",
     "bootstrap": "^4.3.0",
     "d3-array": "^2.0.3",
     "d3-force": "^2.0.0",

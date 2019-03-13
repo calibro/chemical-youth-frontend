@@ -55,7 +55,7 @@ const Methodologies = ({ type, history }) => {
         selectionCallBack={selectMethod}
         type={'method'}
       />
-      <Responsive minWidth={600}>
+      <Responsive minWidth={768}>
         <div
           className='w-100 overflow-auto'
           style={{ height: 'calc(100% - 33px)' }}

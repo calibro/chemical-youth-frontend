@@ -14,11 +14,6 @@ class Search extends Component {
   matchStateToTerm = (elem, value) => {
     if (value.length > 0) {
       if (this.props.objectKey) {
-        console.log(
-          elem[this.props.objectKey]
-            .toLowerCase()
-            .indexOf(value.toLowerCase()) !== -1
-        );
         return (
           elem[this.props.objectKey]
             .toLowerCase()
@@ -37,6 +32,7 @@ class Search extends Component {
     return (
       <div className="autocomplete-container">
         <img
+          alt="magnify"
           src="images/magnify.svg"
           width={20}
           className="autocomplete-icon"
@@ -63,7 +59,7 @@ class Search extends Component {
           open={true}
           renderItem={(item, isHighlighted) => (
             <div
-              key={item._id}
+              key={item.name}
               style={{
                 padding: "10px",
                 borderBottom: "1px solid #d7d7d7",
@@ -85,7 +81,6 @@ class Search extends Component {
             this.setState({ value: "" });
           }}
           isItemSelectable={item => {
-            console.log(this.context.selected.some(e => e.value === item.name));
             return !this.context.selected.some(e => e.value === item.name);
           }}
         />

@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { withRouter } from 'react-router-dom';
-import sanityClient from '../lib/sanity';
-import Project from './Project';
-import { AppContext } from '../appContext';
-import { uniqBy } from 'lodash';
-import { timeLabels, quantizeTime } from '../timeUtils';
-import Loader from './Loader';
-import { parseQueryParams } from '../utils';
+import React, { useState, useEffect, useContext } from "react";
+import { withRouter } from "react-router-dom";
+import sanityClient from "../lib/sanity";
+import Project from "./Project";
+import { AppContext } from "../appContext";
+import { uniqBy } from "lodash";
+import { timeLabels, quantizeTime } from "../timeUtils";
+import Loader from "./Loader";
+import { parseQueryParams } from "../utils";
 
 const query = `*[_type == "project"]{
   _id, title, body, slug, startDate, endDate,
@@ -63,42 +63,42 @@ const Projects = ({ history }) => {
     const selectedFilters = context.selected.map(v => v.value);
     //console.log('selectedFilters', selectedFilters);
     if (selectedFilters.length > 0) {
-      if (context.section === 'location') {
+      if (context.section === "location") {
         if (project.place && project.place.length > 0) {
           const places = project.place.map(m => m.city);
           return arrayContainsArray(places, selectedFilters);
         } else {
           return false;
         }
-      } else if (context.section === 'topic') {
+      } else if (context.section === "topic") {
         if (project.topics && project.topics.length > 0) {
           const topics = project.topics.map(t => t.name);
           return arrayContainsArray(topics, selectedFilters);
         } else {
           return false;
         }
-      } else if (context.section === 'chemical') {
+      } else if (context.section === "chemical") {
         if (project.chemicals && project.chemicals.length > 0) {
           const chemicals = project.chemicals.map(c => c.name);
           return arrayContainsArray(chemicals, selectedFilters);
         } else {
           return false;
         }
-      } else if (context.section === 'method') {
+      } else if (context.section === "method") {
         if (project.methodologies && project.methodologies.length > 0) {
           const methodologies = project.methodologies.map(m => m.name);
           return arrayContainsArray(methodologies, selectedFilters);
         } else {
           return false;
         }
-      } else if (context.section === 'researcher') {
+      } else if (context.section === "researcher") {
         if (project.researchers && project.researchers.length > 0) {
           const researchers = project.researchers.map(m => m.name);
           return arrayContainsArray(researchers, selectedFilters);
         } else {
           return false;
         }
-      } else if (context.section === 'time') {
+      } else if (context.section === "time") {
         const diff = monthDiff(
           new Date(project.startDate),
           new Date(project.endDate)
@@ -118,31 +118,26 @@ const Projects = ({ history }) => {
   };
 
   return (
-    <div className='w-100 h-100 d-flex flex-column'>
+    <div className="w-100">
       {loading && <Loader />}
-      <div className='project-header'>
-        <div className='pb-2 project-counter'>
+      <div className="project-header">
+        <div className="project-counter">
           {projects.filter(project => filter(project)).length}/ 63 PROJECTS
           SHOWN
         </div>
 
-        <div className='w-100'>
+        <div className="w-100 d-flex flex-wrap">
           {context.selected.map((el, index) => {
             return (
-              <div className='tag' key={index}>
-                <div className='p-2'>
-                  {context.section === 'time' ? timeLabels[el.value] : el.value}
+              <div className="tag" key={index}>
+                <div className="p-2">
+                  {context.section === "time" ? timeLabels[el.value] : el.value}
                 </div>
                 <div
-                  className='p-2 cursor-pointer'
+                  className="cursor-pointer d-flex"
                   onClick={() => toggleSelected(el.type, el.value)}
                 >
-                  <svg width='20' height='20' viewBox='0 0 24 24'>
-                    <path
-                      className='path'
-                      d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z'
-                    />
-                  </svg>
+                  <i className="material-icons">close</i>
                 </div>
               </div>
             );
@@ -150,7 +145,7 @@ const Projects = ({ history }) => {
         </div>
       </div>
 
-      <div className='w-100 h-100 d-flex flex-column overflow-auto'>
+      <div className="project-list">
         {projects
           .filter(project => filter(project))
           .sort((a, b) => {
@@ -165,7 +160,7 @@ const Projects = ({ history }) => {
                 key={index}
                 index={index}
                 countries={
-                  project.countries[0] ? uniqBy(project.countries, 'name') : []
+                  project.countries[0] ? uniqBy(project.countries, "name") : []
                 }
               />
             );

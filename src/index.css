@@ -90,7 +90,7 @@ a:hover,
   /* text-decoration: none; */
 }
 
-a::after,
+/* a::after, */
 .link::after {
   content: "";
   width: 100%;
@@ -103,7 +103,7 @@ a::after,
   background-color: black;
 }
 
-a:hover a::after,
+/* a:hover a::after, */
 .link:hover.link::after {
   opacity: 1;
   transition: 0.2s opacity;
@@ -160,12 +160,17 @@ a:hover a::after,
 
 .viz-container {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .autocomplete-container {
   width: 100%;
   border-bottom: 1px solid #d7d7d7;
   position: relative;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding-top: 10px;
 }
 
 .autocomplete-icon {
@@ -406,6 +411,8 @@ input.autocomplete-input {
   letter-spacing: 1px;
   font-size: 12px;
   display: flex;
+  align-items: center;
+
   height: 32px;
 }
 
@@ -420,7 +427,6 @@ input.autocomplete-input {
   padding: 6px;
   margin: 10px 10px 10px 0;
   font-size: 14px;
-  float: left;
   transition: 0.2s all;
 }
 
@@ -446,11 +452,27 @@ input.autocomplete-input {
   border-bottom: 1px solid #d7d7d7;
   z-index: 1;
   top: 0;
+  padding-top: 10px;
+}
+
+.project-list a {
+  display: block;
+  padding: 1rem 1rem 1rem 0;
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.project-list a:hover {
+  text-decoration: none;
+  border-bottom: 1px solid black;
 }
 
 .project {
-  width: 100%;
-  padding: 1rem 0;
+  transform: translateX(0);
+  transition: transform 0.2s;
+}
+
+.project:hover {
+  transform: translateX(1rem);
 }
 
 .project-title {
@@ -467,18 +489,20 @@ input.autocomplete-input {
 }
 
 .project-body {
-  font-size: 16px;
   line-height: 1.5;
   margin-top: 15px;
+  font-family: "Crimson Text", serif;
 }
 
 .project-country-labels {
   display: flex;
-}
-.project-country-labels {
-  opacity: 0.5;
+  align-items: center;
   font-size: 11px;
-  margin-top: 15px;
+  opacity: 0.5;
+}
+
+.project-country-labels .material-icons {
+  font-size: 12px !important;
 }
 
 /* LOCATIONS */
@@ -489,6 +513,7 @@ input.autocomplete-input {
   transition: 0.2s all;
   cursor: pointer;
   position: relative;
+  border: 2px solid white;
 }
 
 .location-map {
@@ -497,10 +522,18 @@ input.autocomplete-input {
   z-index: 0;
 }
 
+/* .location-block:active {
+  border: 2px solid black;
+} */
+
 .location-block.active .location-map,
 .location-block:hover .location-map {
   transform: scale(1.2);
   transition: 0.2s all;
+}
+.location-block.active .location-text,
+.location-block:hover .location-text {
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .underline-location::after {
@@ -527,6 +560,8 @@ input.autocomplete-input {
   top: 0;
   left: 0;
   z-index: 1;
+  background-color: rgba(255, 255, 255, 0.4);
+  transition: background-color 0.2s;
 }
 
 .location-country {

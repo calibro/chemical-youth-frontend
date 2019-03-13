@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { withRouter } from 'react-router-dom';
-import sanityClient from '../lib/sanity';
-import { scaleLinear } from 'd3-scale';
-import { extent } from 'd3-array';
-import { AppContext } from '../appContext';
-import Search from './Search';
-import { parseQueryParams } from '../utils';
-import Loader from './Loader';
-import Responsive from 'react-responsive';
+import React, { useState, useEffect, useContext } from "react";
+import { withRouter } from "react-router-dom";
+import sanityClient from "../lib/sanity";
+import { scaleLinear } from "d3-scale";
+import { extent } from "d3-array";
+import { AppContext } from "../appContext";
+import Search from "./Search";
+import { parseQueryParams } from "../utils";
+import Loader from "./Loader";
+import Responsive from "react-responsive";
 
 const query = `*[_type=="topic"]{
   _id, name,
@@ -55,13 +55,13 @@ const Topics = ({ type, history }) => {
     .domain([0, max]);
 
   return (
-    <div className='viz-container'>
+    <div className="viz-container">
       {loading && <Loader />}
-      <Search items={topics} selectionCallBack={selectTopic} type={'topic'} />
-      <Responsive minWidth={600}>
+      <Search items={topics} selectionCallBack={selectTopic} type={"topic"} />
+      <Responsive minWidth={768}>
         <div
-          className='w-100 d-flex flex-wrap align-items-baseline mt-3 overflow-auto'
-          style={{ height: 'calc(100% - 33px)' }}
+          className="w-100 d-flex flex-wrap align-items-baseline pt-3 overflow-auto"
+          style={{ height: "calc(100% - 33px)" }}
         >
           {topics
             .sort((a, b) => {
@@ -73,19 +73,19 @@ const Topics = ({ type, history }) => {
                   className={`position-relative mr-3`}
                   key={index}
                   style={{
-                    height: '45px'
+                    height: "45px"
                   }}
-                  onClick={() => selectTopic('topic', topic.name)}
+                  onClick={() => selectTopic("topic", topic.name)}
                   onMouseEnter={() => setActiveIndex(index)}
                   onMouseLeave={() => setActiveIndex(null)}
                 >
                   <div
-                    className='cursor-pointer'
+                    className="cursor-pointer"
                     style={{
                       fontSize: wordScale
                         ? wordScale(topic.relatedProjects)
-                        : '10px',
-                      bottom: '3px'
+                        : "10px",
+                      bottom: "3px"
                     }}
                   >
                     {topic.name} <sup>{topic.relatedProjects}</sup>
@@ -93,8 +93,8 @@ const Topics = ({ type, history }) => {
                   <div
                     className={`topic-block-line ${
                       selected.indexOf(topic.name) > -1 || activeIndex === index
-                        ? 'active'
-                        : ''
+                        ? "active"
+                        : ""
                     }`}
                   />
                 </div>

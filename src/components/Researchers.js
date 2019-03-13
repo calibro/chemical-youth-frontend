@@ -1,23 +1,25 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { findDOMNode } from 'react-dom';
-import sanityClient from '../lib/sanity';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { findDOMNode } from "react-dom";
+import sanityClient from "../lib/sanity";
 import {
   forceSimulation,
   forceManyBody,
   forceCenter,
   forceCollide,
   forceLink,
-  forceRadial
-} from 'd3-force';
-import { scaleLinear } from 'd3-scale';
-import { extent } from 'd3-array';
-import { flatten, groupBy } from 'lodash';
-import ReactTooltip from 'react-tooltip';
-import { AppContext } from '../appContext';
-import Search from './Search';
-import { parseQueryParams } from '../utils';
-import Responsive from 'react-responsive';
+  forceRadial,
+  forceY,
+  forceX
+} from "d3-force";
+import { scaleLinear, scaleSqrt } from "d3-scale";
+import { extent } from "d3-array";
+import { flatten, groupBy } from "lodash";
+import ReactTooltip from "react-tooltip";
+import { AppContext } from "../appContext";
+import Search from "./Search";
+import { parseQueryParams } from "../utils";
+import Responsive from "react-responsive";
 
 const query = `*[_type == "project"]{
   "researchers": researchers[]->
@@ -26,7 +28,7 @@ const query = `*[_type == "project"]{
 const svgWidth = window.innerWidth / 2 - 60;
 const svgHeight = window.innerHeight - 140;
 
-const radiusScale = scaleLinear().range([0, 60]);
+const radiusScale = scaleSqrt().range([5, 35]);
 
 class Researchers extends Component {
   constructor(props) {
@@ -87,7 +89,7 @@ class Researchers extends Component {
             }
           });
 
-          console.log(links);
+          //console.log(links);
 
           this.setState({ researchers: nodes });
           this.setUpForceLayout(nodes, links);
@@ -100,7 +102,7 @@ class Researchers extends Component {
 
   setUpForceLayout = (researchersNodes, researchersLinks) => {
     const [min, max] = extent(researchersNodes, d => d.value);
-    radiusScale.domain([0, max]);
+    radiusScale.domain([min, max]);
 
     const simulationNodes = researchersNodes
       .filter(r => r.value > 0)
@@ -110,14 +112,14 @@ class Researchers extends Component {
       });
 
     simulationNodes.map(v => {
-      if (v.name === 'Anita Hardon') {
+      if (v.name === "Anita Hardon") {
         v.fx = svgWidth / 2;
         v.fy = svgHeight / 2;
         return v;
       }
     });
 
-    console.log(simulationNodes);
+    //console.log(simulationNodes);
 
     const researchersLinksGrouped = Object.values(groupBy(researchersLinks));
     const formattedLinks = [];
@@ -133,23 +135,24 @@ class Researchers extends Component {
     this.setState({ links: formattedLinks });
 
     const simulation = forceSimulation(simulationNodes)
-      .force('charge', forceManyBody().strength(0))
       .force(
-        'link',
-        forceLink(formattedLinks).strength(d => {
-          return d.weight * 0.1;
-        })
+        "charge",
+        forceManyBody()
+          .strength(-100)
+          .distanceMax(svgWidth / 2)
+          .distanceMin(10)
       )
-      .force('r', forceRadial(150))
-      .force('center', forceCenter(svgWidth / 2, svgHeight / 2))
+      .force("link", forceLink(formattedLinks).strength(d => d.weight * 0.1))
+      .force("center", forceCenter(svgWidth / 2, svgHeight / 2))
+      .force("x", forceX().strength(0.05))
+      .force("y", forceY().strength(0.05))
       .force(
-        'collision',
+        "collision",
         forceCollide()
-          .radius(n => n.radius + 17)
-          .strength(1)
-          .iterations(30)
+          .radius(n => n.radius + 10)
+          .iterations(3)
       )
-      .on('tick', a => {
+      .on("tick", a => {
         simulationNodes.forEach(function(d) {
           d.x =
             d.x < radiusScale(d.value)
@@ -180,22 +183,22 @@ class Researchers extends Component {
       ? this.context.selected.map(s => s.value)
       : [];
     return (
-      <div className='viz-container'>
+      <div className="viz-container">
         <ReactTooltip
-          place='top'
-          theme='dark'
-          effect='solid'
-          className='tooltip-extra-class'
+          place="top"
+          theme="dark"
+          effect="solid"
+          className="tooltip-extra-class"
         />
         <Search
           items={researchers}
           selectionCallBack={this.selectResearcher}
-          type={'researcher'}
+          type={"researcher"}
         />
-        <Responsive minWidth={600}>
+        <Responsive minWidth={768}>
           <div
-            className='w-100 d-flex flex-column mt-4'
-            style={{ height: 'calc(100% - 33px)' }}
+            className="w-100 d-flex flex-column pt-4"
+            style={{ height: "calc(100% - 33px)" }}
           >
             <svg width={svgWidth} height={svgHeight}>
               {links.map((link, index) => {
@@ -207,7 +210,8 @@ class Researchers extends Component {
                       x2={link.target.x}
                       y2={link.target.y}
                       style={{ strokeWidth: link.weight }}
-                      stroke='black'
+                      stroke="black"
+                      opacity="0.1"
                     />
                   </g>
                 );
@@ -221,7 +225,7 @@ class Researchers extends Component {
                         data-tip={
                           radiusScale(node.value) <= 10
                             ? node.name.toUpperCase()
-                            : ''
+                            : ""
                         }
                         ref={node.name}
                         cx={node.x}
@@ -229,14 +233,14 @@ class Researchers extends Component {
                         className={`circle ${
                           selected.indexOf(node.name) > -1 ||
                           activeIndex === index
-                            ? 'active'
-                            : ''
+                            ? "active"
+                            : ""
                         }`}
-                        stroke='black'
+                        stroke="black"
                         strokeWidth={1}
                         r={radiusScale(node.value)}
                         onClick={() =>
-                          this.selectResearcher('researcher', node.name)
+                          this.selectResearcher("researcher", node.name)
                         }
                         onMouseEnter={() => {
                           this.setState({ activeIndex: index });
@@ -258,8 +262,8 @@ class Researchers extends Component {
                             className={`rect ${
                               selected.indexOf(node.name) > -1 ||
                               activeIndex === index
-                                ? 'active'
-                                : ''
+                                ? "active"
+                                : ""
                             }`}
                           />
                           <text
@@ -268,10 +272,10 @@ class Researchers extends Component {
                             className={`text ${
                               selected.indexOf(node.name) > -1 ||
                               activeIndex === index
-                                ? 'active'
-                                : ''
+                                ? "active"
+                                : ""
                             }`}
-                            textAnchor='middle'
+                            textAnchor="middle"
                             //filter='url(#solid)'
                           >
                             {node.name}

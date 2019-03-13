@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { withRouter } from 'react-router-dom';
-import sanityClient from '../lib/sanity';
-import { scaleOrdinal, scaleLinear } from 'd3-scale';
-import { extent } from 'd3-array';
-import { groupBy } from 'lodash';
-import { AppContext } from '../appContext';
-import { timeLabels, quantizeTime } from '../timeUtils';
-import { parseQueryParams } from '../utils';
-import Responsive from 'react-responsive';
+import React, { useState, useEffect, useContext } from "react";
+import { withRouter } from "react-router-dom";
+import sanityClient from "../lib/sanity";
+import { scaleOrdinal, scaleLinear } from "d3-scale";
+import { extent } from "d3-array";
+import { groupBy } from "lodash";
+import { AppContext } from "../appContext";
+import { timeLabels, quantizeTime } from "../timeUtils";
+import { parseQueryParams } from "../utils";
+import Responsive from "react-responsive";
 
 const query = `*[_type == "project"]{
   endDate, startDate
@@ -79,27 +79,27 @@ const Times = ({ type, history }) => {
   }, 0);
 
   return (
-    <div className='viz-container'>
+    <div className="viz-container">
       {/* <Search items={times} selectionCallBack={selectTime} type={'time'} /> */}
-      <Responsive minWidth={600}>
+      <Responsive minWidth={768}>
         <div
-          className='w-100 mt-3 overflow-auto'
-          style={{ height: 'calc(100% - 33px)' }}
+          className="w-100 pt-3 overflow-auto"
+          style={{ height: "calc(100% - 33px)" }}
         >
           {times.map((time, index) => {
             const duration = time[0].months;
             return (
               <div
                 className={`px-3 time-block ${
-                  selected.indexOf(duration) > -1 ? 'active' : ''
+                  selected.indexOf(duration) > -1 ? "active" : ""
                 }`}
                 key={index}
                 style={{
                   width: `${widthScale(duration)}%`,
                   height: `${Math.floor((time.length / sum) * 100)}%`,
-                  borderTop: index === 0 ? '1px solid #d7d7d7' : 'none'
+                  borderTop: index === 0 ? "1px solid #d7d7d7" : "none"
                 }}
-                onClick={() => selectTime('time', duration)}
+                onClick={() => selectTime("time", duration)}
               >
                 <div>{`${time.length} projects`}</div>
                 <div>{`${timeLabels[duration]}`}</div>

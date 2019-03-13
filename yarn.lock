@@ -1102,6 +1102,15 @@
     "@types/unist" "*"
     "@types/vfile-message" "*"
 
+"@vx/responsive@^0.0.186":
+  version "0.0.186"
+  resolved "https://registry.yarnpkg.com/@vx/responsive/-/responsive-0.0.186.tgz#64f3889a3157ae71c82488c03c1a51258e58d824"
+  integrity sha512-LhYiE8DEWByssBSod2zo9UbFkCHuIbkR1YDtpQmjsN0FdK5sSPfWIMWGUtAYC+5LWFh44DH1wPpdqd9srkngBA==
+  dependencies:
+    lodash "^4.17.10"
+    prop-types "^15.6.1"
+    resize-observer-polyfill "1.5.0"
+
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.7.11.tgz#b988582cafbb2b095e8b556526f30c90d057cace"
@@ -9286,6 +9295,11 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+
+resize-observer-polyfill@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.0.tgz#660ff1d9712a2382baa2cad450a4716209f9ca69"
+  integrity sha512-M2AelyJDVR/oLnToJLtuDJRBBWUGUvvGigj1411hXhAdyFWqMaqHp7TixW3FpiLuVaikIcR1QL+zqoJoZlOgpg==
 
 resize-observer-polyfill@^1.5.0:
   version "1.5.1"

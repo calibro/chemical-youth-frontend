@@ -69,7 +69,7 @@ const Locations = ({ type, history, scrollTo }) => {
         type={'location'}
         objectKey={'city'}
       />
-      <Responsive minWidth={600}>
+      <Responsive minWidth={768}>
         <ScrollArea
           id='locations'
           className='overflow-auto'
