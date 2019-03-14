@@ -46,7 +46,7 @@ const SpecialProject = () => {
     setBounds(bounds);
   };
 
-  const googleMapsApiKey = "AIzaSyDQsgQX8xc6_AiLmbwhZrdpELQJC8rlrII";
+  const googleMapsApiKey = "AIzaSyB_5l_-YwIQ-wH3tJEQ0SYfclOkPgOpnQc";
 
   const activeProject =
     projects && projects[selectedIndex] ? projects[selectedIndex] : null;
