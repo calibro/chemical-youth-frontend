@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import queryString from "query-string";
 import Header from "../Header";
-import { withRouter } from "react-router-dom";
 import Chemicals from "../Chemicals";
 import Topics from "../Topics";
 import Researchers from "../Researchers";

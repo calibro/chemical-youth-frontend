@@ -11,7 +11,7 @@ const Landing = ({ history }) => {
       <div className="landing-upper-container">
         <div className="landing-upper-content">
           <div className="landing-logo-container">
-            <img src="images/logo-white.svg" width="350px" />
+            <img src="images/logo-white.svg" width="350px" alt="logo" />
           </div>
           <div className="landing-text-container">
             <div className="w-100 landing-text-container-upper">
@@ -58,7 +58,7 @@ const Landing = ({ history }) => {
           <div className="landing-link link" onClick={() => goToHome()}>
             EXPLORE THE PROJECT
             <span>
-              <img src="images/arrow-right.svg" width="20px" />
+              <img src="images/arrow-right.svg" width="20px" alt="arrow" />
             </span>
           </div>
         </div>
@@ -71,20 +71,24 @@ const Landing = ({ history }) => {
             (2013-2018).
           </div>
           <div>
-            <img src="images/aissr_logoblokjesite_GRAY.png" height="80px" />
+            <img
+              src="images/aissr_logoblokjesite_GRAY.png"
+              height="80px"
+              alt="logo"
+            />
           </div>
           <div>
-            <img src="images/uvalogo_tag_p.png" height="80px" />
+            <img src="images/uvalogo_tag_p.png" height="80px" alt="logo" />
           </div>
           <div>
-            <img src="images/LOGO_ERC.png" height="80px" />
+            <img src="images/LOGO_ERC.png" height="80px" alt="logo" />
           </div>
           <div className="landing-lower-text">
             This website is designed and developed by Calibro. Project team:
             Lorem ipsum, dolor sit amet, other sui, lorem dolor, ather examples.
           </div>
           <div>
-            <img src="images/LOGO_ERC.png" height="80px" />
+            <img src="images/LOGO_ERC.png" height="80px" alt="logo" />
           </div>
         </div>
       </div>

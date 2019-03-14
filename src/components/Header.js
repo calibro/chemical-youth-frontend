@@ -46,7 +46,7 @@ const Header = ({ history, expanded = true, isMobile }) => {
               className={`navbar-brand cursor-pointer`}
               onClick={() => goToLanding()}
             >
-              <img src="images/logo-white.svg" width={60} />
+              <img src="images/logo-white.svg" width={60} alt="logo" />
             </div>
           </NavbarBrand>
           <NavbarToggler onClick={() => toggleOpen(!isOpen)} />
