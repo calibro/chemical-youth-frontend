@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { withRouter } from 'react-router-dom';
-import sanityClient from '../lib/sanity';
-import { scaleLinear } from 'd3-scale';
-import { extent } from 'd3-array';
-import { AppContext } from '../appContext';
-import Search from './Search';
-import { parseQueryParams } from '../utils';
-import Responsive from 'react-responsive';
+import React, { useState, useEffect, useContext } from "react";
+import { withRouter } from "react-router-dom";
+import sanityClient from "../lib/sanity";
+import { scaleLinear } from "d3-scale";
+import { extent } from "d3-array";
+import { AppContext } from "../appContext";
+import Search from "./Search";
+import { parseQueryParams } from "../utils";
 
 const query = `*[_type == "methodology"]{
   _id, name,
@@ -43,44 +42,39 @@ const Methodologies = ({ type, history }) => {
     history.push(`/${context.section}${queryParams}`);
   };
 
-  const [min, max] = extent(methodologies, d => d.relatedProjects);
+  const max = extent(methodologies, d => d.relatedProjects)[1];
   const heightScale = scaleLinear()
     .range([30, 150])
     .domain([0, max]);
 
   return (
-    <div className='viz-container'>
+    <div className="viz-container">
       <Search
         items={methodologies}
         selectionCallBack={selectMethod}
-        type={'method'}
+        type={"method"}
       />
-      <Responsive minWidth={768}>
-        <div
-          className='w-100 overflow-auto'
-          style={{ height: 'calc(100% - 33px)' }}
-        >
-          {methodologies
-            .sort((a, b) => b.relatedProjects - a.relatedProjects)
-            .map((methodology, index) => {
-              const selected = context.selected.map(s => s.value);
-              return (
-                <div
-                  className={`px-3 method-block ${
-                    selected.indexOf(methodology.name) > -1 ? 'active' : ''
-                  }`}
-                  key={index}
-                  style={{
-                    height: `${heightScale(methodology.relatedProjects)}px`
-                  }}
-                  onClick={() => selectMethod('method', methodology.name)}
-                >
-                  {methodology.relatedProjects} {methodology.name}
-                </div>
-              );
-            })}
-        </div>
-      </Responsive>
+      <div className="overflow-auto flex-grow-1 flex-shrink-1 d-none d-md-block">
+        {methodologies
+          .sort((a, b) => b.relatedProjects - a.relatedProjects)
+          .map((methodology, index) => {
+            const selected = context.selected.map(s => s.value);
+            return (
+              <div
+                className={`px-3 method-block ${
+                  selected.indexOf(methodology.name) > -1 ? "active" : ""
+                }`}
+                key={index}
+                style={{
+                  height: `${heightScale(methodology.relatedProjects)}px`
+                }}
+                onClick={() => selectMethod("method", methodology.name)}
+              >
+                {methodology.relatedProjects} {methodology.name}
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };

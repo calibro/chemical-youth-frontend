@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { withRouter } from 'react-router-dom';
-import sanityClient from '../lib/sanity';
-import { ScrollToHOC, ScrollArea } from 'react-scroll-to';
-import Location from './Location';
-import { AppContext } from '../appContext';
-import Search from './Search';
-import Loader from './Loader';
-import { parseQueryParams } from '../utils';
-import Responsive from 'react-responsive';
+import React, { useState, useEffect, useContext } from "react";
+import { withRouter } from "react-router-dom";
+import sanityClient from "../lib/sanity";
+import { ScrollToHOC, ScrollArea } from "react-scroll-to";
+import Location from "./Location";
+import { AppContext } from "../appContext";
+import Search from "./Search";
+import Loader from "./Loader";
+import { parseQueryParams } from "../utils";
 
 const query = `*[_type == "location"]{
   _id, city, coordinates, zoom, priority,
@@ -52,7 +51,7 @@ const Locations = ({ type, history, scrollTo }) => {
     context.toggleSelected({ type: type, value: value });
     const queryParams = parseQueryParams(context.selected);
     history.push(`/${context.section}${queryParams}`);
-    scrollTo({ id: 'locations', y: offsets[value], smooth: true });
+    scrollTo({ id: "locations", y: offsets[value], smooth: true });
   };
 
   const getYOffset = index => {
@@ -61,53 +60,47 @@ const Locations = ({ type, history, scrollTo }) => {
   };
 
   return (
-    <div className='viz-container'>
+    <div className="viz-container">
       {loading && <Loader />}
       <Search
         items={locations}
         selectionCallBack={selectLocation}
-        type={'location'}
-        objectKey={'city'}
+        type={"location"}
+        objectKey={"city"}
       />
-      <Responsive minWidth={768}>
-        <ScrollArea
-          id='locations'
-          className='overflow-auto'
-          style={{ height: 'calc(100% - 33px)' }}
-        >
-          <div className='w-100 d-flex flex-wrap mt-4'>
-            {locations
-              .sort((a, b) => {
-                const aPriority = a.priority || false;
-                const bPriority = b.priority || false;
-                return bPriority - aPriority;
-              })
-              .map((location, index) => {
-                if (location.coordinates.lat) {
-                  return (
-                    <Location
-                      key={index}
-                      index={index}
-                      activeIndex={activeIndex}
-                      coordinates={location.coordinates}
-                      y={() => getYOffset(index)}
-                      zoom={location.zoom}
-                      country={location.country.name}
-                      city={location.city}
-                      callbackClick={selectLocation}
-                      selected={
-                        context.selected
-                          ? context.selected.map(s => s.value)
-                          : []
-                      }
-                      setActiveIndex={setActiveIndex}
-                    />
-                  );
-                }
-              })}
-          </div>
-        </ScrollArea>
-      </Responsive>
+      <ScrollArea
+        id="locations"
+        className="overflow-auto flex-grow-1 flex-shrink-1 d-none d-md-block"
+      >
+        <div className="w-100 d-flex flex-wrap mt-4">
+          {locations
+            .sort((a, b) => {
+              const aPriority = a.priority || false;
+              const bPriority = b.priority || false;
+              return bPriority - aPriority;
+            })
+            .filter(d => d.coordinates.lat)
+            .map((location, index) => {
+              return (
+                <Location
+                  key={index}
+                  index={index}
+                  activeIndex={activeIndex}
+                  coordinates={location.coordinates}
+                  y={() => getYOffset(index)}
+                  zoom={location.zoom}
+                  country={location.country.name}
+                  city={location.city}
+                  callbackClick={selectLocation}
+                  selected={
+                    context.selected ? context.selected.map(s => s.value) : []
+                  }
+                  setActiveIndex={setActiveIndex}
+                />
+              );
+            })}
+        </div>
+      </ScrollArea>
     </div>
   );
 };

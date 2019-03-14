@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import sanityClient from "../lib/sanity";
-import { scaleOrdinal, scaleLinear } from "d3-scale";
-import { extent } from "d3-array";
+import { scaleOrdinal } from "d3-scale";
 import { groupBy } from "lodash";
 import { AppContext } from "../appContext";
 import { timeLabels, quantizeTime } from "../timeUtils";
@@ -23,7 +22,7 @@ const monthDiff = (d1, d2) => {
 
 const Times = ({ type, history }) => {
   const [times, setTimes] = useState([]);
-  const [derivedTimes, setDerivedTimes] = useState([]);
+  const [derivedTimes, setDerivedTimes] = useState();
   const context = useContext(AppContext);
 
   // Similar to componentDidMount and componentDidUpdate:
@@ -65,11 +64,6 @@ const Times = ({ type, history }) => {
 
   const selected = context.selected.map(s => s.value);
 
-  const [min, max] = extent(times, d => d.length);
-  const heightScale = scaleLinear()
-    .range([30, 200])
-    .domain([0, max]);
-
   const widthScale = scaleOrdinal()
     .range([50, 60, 70, 80, 90, 100])
     .domain([0, 3, 6, 12, 24, 36]);
@@ -82,10 +76,7 @@ const Times = ({ type, history }) => {
     <div className="viz-container">
       {/* <Search items={times} selectionCallBack={selectTime} type={'time'} /> */}
       <Responsive minWidth={768}>
-        <div
-          className="w-100 pt-3 overflow-auto"
-          style={{ height: "calc(100% - 33px)" }}
-        >
+        <div className="w-100 pt-3 overflow-auto flex-grow-1 flex-shrink-1 d-none d-md-block">
           {times.map((time, index) => {
             const duration = time[0].months;
             return (
