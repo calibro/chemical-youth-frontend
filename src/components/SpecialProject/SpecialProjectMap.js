@@ -1,53 +1,49 @@
-import React from 'react';
-import ReactMapboxGl, { Cluster, Marker } from 'react-mapbox-gl';
+import React from "react";
+import ReactMapboxGl, { Cluster, Marker, ZoomControl } from "react-mapbox-gl";
 
 const styles = {
   clusterMarker: {
     width: 50,
     height: 50,
-    borderRadius: '50%',
-    backgroundColor: '#000000',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: 'white',
-    border: '2px solid #ffffff',
-    cursor: 'pointer'
+    borderRadius: "50%",
+    backgroundColor: "white",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "black",
+    border: "2px solid black",
+    cursor: "pointer"
   },
   marker: {
-    width: 50,
-    height: 50,
-    borderRadius: '50%',
-    backgroundColor: '#ffffff',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    border: '2px solid #000000',
-    cursor: 'pointer'
+    width: 25,
+    height: 25,
+    borderRadius: "50%",
+    backgroundColor: "#ffffff",
+    border: "2px solid #000000",
+    cursor: "pointer"
   },
   markerSelected: {
-    width: 50,
-    height: 50,
-    borderRadius: '50%',
-    backgroundColor: '#000000',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    border: '2px solid #ffffff',
-    cursor: 'pointer'
+    width: 25,
+    height: 25,
+    borderRadius: "50%",
+    backgroundColor: "#000000",
+    alignItems: "center",
+    border: "2px solid #ffffff",
+    cursor: "pointer"
   }
 };
 
 const Map = ReactMapboxGl({
   accessToken:
-    'pk.eyJ1IjoiZ2FicmllbGVjb2xvbWJvIiwiYSI6ImNpdGZqNWY1MjAwZWUyeW1qbDhkZHV2OXMifQ.Nem-UVIW-71T6yQQvjrtog'
+    "pk.eyJ1IjoiZ2FicmllbGVjb2xvbWJvIiwiYSI6ImNpdGZqNWY1MjAwZWUyeW1qbDhkZHV2OXMifQ.Nem-UVIW-71T6yQQvjrtog",
+  scrollZoom: false
 });
 
 export default class SpecialProjectMap extends React.Component {
   constructor(props) {
     super(props);
     this.map = null;
-    this.mapZoom = 10;
+    this.mapZoom = 16;
   }
   clusterClick = index => {
     this.props.setSelectedIndex(index);
@@ -55,7 +51,11 @@ export default class SpecialProjectMap extends React.Component {
 
   clusterMarker = (coordinates, pointCount) => {
     return (
-      <Marker coordinates={coordinates} style={styles.clusterMarker}>
+      <Marker
+        key={coordinates.toString()}
+        coordinates={coordinates}
+        style={styles.clusterMarker}
+      >
         {pointCount}
       </Marker>
     );
@@ -66,10 +66,10 @@ export default class SpecialProjectMap extends React.Component {
     return (
       <Map
         ref={m => (this.map = m)}
-        style='mapbox://styles/gabrielecolombo/cjsnc1pt701yf1fmoasvam9wv'
+        style="mapbox://styles/gabrielecolombo/cjsnc1pt701yf1fmoasvam9wv"
         containerStyle={{
-          height: '600px',
-          width: '100%'
+          height: "600px",
+          width: "100%"
         }}
         onZoomEnd={z => {
           const zoom = this.map.state.map.getZoom();
@@ -89,13 +89,14 @@ export default class SpecialProjectMap extends React.Component {
             : 51.5285582
         ]}
       >
+        <ZoomControl />
         <Cluster ClusterMarkerFactory={this.clusterMarker} zoomOnClick={true}>
           {projects.map((project, index) => {
             return (
               <Marker
                 coordinates={[project.coordinates.lng, project.coordinates.lat]}
-                anchor='bottom'
-                key={index}
+                anchor="bottom"
+                key={project._id}
                 data-feature={project}
                 style={
                   selectedIndex === index
@@ -103,9 +104,7 @@ export default class SpecialProjectMap extends React.Component {
                     : styles.marker
                 }
                 onClick={() => this.clusterClick(index)}
-              >
-                <div />
-              </Marker>
+              />
             );
           })}
         </Cluster>

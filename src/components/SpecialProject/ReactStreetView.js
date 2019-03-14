@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import asyncLoading from 'react-async-loader';
+import React from "react";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+import asyncLoading from "react-async-loader";
 
 class ReactStreetview extends React.Component {
   constructor() {
@@ -16,13 +16,13 @@ class ReactStreetview extends React.Component {
         this.props.streetViewPanoramaOptions
       );
 
-      this.streetView.addListener('position_changed', () => {
+      this.streetView.addListener("position_changed", () => {
         if (this.props.onPositionChanged) {
           this.props.onPositionChanged(this.streetView.getPosition());
         }
       });
 
-      this.streetView.addListener('pov_changed', () => {
+      this.streetView.addListener("pov_changed", () => {
         if (this.props.onPovChanged) {
           this.props.onPovChanged(this.streetView.getPov());
         }
@@ -35,7 +35,6 @@ class ReactStreetview extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('componentDidUpdate');
     this.initialize(ReactDOM.findDOMNode(this));
   }
   componentWillUnmount() {
@@ -48,7 +47,7 @@ class ReactStreetview extends React.Component {
     return (
       <div
         style={{
-          height: '100%'
+          height: "100%"
         }}
       />
     );
@@ -74,8 +73,8 @@ function mapScriptsToProps(props) {
   const googleMapsApiKey = props.apiKey;
   return {
     googleMaps: {
-      globalPath: 'google.maps',
-      url: 'https://maps.googleapis.com/maps/api/js?key=' + googleMapsApiKey,
+      globalPath: "google.maps",
+      url: "https://maps.googleapis.com/maps/api/js?key=" + googleMapsApiKey,
       jsonp: true
     }
   };

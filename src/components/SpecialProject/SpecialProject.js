@@ -1,27 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
-import sanityClient from '../../lib/sanity';
-import { AppContext } from '../../appContext';
-import Loader from '../Loader';
-import { scaleLinear } from 'd3-scale';
-import { extent } from 'd3-array';
-import bbox from '@turf/bbox';
-import { lineString } from '@turf/helpers';
-import ReactStreetview from './ReactStreetView';
-import SpecialProjectMap from './SpecialProjectMap';
-import styles from './SpecialProject.module.css';
+import React, { useState, useEffect, useContext } from "react";
+import sanityClient from "../../lib/sanity";
+import { AppContext } from "../../appContext";
+import Loader from "../Loader";
+import bbox from "@turf/bbox";
+import { lineString } from "@turf/helpers";
+import ReactStreetview from "./ReactStreetView";
+import SpecialProjectMap from "./SpecialProjectMap";
+import styles from "./SpecialProject.module.css";
 
 const query = `*[_type == "specialProject1"]{
   _id, name, coordinates, stringCoordinates, streetviewUrl, streetviewCoordinates, streetviewHead, streetviewPitch, streetviewZoom,
   "images": images[].asset->url,
 }`;
 
-const radiusScale = scaleLinear().range([0, 30]);
-
-const SpecialProject = ({}) => {
+const SpecialProject = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bounds, setBounds] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(9);
   const context = useContext(AppContext);
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -40,8 +36,6 @@ const SpecialProject = ({}) => {
 
   const handleStatusChange = res => {
     setProjects(res);
-    const [min, max] = extent(res, d => d.images.length);
-    radiusScale.domain([0, max]);
     setLoading(false);
 
     const coordinates = res.map(p => {
@@ -52,7 +46,7 @@ const SpecialProject = ({}) => {
     setBounds(bounds);
   };
 
-  const googleMapsApiKey = 'AIzaSyDQsgQX8xc6_AiLmbwhZrdpELQJC8rlrII';
+  const googleMapsApiKey = "AIzaSyDQsgQX8xc6_AiLmbwhZrdpELQJC8rlrII";
 
   const activeProject =
     projects && projects[selectedIndex] ? projects[selectedIndex] : null;
@@ -94,49 +88,60 @@ const SpecialProject = ({}) => {
   };
 
   return (
-    <div className='w-100 d-flex mt-5' style={{ height: '600px' }}>
-      <div
-        className='w-40 bg-white overflow-auto d-flex flex-column align-items-center position-relative'
-        style={{ height: '600px' }}
-      >
-        <React.Suspense fallback={<Loader top={'0px'} />}>
-          {activeProject && activeProject.streetviewHead && (
-            <div className='mb-3 w-100'>
-              <div
-                style={{
-                  width: '100%',
-                  height: '300px',
-                  backgroundColor: '#eeeeee'
-                }}
-              >
-                <ReactStreetview
-                  apiKey={googleMapsApiKey}
-                  streetViewPanoramaOptions={streetviewOptions}
-                  onPositionChanged={() => console.log('onPositionChanged')}
-                />
+    <div className="row no-gutters border-top">
+      <div className="col-12 col-md-5">
+        <div className="bg-white overflow-auto" style={{ height: "600px" }}>
+          <React.Suspense fallback={<Loader top={"0px"} />}>
+            {activeProject && activeProject.streetviewHead && (
+              <div className="mb-3 w-100">
+                <div
+                  style={{
+                    width: "100%",
+                    height: "250px",
+                    backgroundColor: "#eeeeee"
+                  }}
+                >
+                  <ReactStreetview
+                    apiKey={googleMapsApiKey}
+                    streetViewPanoramaOptions={streetviewOptions}
+                  />
+                </div>
               </div>
+            )}
+            <div className="px-4">
+              <div className={styles.infobox}>
+                <div className={styles.projectPageMapTitle}>
+                  {projects && projects[selectedIndex]
+                    ? projects[selectedIndex].name
+                    : ""}
+                </div>
+                <div>
+                  {projects && projects[selectedIndex]
+                    ? projects[selectedIndex].stringCoordinates
+                    : ""}
+                </div>
+                <div className={styles.projectPageSectionTitle}>
+                  PICTURES TAKEN
+                </div>
+              </div>
+              {projects &&
+                projects[selectedIndex] &&
+                projects[selectedIndex].images.map((image, index) => {
+                  return (
+                    <img
+                      key={index}
+                      className="my-2 img-fluid"
+                      src={`${image}`}
+                      alt="gallery"
+                    />
+                  );
+                })}
             </div>
-          )}
-          <div className={styles.projectPageMapTitle}>
-            {projects && projects[selectedIndex]
-              ? projects[selectedIndex].name
-              : ''}
-          </div>
-          <div className='m-3 text-left w-80'>
-            {projects && projects[selectedIndex]
-              ? projects[selectedIndex].stringCoordinates
-              : ''}
-          </div>
-          <div className={styles.projectPageSectionTitle}>PICTURES TAKEN</div>
-          {projects &&
-            projects[selectedIndex] &&
-            projects[selectedIndex].images.map((image, index) => {
-              return <img key={index} className='my-1 w-80' src={`${image}`} />;
-            })}
-        </React.Suspense>
+          </React.Suspense>
+        </div>
       </div>
 
-      <div className='w-60'>
+      <div className="col-12 col-md-7">
         <SpecialProjectMap
           projects={projects}
           selectedIndex={selectedIndex}

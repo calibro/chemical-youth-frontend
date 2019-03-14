@@ -1,18 +1,20 @@
 .projectPageMapTitle {
-  font-family: 'Crimson Text';
-  font-size: 24px;
-  margin-bottom: 11px;
-  text-align: left;
-  width: 80%;
-  margin: 30px;
+  font-family: "Crimson Text", serif;
+  font-size: 1.7rem;
 }
 
 .projectPageSectionTitle {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 1px;
-  margin-bottom: 15px;
+  margin-top: 15px;
   text-transform: uppercase;
-  text-align: left;
-  width: 80%;
+}
+
+.infobox {
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  background-color: white;
+  padding: 15px 0px;
 }
