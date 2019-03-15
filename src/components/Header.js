@@ -104,7 +104,7 @@ const Header = ({ history, expanded = true, isMobile }) => {
                 </div>
               </NavItem>
               <NavItem
-                className="nav-item"
+                className="nav-item d-none d-md-block"
                 onClick={() => changeSection("time")}
               >
                 <div
