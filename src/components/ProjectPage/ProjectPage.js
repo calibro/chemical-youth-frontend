@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import BlockContent from "@sanity/block-content-to-react";
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Collapse, Modal, ModalHeader, ModalBody } from "reactstrap";
+import Disqus from "disqus-react";
 import sanityClient from "../../lib/sanity";
 import { AppContext } from "../../appContext";
 import Header from "../Header";
@@ -21,6 +22,7 @@ import styles from "./ProjectPage.module.css";
 const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
   const [modal, toggleModal] = useState(false);
+  const [collapse, toggleCollapse] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedRes, setSelectedRes] = useState();
   const context = useContext(AppContext);
@@ -75,6 +77,14 @@ const ProjectPage = ({ history, location }) => {
     context.setSelected({ type: type, value: name });
     history.push(`/${type}?selected=${name}`);
   };
+
+  const disqusConfig = {
+    url: window.location.href,
+    identifier: project._id,
+    title: project.title
+  };
+
+  const disqusShortname = "chemicalyouth";
 
   return (
     <React.Fragment>
@@ -223,6 +233,31 @@ const ProjectPage = ({ history, location }) => {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12 offset-md-1 col-md-8">
+            <div
+              className={`${
+                styles["feedback"]
+              } border-top border-bottom d-flex align-items-center justify-content-between`}
+              onClick={() => toggleCollapse(!collapse)}
+            >
+              <span>Give us some feedback</span>
+              <span className="d-flex">
+                <i className="material-icons">
+                  {collapse ? "keyboard_arrow_down" : "keyboard_arrow_right"}
+                </i>
+              </span>
+            </div>
+            <Collapse isOpen={collapse} className="mb-3">
+              {collapse && (
+                <Disqus.DiscussionEmbed
+                  shortname={disqusShortname}
+                  config={disqusConfig}
+                />
+              )}
+            </Collapse>
           </div>
         </div>
       </div>
