@@ -35,7 +35,7 @@ const styles = {
 
 const Map = ReactMapboxGl({
   accessToken:
-    "pk.eyJ1IjoiZ2FicmllbGVjb2xvbWJvIiwiYSI6ImNpdGZqNWY1MjAwZWUyeW1qbDhkZHV2OXMifQ.Nem-UVIW-71T6yQQvjrtog",
+    "pk.eyJ1IjoiY2hlbWljYWx5b3V0aCIsImEiOiJjanQ0ZmxxM2kxNDJoM3pwcXkwb2s0ZDA2In0.dKH9M8M6LzNWqS7jr0RGWg",
   scrollZoom: false
 });
 
@@ -66,7 +66,7 @@ export default class SpecialProjectMap extends React.Component {
     return (
       <Map
         ref={m => (this.map = m)}
-        style="mapbox://styles/gabrielecolombo/cjsnc1pt701yf1fmoasvam9wv"
+        style="mapbox://styles/chemicalyouth/cjt9wxcnt0l9l1foa8ernfby3"
         containerStyle={{
           height: "600px",
           width: "100%"

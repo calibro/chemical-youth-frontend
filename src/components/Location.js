@@ -26,7 +26,7 @@ const Location = ({
           height: "100%",
           width: "100%",
           position: "absolute",
-          backgroundImage: `url(https://api.mapbox.com/styles/v1/gabrielecolombo/cjsnc1pt701yf1fmoasvam9wv/static/${
+          backgroundImage: `url(https://api.mapbox.com/styles/v1/chemicalyouth/cjt9wxcnt0l9l1foa8ernfby3/static/${
             coordinates.lng
           },${
             coordinates.lat

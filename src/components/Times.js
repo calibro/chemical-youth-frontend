@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import sanityClient from "../lib/sanity";
-import { scaleOrdinal, scaleLinear } from "d3-scale";
+import { scaleLinear } from "d3-scale";
 import { groupBy } from "lodash";
 import { AppContext } from "../appContext";
 import { timeLabels, quantizeTime } from "../timeUtils";
@@ -63,10 +63,6 @@ const Times = ({ type, history }) => {
   };
 
   const selected = context.selected.map(s => s.value);
-
-  // const widthScale = scaleOrdinal()
-  //   .range([50, 60, 70, 80, 90, 100])
-  //   .domain([0, 3, 6, 12, 24, 36]);
 
   const widthScale = scaleLinear()
     .range([12, 20, 35, 65, 95, 100])
