@@ -22,6 +22,7 @@ const ProjectPage = ({ history, location }) => {
   const [project, setProject] = useState([]);
   const [modal, toggleModal] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [selectedRes, setSelectedRes] = useState();
   const context = useContext(AppContext);
 
   const slug = location.pathname.split("/")[2];
@@ -60,6 +61,10 @@ const ProjectPage = ({ history, location }) => {
   const handleStatusChange = res => {
     setProject(res[0]);
     setLoading(false);
+  };
+
+  const handleCiaoChange = name => {
+    console.log(name);
   };
 
   const back = () => {
@@ -157,6 +162,7 @@ const ProjectPage = ({ history, location }) => {
                             <div
                               key={index}
                               className={styles["project-page-resource"]}
+                              onClick={() => setSelectedRes(el.name)}
                             >
                               <ResourceItem
                                 resource={el}
@@ -223,17 +229,27 @@ const ProjectPage = ({ history, location }) => {
 
       <Modal isOpen={modal} toggle={() => toggleModal(!modal)} className={""}>
         <ModalHeader toggle={() => toggleModal(!modal)}>
-          This document is private
+          This resource is private
         </ModalHeader>
         <ModalBody>
-          If you want to read this document, send us a message at{" "}
-          <a href="mailto:info@info.com">info@info.com</a>
+          <p className="font-weight-bold">If you want to access:</p>
+          {selectedRes && (
+            <BlockContent
+              blocks={selectedRes}
+              renderContainerOnSingleChild={true}
+            />
+          )}
+          <p className="font-weight-bold">
+            send us a message at{" "}
+            <a href="mailto:a.p.hardon@uva.nl">
+              <u>a.p.hardon@uva.nl</u>
+            </a>{" "}
+            or{" "}
+            <a href="mailto:h.k.murray@uva.nl">
+              <u>h.k.murray@uva.nl</u>
+            </a>
+          </p>
         </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" onClick={() => toggleModal(!modal)}>
-            Close
-          </Button>
-        </ModalFooter>
       </Modal>
     </React.Fragment>
   );
