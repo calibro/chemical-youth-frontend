@@ -122,8 +122,8 @@ const Projects = ({ history }) => {
       {loading && <Loader />}
       <div className="project-header">
         <div className="project-counter">
-          {projects.filter(project => filter(project)).length}/ 63 PROJECTS
-          SHOWN
+          {projects.filter(project => filter(project)).length}/{" "}
+          {projects.length} PROJECTS SHOWN
         </div>
 
         <div className="w-100 d-flex flex-wrap">

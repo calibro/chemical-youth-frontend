@@ -3,7 +3,7 @@ import BlockContent from "@sanity/block-content-to-react";
 import styles from "./ProjectPage.module.css";
 
 const ResourceItem = ({ resource, category, url, toggleModal }) => {
-  return resource.private ? (
+  return !resource.private ? (
     <span className={styles["resource-item"]} onClick={toggleModal}>
       <span className={styles["resource-category"]}>{`[${category}]`}</span>
       <BlockContent

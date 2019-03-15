@@ -67,21 +67,23 @@ class Chemicals extends Component {
         />
 
         <div className="flex-grow-1 flex-shrink-1 overflow-auto d-none d-md-block">
-          <ParentSize>
-            {parent => {
-              return (
-                <ChemicalsViz
-                  width={parent.width}
-                  height={parent.height}
-                  chemicals={chemicals}
-                  selected={selected}
-                  selectChemical={(type, value) =>
-                    this.selectChemical(type, value)
-                  }
-                />
-              );
-            }}
-          </ParentSize>
+          {chemicals && (
+            <ParentSize>
+              {parent => {
+                return (
+                  <ChemicalsViz
+                    width={parent.width}
+                    height={parent.height}
+                    chemicals={chemicals}
+                    selected={selected}
+                    selectChemical={(type, value) =>
+                      this.selectChemical(type, value)
+                    }
+                  />
+                );
+              }}
+            </ParentSize>
+          )}
         </div>
       </div>
     );

@@ -95,22 +95,24 @@ class Researchers extends Component {
           type={"researcher"}
         />
         <div className="flex-grow-1 flex-shrink-1 overflow-auto d-none d-md-block">
-          <ParentSize>
-            {parent => {
-              return (
-                <ResearchersViz
-                  width={parent.width}
-                  height={parent.height}
-                  researchersNodes={researchers}
-                  researchersLinks={links}
-                  selected={selected}
-                  selectResearcher={(type, value) =>
-                    this.selectResearcher(type, value)
-                  }
-                />
-              );
-            }}
-          </ParentSize>
+          {researchers && (
+            <ParentSize>
+              {parent => {
+                return (
+                  <ResearchersViz
+                    width={parent.width}
+                    height={parent.height}
+                    researchersNodes={researchers}
+                    researchersLinks={links}
+                    selected={selected}
+                    selectResearcher={(type, value) =>
+                      this.selectResearcher(type, value)
+                    }
+                  />
+                );
+              }}
+            </ParentSize>
+          )}
         </div>
       </div>
     );
