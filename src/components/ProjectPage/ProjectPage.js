@@ -135,10 +135,10 @@ const ProjectPage = ({ history, location }) => {
                     renderContainerOnSingleChild={true}
                   />
                 )}
-                <div className="mb-5">
-                  {(project.internalResources || project.externalResources) &&
-                    (project.internalResources.length > 0 ||
-                      project.externalResources.length > 0) && (
+                {(project.internalResources || project.externalResources) &&
+                  (project.internalResources.length > 0 ||
+                    project.externalResources.length > 0) && (
+                    <div className="mb-5">
                       <div
                         className={
                           styles["project-page-section-title-no-padding"]
@@ -146,58 +146,61 @@ const ProjectPage = ({ history, location }) => {
                       >
                         {"RESOURCES"}
                       </div>
-                    )}
-                  {project.internalResources && (
-                    <div className="w-100">
-                      {project.internalResources
-                        .filter(
-                          (el, index) => project.internalResourcesFiles[index]
-                        )
-                        .map((el, index) => {
-                          return (
-                            <div
-                              key={index}
-                              className={styles["project-page-resource"]}
-                              onClick={() => setSelectedRes(el.name)}
-                            >
-                              <ResourceItem
-                                resource={el}
-                                category={
-                                  project.internalResourcesCategories[index]
-                                    .name
-                                }
-                                url={project.internalResourcesFiles[index].url}
-                                toggleModal={() => toggleModal(true)}
-                              />
-                            </div>
-                          );
-                        })}
+                      {project.internalResources && (
+                        <div className="w-100">
+                          {project.internalResources
+                            .filter(
+                              (el, index) =>
+                                project.internalResourcesFiles[index]
+                            )
+                            .map((el, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  className={styles["project-page-resource"]}
+                                  onClick={() => setSelectedRes(el.name)}
+                                >
+                                  <ResourceItem
+                                    resource={el}
+                                    category={
+                                      project.internalResourcesCategories[index]
+                                        .name
+                                    }
+                                    url={
+                                      project.internalResourcesFiles[index].url
+                                    }
+                                    toggleModal={() => toggleModal(true)}
+                                  />
+                                </div>
+                              );
+                            })}
+                        </div>
+                      )}
+                      {project.externalResources && (
+                        <div className="w-100">
+                          {project.externalResources
+                            .filter(el => el.linkUrl)
+                            .map((el, index) => {
+                              return (
+                                <div
+                                  key={index}
+                                  className={styles["project-page-resource"]}
+                                >
+                                  <ResourceItem
+                                    resource={el}
+                                    category={
+                                      project.externalResourcesCategories[index]
+                                        .name
+                                    }
+                                    url={el.linkUrl}
+                                  />
+                                </div>
+                              );
+                            })}
+                        </div>
+                      )}
                     </div>
                   )}
-                  {project.externalResources && (
-                    <div className="w-100">
-                      {project.externalResources
-                        .filter(el => el.linkUrl)
-                        .map((el, index) => {
-                          return (
-                            <div
-                              key={index}
-                              className={styles["project-page-resource"]}
-                            >
-                              <ResourceItem
-                                resource={el}
-                                category={
-                                  project.externalResourcesCategories[index]
-                                    .name
-                                }
-                                url={el.linkUrl}
-                              />
-                            </div>
-                          );
-                        })}
-                    </div>
-                  )}
-                </div>
               </div>
               <div className="col-12 col-md-3">
                 <ProjectPageSideBar project={project} />
@@ -213,7 +216,13 @@ const ProjectPage = ({ history, location }) => {
               </div>
             )}
             {project.images && <Carousel images={project.images} />}
-            {project.videoUrl && <Video url={project.videoUrl} />}
+            {project.videoUrl && (
+              <div className="row">
+                <div className="col-12 offset-md-1 col-md-8">
+                  <Video url={project.videoUrl} />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
