@@ -1,20 +1,16 @@
-import React from 'react';
-import { withGetScreen } from 'react-getscreen';
+import React from "react";
+import { withGetScreen } from "react-getscreen";
 
 const Video = ({ url, isMobile }) => {
-  const videoId = url.split('/')[3];
+  const videoId = url.split("/")[3];
 
   return (
-    <div
-      className='w-100 mt-4'
-      style={{ paddingLeft: isMobile() ? '0px' : '80px' }}
-    >
+    <div className="embed-responsive embed-responsive-16by9 mb-4">
       <iframe
-        title='project-video'
+        className="embed-responsive-item"
+        title="project-video"
         src={`https://player.vimeo.com/video/${videoId}`}
-        width={isMobile() ? '100%' : '640px'}
-        height={isMobile() ? '220px' : '360px'}
-        frameBorder='0'
+        frameBorder="0"
         allowFullScreen
       />
     </div>
