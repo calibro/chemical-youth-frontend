@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import BlockContent from "@sanity/block-content-to-react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import sanityClient from "../../lib/sanity";
 import { AppContext } from "../../appContext";
 import Header from "../Header";
@@ -61,10 +61,6 @@ const ProjectPage = ({ history, location }) => {
   const handleStatusChange = res => {
     setProject(res[0]);
     setLoading(false);
-  };
-
-  const handleCiaoChange = name => {
-    console.log(name);
   };
 
   const back = () => {
