@@ -597,9 +597,6 @@ input.autocomplete-input {
   color: black;
   transition: 0.2s all;
   cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .time-block.active,

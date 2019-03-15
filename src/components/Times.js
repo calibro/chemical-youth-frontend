@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import sanityClient from "../lib/sanity";
-import { scaleOrdinal } from "d3-scale";
+import { scaleOrdinal, scaleLinear } from "d3-scale";
 import { groupBy } from "lodash";
 import { AppContext } from "../appContext";
 import { timeLabels, quantizeTime } from "../timeUtils";
@@ -64,8 +64,12 @@ const Times = ({ type, history }) => {
 
   const selected = context.selected.map(s => s.value);
 
-  const widthScale = scaleOrdinal()
-    .range([50, 60, 70, 80, 90, 100])
+  // const widthScale = scaleOrdinal()
+  //   .range([50, 60, 70, 80, 90, 100])
+  //   .domain([0, 3, 6, 12, 24, 36]);
+
+  const widthScale = scaleLinear()
+    .range([12, 20, 35, 65, 95, 100])
     .domain([0, 3, 6, 12, 24, 36]);
 
   const sum = times.reduce((a, b) => {
@@ -79,12 +83,12 @@ const Times = ({ type, history }) => {
         <div className="w-100 pt-3 overflow-auto flex-grow-1 flex-shrink-1 d-none d-md-block">
           {times.map((time, index) => {
             const duration = time[0].months;
-            return (
+            return duration >= 12 ? (
               <div
-                className={`px-3 time-block ${
+                key={index}
+                className={`px-3 time-block d-flex align-items-center justify-content-between ${
                   selected.indexOf(duration) > -1 ? "active" : ""
                 }`}
-                key={index}
                 style={{
                   width: `${widthScale(duration)}%`,
                   height: `${Math.floor((time.length / sum) * 100)}%`,
@@ -94,6 +98,29 @@ const Times = ({ type, history }) => {
               >
                 <div>{`${time.length} projects`}</div>
                 <div>{`${timeLabels[duration]}`}</div>
+              </div>
+            ) : (
+              <div
+                key={index}
+                style={{
+                  height: `${Math.floor((time.length / sum) * 100)}%`,
+                  width: "100%"
+                }}
+                className=" d-flex align-items-center"
+              >
+                <div
+                  className={`px-3 time-block h-100 d-flex align-items-center ${
+                    selected.indexOf(duration) > -1 ? "active" : ""
+                  }`}
+                  style={{
+                    width: `${widthScale(duration)}%`,
+                    borderTop: index === 0 ? "1px solid #d7d7d7" : "none"
+                  }}
+                  onClick={() => selectTime("time", duration)}
+                >
+                  <div>{`${time.length} projects`}</div>
+                </div>
+                <div className="ml-2">{`${timeLabels[duration]}`}</div>
               </div>
             );
           })}
