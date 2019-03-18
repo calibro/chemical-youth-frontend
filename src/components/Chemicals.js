@@ -71,15 +71,18 @@ class Chemicals extends Component {
             <ParentSize>
               {parent => {
                 return (
-                  <ChemicalsViz
-                    width={parent.width}
-                    height={parent.height}
-                    chemicals={chemicals}
-                    selected={selected}
-                    selectChemical={(type, value) =>
-                      this.selectChemical(type, value)
-                    }
-                  />
+                  parent.width &&
+                  parent.height && (
+                    <ChemicalsViz
+                      width={parent.width}
+                      height={parent.height}
+                      chemicals={chemicals}
+                      selected={selected}
+                      selectChemical={(type, value) =>
+                        this.selectChemical(type, value)
+                      }
+                    />
+                  )
                 );
               }}
             </ParentSize>
