@@ -56,7 +56,10 @@ class ResearchersViz extends Component {
 
   componentWillUnmount() {
     this.setState({ nodes: [], links: [] });
-    this.simulation.stop();
+
+    if (this.simulation) {
+      this.simulation.stop();
+    }
   }
 
   setUpForceLayout = (researchersNodes, researchersLinks, width, height) => {

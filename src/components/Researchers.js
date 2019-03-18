@@ -99,19 +99,16 @@ class Researchers extends Component {
             <ParentSize>
               {parent => {
                 return (
-                  parent.width &&
-                  parent.height && (
-                    <ResearchersViz
-                      width={parent.width}
-                      height={parent.height}
-                      researchersNodes={researchers}
-                      researchersLinks={links}
-                      selected={selected}
-                      selectResearcher={(type, value) =>
-                        this.selectResearcher(type, value)
-                      }
-                    />
-                  )
+                  <ResearchersViz
+                    width={parent.width}
+                    height={parent.height}
+                    researchersNodes={researchers}
+                    researchersLinks={links}
+                    selected={selected}
+                    selectResearcher={(type, value) =>
+                      this.selectResearcher(type, value)
+                    }
+                  />
                 );
               }}
             </ParentSize>

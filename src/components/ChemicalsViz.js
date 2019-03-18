@@ -48,7 +48,9 @@ class ChemicalsViz extends Component {
 
   componentWillUnmount() {
     this.setState({ nodes: [] });
-    this.simulation.stop();
+    if (this.simulation) {
+      this.simulation.stop();
+    }
   }
 
   setUpForceLayout = (res, width, height) => {
