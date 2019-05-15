@@ -126,6 +126,15 @@
   font-size: 12px;
 }
 
+.photoCredits span {
+  font-size: 0.875rem;
+  font-weight: normal;
+}
+
+.photoCredits {
+  font-weight: 600;
+}
+
 @media (min-width: 576px) {
 }
 

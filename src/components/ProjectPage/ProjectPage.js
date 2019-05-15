@@ -31,7 +31,7 @@ const ProjectPage = ({ history, location }) => {
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
     const query = `*[_type == "project" && slug.current == "${slug}"]{
-      _id, title, body, slug, videoUrl,
+      _id, title, body, slug, videoUrl,credits,
       "mainImage": mainImage.asset->url,
       "topics": topics[]->,
       "chemicals": chemicals[]->,
@@ -136,6 +136,12 @@ const ProjectPage = ({ history, location }) => {
                       alt="cover"
                       width="100%"
                     />
+                  </div>
+                )}
+                {project.credits && (
+                  <div className={styles.photoCredits}>
+                    <span className="text-uppercase">photo credits:</span>{" "}
+                    {project.credits}
                   </div>
                 )}
                 {project.body && project.body[0] && (
