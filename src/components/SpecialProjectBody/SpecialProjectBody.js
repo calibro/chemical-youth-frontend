@@ -18,40 +18,8 @@ class SpecialProjectBody extends React.PureComponent {
   state = {
     selected: "brain"
   };
-  // const [projects, setProjects] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [bounds, setBounds] = useState(null);
-  // const [selectedIndex, setSelectedIndex] = useState(9);
-  // const context = useContext(AppContext);
-  // // Similar to componentDidMount and componentDidUpdate:
-  // useEffect(() => {
-  //   sanityClient
-  //     .fetch(query)
-  //     .then(res => {
-  //       handleStatusChange(res);
-  //       return () => {
-  //         // Clean up
-  //       };
-  //     })
-  //     .catch(err => {
-  //       console.error(err);
-  //     });
-  // }, [context]);
-  //
-  // const handleStatusChange = res => {
-  //   setProjects(res);
-  //   setLoading(false);
-  //
-  //   const coordinates = res.map(p => {
-  //     return [p.coordinates.lng, p.coordinates.lat];
-  //   });
-  //   const line = lineString(coordinates);
-  //   const bounds = bbox(line);
-  //   setBounds(bounds);
-  // };
 
   selectPart = part => {
-    console.log(part);
     this.setState({ selected: part });
   };
 
@@ -65,21 +33,23 @@ class SpecialProjectBody extends React.PureComponent {
     return (
       <div className="row no-gutters border-top">
         <div className="col-12 col-md-6">
-          <ParentSize>
-            {parent => {
-              return (
-                <BubbleViz
-                  width={parent.width}
-                  height={parent.height}
-                  data={bubble}
-                  selectPart={part => {
-                    this.selectPart(part);
-                  }}
-                  selected={selected}
-                />
-              );
-            }}
-          </ParentSize>
+          <div className={styles.bubbleContainer}>
+            <ParentSize>
+              {parent => {
+                return (
+                  <BubbleViz
+                    width={parent.height}
+                    height={parent.height}
+                    data={bubble}
+                    selectPart={part => {
+                      this.selectPart(part);
+                    }}
+                    selected={selected}
+                  />
+                );
+              }}
+            </ParentSize>
+          </div>
         </div>
         <div className="col-12 col-md-6 border-left">
           <h4 className={`${styles.title} p-3`}>
