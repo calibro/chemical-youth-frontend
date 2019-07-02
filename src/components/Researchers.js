@@ -94,7 +94,7 @@ class Researchers extends Component {
           selectionCallBack={this.selectResearcher}
           type={"researcher"}
         />
-        <div className="flex-grow-1 flex-shrink-1 overflow-auto d-none d-md-block">
+        <div className="flex-grow-1 flex-shrink-1 overflow-auto d-none d-md-block h-100">
           {researchers && (
             <ParentSize>
               {parent => {

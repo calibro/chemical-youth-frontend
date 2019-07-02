@@ -106,6 +106,7 @@ class ChemicalsViz extends Component {
   render() {
     const { nodes, activeIndex } = this.state;
     const { width, height, selectChemical, selected } = this.props;
+
     return (
       <svg width={width} height={height}>
         {nodes

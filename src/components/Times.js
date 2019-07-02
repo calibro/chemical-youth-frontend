@@ -76,7 +76,7 @@ const Times = ({ type, history }) => {
     <div className="viz-container">
       {/* <Search items={times} selectionCallBack={selectTime} type={'time'} /> */}
       <Responsive minWidth={768}>
-        <div className="w-100 pt-3 overflow-auto flex-grow-1 flex-shrink-1 d-none d-md-block">
+        <div className="w-100 pt-3 overflow-auto flex-grow-1 flex-shrink-1 d-none d-md-block h-100">
           {times.map((time, index) => {
             const duration = time[0].months;
             return duration >= 12 ? (

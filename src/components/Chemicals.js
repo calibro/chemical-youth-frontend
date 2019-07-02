@@ -66,7 +66,10 @@ class Chemicals extends Component {
           type={"chemical"}
         />
 
-        <div className="flex-grow-1 flex-shrink-1 overflow-auto d-none d-md-block">
+        <div
+          className="flex-grow-1 flex-shrink-1 overflow-auto d-none d-md-block h-100"
+          style={{ height: "100%" }}
+        >
           {chemicals && (
             <ParentSize>
               {parent => {
