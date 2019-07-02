@@ -10,6 +10,7 @@ import Loader from "../Loader";
 import ProjectPageSideBar from "../ProjectPageSideBar/";
 import Video from "../Video";
 import SpecialProject from "../SpecialProject/";
+import SpecialProjectBody from "../SpecialProjectBody/";
 import Carousel from "../Carousel";
 import ResourceItem from "./ResourceItem";
 import styles from "./ProjectPage.module.css";
@@ -273,6 +274,12 @@ const ProjectPage = ({ history, location }) => {
       {project.slug &&
         project.slug.current === "mapping-chemicals-in-cagayan-de-oro" && (
           <SpecialProject />
+        )}
+
+      {project.slug &&
+        project.slug.current ===
+          "networks-of-influence-in-online-drug-forums" && (
+          <SpecialProjectBody />
         )}
 
       <Modal isOpen={modal} toggle={() => toggleModal(!modal)} className={""}>

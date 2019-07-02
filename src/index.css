@@ -370,6 +370,12 @@ input.autocomplete-input {
   font-size: 12px !important;
 }
 
+.annotation-note-title {
+  font-weight: normal !important;
+  text-transform: uppercase;
+  cursor: text !important;
+}
+
 /* LOCATIONS */
 
 .location-block {

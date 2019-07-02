@@ -1,0 +1,14 @@
+.circles,
+text {
+  cursor: pointer;
+}
+
+text {
+  pointer-events: none;
+}
+
+.circles.active,
+.circles:hover {
+  stroke: black !important;
+  stroke-width: 2px;
+}

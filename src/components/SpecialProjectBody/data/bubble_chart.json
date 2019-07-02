@@ -1,0 +1,309 @@
+{
+  "bubble": [
+    {
+      "part": "hand",
+      "count": 1262,
+      "group": "limbs"
+    },
+    {
+      "part": "arm",
+      "count": 311,
+      "group": "limbs"
+    },
+    {
+      "part": "leg",
+      "count": 261,
+      "group": "limbs"
+    },
+    {
+      "part": "finger",
+      "count": 224,
+      "group": "limbs"
+    },
+    {
+      "part": "foot",
+      "count": 181,
+      "group": "limbs"
+    },
+    {
+      "part": "ankle",
+      "count": 19,
+      "group": "limbs"
+    },
+    {
+      "part": "wrist",
+      "count": 18,
+      "group": "limbs"
+    },
+    {
+      "part": "elbow",
+      "count": 6,
+      "group": "limbs"
+    },
+    {
+      "part": "thigh",
+      "count": 5,
+      "group": "limbs"
+    },
+    {
+      "part": "forearm",
+      "count": 1,
+      "group": "limbs"
+    },
+    {
+      "part": "dick",
+      "count": 75,
+      "group": "lower"
+    },
+    {
+      "part": "bladder",
+      "count": 73,
+      "group": "lower"
+    },
+    {
+      "part": "intestine",
+      "count": 43,
+      "group": "lower"
+    },
+    {
+      "part": "knee",
+      "count": 38,
+      "group": "lower"
+    },
+    {
+      "part": "anus",
+      "count": 27,
+      "group": "lower"
+    },
+    {
+      "part": "vagina",
+      "count": 18,
+      "group": "lower"
+    },
+    {
+      "part": "urethra",
+      "count": 14,
+      "group": "lower"
+    },
+    {
+      "part": "prostate",
+      "count": 11,
+      "group": "lower"
+    },
+    {
+      "part": "anal",
+      "count": 9,
+      "group": "lower"
+    },
+    {
+      "part": "ureter",
+      "count": 3,
+      "group": "lower"
+    },
+    {
+      "part": "gallbladder",
+      "count": 3,
+      "group": "lower"
+    },
+    {
+      "part": "uterus",
+      "count": 2,
+      "group": "lower"
+    },
+    {
+      "part": "clitoris",
+      "count": 2,
+      "group": "lower"
+    },
+    {
+      "part": "heart",
+      "count": 2254,
+      "group": "middle"
+    },
+    {
+      "part": "stomach",
+      "count": 1263,
+      "group": "middle"
+    },
+    {
+      "part": "liver",
+      "count": 542,
+      "group": "middle"
+    },
+    {
+      "part": "chest",
+      "count": 382,
+      "group": "middle"
+    },
+    {
+      "part": "hip",
+      "count": 41,
+      "group": "middle"
+    },
+    {
+      "part": "trunk",
+      "count": 8,
+      "group": "middle"
+    },
+    {
+      "part": "spleen",
+      "count": 7,
+      "group": "middle"
+    },
+    {
+      "part": "esophagus",
+      "count": 3,
+      "group": "middle"
+    },
+    {
+      "part": "pancreas",
+      "count": 2,
+      "group": "middle"
+    },
+    {
+      "part": "diaphragm",
+      "count": 2,
+      "group": "middle"
+    },
+    {
+      "part": "boobs",
+      "count": 1,
+      "group": "middle"
+    },
+    {
+      "part": "abdomen",
+      "count": 1,
+      "group": "middle"
+    },
+    {
+      "part": "skin",
+      "count": 279,
+      "group": "others"
+    },
+    {
+      "part": "brain",
+      "count": 3921,
+      "group": "upper"
+    },
+    {
+      "part": "eye",
+      "count": 1982,
+      "group": "upper"
+    },
+    {
+      "part": "head",
+      "count": 1747,
+      "group": "upper"
+    },
+    {
+      "part": "face",
+      "count": 957,
+      "group": "upper"
+    },
+    {
+      "part": "jaw",
+      "count": 742,
+      "group": "upper"
+    },
+    {
+      "part": "mouth",
+      "count": 717,
+      "group": "upper"
+    },
+    {
+      "part": "pupil",
+      "count": 690,
+      "group": "upper"
+    },
+    {
+      "part": "nose",
+      "count": 260,
+      "group": "upper"
+    },
+    {
+      "part": "tongue",
+      "count": 233,
+      "group": "upper"
+    },
+    {
+      "part": "ear",
+      "count": 215,
+      "group": "upper"
+    },
+    {
+      "part": "throat",
+      "count": 212,
+      "group": "upper"
+    },
+    {
+      "part": "neck",
+      "count": 192,
+      "group": "upper"
+    },
+    {
+      "part": "shoulder",
+      "count": 70,
+      "group": "upper"
+    },
+    {
+      "part": "cheek",
+      "count": 58,
+      "group": "upper"
+    },
+    {
+      "part": "thyroid",
+      "count": 40,
+      "group": "upper"
+    },
+    {
+      "part": "lens",
+      "count": 13,
+      "group": "upper"
+    },
+    {
+      "part": "nasal",
+      "count": 11,
+      "group": "upper"
+    },
+    {
+      "part": "chin",
+      "count": 7,
+      "group": "upper"
+    },
+    {
+      "part": "retina",
+      "count": 5,
+      "group": "upper"
+    },
+    {
+      "part": "iris",
+      "count": 4,
+      "group": "upper"
+    },
+    {
+      "part": "teeth",
+      "count": 3,
+      "group": "upper"
+    },
+    {
+      "part": "pineal",
+      "count": 3,
+      "group": "upper"
+    },
+    {
+      "part": "trachea",
+      "count": 2,
+      "group": "upper"
+    },
+    {
+      "part": "cornea",
+      "count": 2,
+      "group": "upper"
+    },
+    {
+      "part": "earlobe",
+      "count": 1,
+      "group": "upper"
+    }
+  ]
+}
