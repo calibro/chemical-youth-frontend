@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/chemical-youth-frontend/precache-manifest.af35455b8cc076cd0db6017c0770d44c.js"
+  "/chemical-pathways/precache-manifest.f77cc916343183badc876e0a2dabbb9c.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/chemical-youth-frontend/index.html", {
+workbox.routing.registerNavigationRoute("/chemical-pathways/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
