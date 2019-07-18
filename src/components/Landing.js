@@ -41,13 +41,14 @@ const Landing = ({ history }) => {
                 with various techniques. Our ethnographic fieldwork, based on
                 participant observation and long-term immersion in the field,
                 takes place in the Netherlands, France, Indonesia and the
-                Philippines. This website is dynamic, experimental and rich,
-                like the methods used and insights produced during our
-                innovative, tentacular project. The first phase of ChemicalYouth
-                has ended, but our work continues and this website will keep
-                growing. We have many publications in the oven, and numerous
-                small and big projects are still in the works. It is likely that
-                you will find something new every time you visit us.
+                Philippines. <br />
+                This website is dynamic, experimental and rich, like the methods
+                used and insights produced during our innovative, tentacular
+                project. The first phase of ChemicalYouth has ended, but our
+                work continues and this website will keep growing. We have many
+                publications in the oven, and numerous small and big projects
+                are still in the works. It is likely that you will find
+                something new every time you visit us.
               </div>
               <div className="text-center">
                 <div
@@ -63,8 +64,8 @@ const Landing = ({ history }) => {
         </div>
       </div>
       <div className="footer-container">
-        <div className="container">
-          <div className="row py-4 align-items-center">
+        <div className="container py-4">
+          <div className="row py-5 align-items-center">
             <div className="col-12 col-md-4">
               <p className="footer-desc mb-0">
                 The ChemicalYouth project is based at the University of
@@ -102,7 +103,7 @@ const Landing = ({ history }) => {
               <div className="text-right">
                 <p className="mb-2">Designed and developed by</p>
                 <a href="https://calib.ro">
-                  <img src="images/calibro_logo.jpg" height="40px" alt="logo" />
+                  <img src="images/calibro_logo.jpg" height="25" alt="logo" />
                 </a>
               </div>
             </div>

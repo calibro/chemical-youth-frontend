@@ -2,7 +2,7 @@
   "name": "chemical-youth",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://calibro.github.io/chemical-pathways",
+  "homepage": "http://calibro.github.io/chemical-pathways",
   "dependencies": {
     "@sanity/block-content-to-react": "^2.0.6",
     "@sanity/client": "^0.140.8",
