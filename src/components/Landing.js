@@ -99,6 +99,14 @@ const Landing = ({ history }) => {
                     className="mr-3"
                   />
                 </a>
+                <a href="http://erc.europa.eu/">
+                  <img
+                    src="images/europe.png"
+                    height="80px"
+                    alt="logo"
+                    className="mr-3"
+                  />
+                </a>
               </div>
               <div className="text-right">
                 <p className="mb-2">Designed and developed by</p>
