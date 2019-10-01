@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/chemical-pathways/precache-manifest.edc0b3d6d80e18f5c7c1323dcd8af969.js"
+  "/chemical-pathways/precache-manifest.d82064f973d539aefbae66e443ed20ee.js"
 );
 
 workbox.clientsClaim();
