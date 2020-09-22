@@ -19,7 +19,7 @@ class App extends React.Component {
           <Route
             exact
             path={
-              "/:type(chemical|topic|location|researcher|time|method)?/:selection"
+              "/:type(chemical|topic|location|researcher|time|method|publications)?/:selection"
             }
             component={Home}
           />
