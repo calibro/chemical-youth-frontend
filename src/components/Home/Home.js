@@ -54,6 +54,13 @@ class Home extends Component {
     });
   };
 
+  setSelectedPublications = publications => {
+    this.setState({
+      selectedChemical:
+        publications === this.state.selectedPublications ? "" : publications
+    });
+  };
+
   setSection = section => {
     this.setState({
       section: section

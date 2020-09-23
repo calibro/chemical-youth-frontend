@@ -51,7 +51,7 @@ const Header = ({ history, expanded = true, isMobile }) => {
           </NavbarBrand>
           <NavbarToggler onClick={() => toggleOpen(!isOpen)} />
           <Collapse isOpen={isOpen} navbar>
-            <Nav className="" navbar>
+            <Nav className="w-100" navbar>
               <NavItem className="nav-item">
                 <div className={`header-el-not-link`}>View by:</div>
               </NavItem>
@@ -125,6 +125,18 @@ const Header = ({ history, expanded = true, isMobile }) => {
                   }`}
                 >
                   METHOD
+                </div>
+              </NavItem>
+              <NavItem
+                className="nav-item ml-auto"
+                onClick={() => changeSection("publications")}
+              >
+                <div
+                  className={`header-el ${
+                    context.section === "publications" ? "underline" : "none"
+                  }`}
+                >
+                  <em>PUBLICATIONS</em>
                 </div>
               </NavItem>
             </Nav>

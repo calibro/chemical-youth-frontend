@@ -2,7 +2,6 @@
   "name": "chemical-youth",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://calibro.github.io/chemical-pathways",
   "dependencies": {
     "@sanity/block-content-to-react": "^2.0.6",
     "@sanity/client": "^0.140.8",
@@ -34,7 +33,7 @@
     "react-mapbox-gl": "^4.2.0",
     "react-responsive": "^6.1.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5",
+    "react-scripts": "^3.4.3",
     "react-scroll-to": "^2.0.5",
     "react-slick": "^0.23.2",
     "react-streetview": "^1.1.1",
