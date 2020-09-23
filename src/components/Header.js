@@ -139,6 +139,18 @@ const Header = ({ history, expanded = true, isMobile }) => {
                   <em>PUBLICATIONS</em>
                 </div>
               </NavItem>
+              <NavItem
+                className="nav-item mr-0"
+                onClick={() => changeSection("credits")}
+              >
+                <div
+                  className={`header-el ${
+                    !context.section ? "underline" : "none"
+                  }`}
+                >
+                  <em>CREDITS</em>
+                </div>
+              </NavItem>
             </Nav>
           </Collapse>
         </React.Fragment>

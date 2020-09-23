@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, HashRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import Landing from "./components/Landing";
 import Home from "./components/Home";
 import ProjectPage from "./components/ProjectPage";
+import Credits from "./components/Credits";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
@@ -16,6 +17,7 @@ class App extends React.Component {
       <HashRouter>
         <Switch>
           <Route exact path="/" component={Landing} />
+          <Route exact path="/credits" component={Credits} />
           <Route
             exact
             path={

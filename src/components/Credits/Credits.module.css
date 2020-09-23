@@ -1,0 +1,17 @@
+.creditsContainer {
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+}
+
+.mapContainer {
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 70%;
+}
+
+.creditsContainer p {
+  font-family: "Crimson Text", serif;
+  margin-bottom: 0px;
+  font-size: 1.2rem;
+}
