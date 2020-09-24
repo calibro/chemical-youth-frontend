@@ -43,7 +43,7 @@ export default class SpecialProjectMap extends React.Component {
   constructor(props) {
     super(props);
     this.map = null;
-    this.mapZoom = 16;
+    this.mapZoom = 10;
   }
   clusterClick = index => {
     this.props.setSelectedIndex(index);
